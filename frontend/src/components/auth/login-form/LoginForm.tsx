@@ -33,12 +33,12 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleLogin} className="flex flex-col space-y-6">
+    <form onSubmit={handleLogin} className="flex flex-col space-y-4">
       <div>
-        <h1 className="text-4xl font-medium text-right mb-2 text-gray-600">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-right mb-2 text-gray-600">
           Sign in
         </h1>
-        <p className="text-right text-sm text-gray-600">
+        <p className="text-right text-xs sm:text-sm text-gray-600">
           Please log in as a <span className="text-main-green">user</span> or{" "}
           <span className="text-main-green">guest</span> to continue.
         </p>
@@ -48,19 +48,19 @@ export const LoginForm = () => {
         name="email"
         placeholder="Email"
         aria-label="Email"
-        className="appearance-none bg-transparent border-b border-gray-400 w-full focus:outline-none px-2 py-1 my-2"
+        className="text-xs md:text-sm appearance-none bg-transparent border-b border-gray-400 w-full focus:outline-none px-2 py-1 my-2"
       />
       <input
         type="password"
         name="password"
         placeholder="Password"
         aria-label="Password"
-        className="appearance-none bg-transparent border-b border-gray-400 w-full focus:outline-none px-2 py-1 my-2"
+        className="text-xs md:text-sm appearance-none bg-transparent border-b border-gray-400 w-full focus:outline-none px-2 py-1 my-2"
       />
       <div>
         <button
           type="submit"
-          className="flex-shrink-0 w-full bg-main-green drop-shadow-xl text-white py-2 mt-5 mb-2 rounded-xl text-center hover:bg-low-green transition"
+          className="flex-shrink-0 w-full bg-main-green drop-shadow-xl text-white text-xs md:text-lg py-2 mt-5 mb-2 rounded-xl text-center hover:bg-low-green transition"
         >
           Sign in
         </button>

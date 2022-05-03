@@ -19,8 +19,8 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="bg-bg-green">
-      <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col min-h-screen">
+      <div className="bg-bg-green flex flex-grow items-center p-4">
         <Backplate
           toggle={handleFormSwitch}
           currentForm={showForm}
