@@ -1,35 +1,45 @@
+import { useLoading } from "hooks";
 import React, { FormEvent } from "react";
 
+interface LoginEventTarget {
+  email: { value: string };
+  password: { value: string };
+}
+
 export const LoginForm = () => {
+  const [loading, setLoading] = useLoading(false);
+
   const handleLogin = async (event: FormEvent) => {
     // TODO: Sending to endpoint
     event.preventDefault();
+    setLoading();
+
     console.log("HANDLE LOGIN");
 
-    const target = event.target as typeof event.target & {
-      email: { value: string };
-      password: { value: string };
-    };
+    // const target = event.target as typeof event.target & LoginEventTarget;
 
-    const formData = {
-      email: target.email.value,
-      password: target.password.value,
-    };
-    const jsonData = JSON.stringify(formData);
+    // const formData = {
+    //   email: target.email.value,
+    //   password: target.password.value,
+    // };
+    // const jsonData = JSON.stringify(formData);
 
-    const endpoint = "/api/login";
-    const data = {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: jsonData,
-    };
+    // const endpoint = "/api/login";
+    // const data = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    //   body: jsonData,
+    // };
 
-    const res = await fetch(endpoint, data);
-    const result = await res.json();
+    // const res = await fetch(endpoint, data);
+    // const result = await res.json();
 
-    console.log(result);
+    await new Promise((res) => setTimeout(res, 3000));
+    setLoading();
+    console.log("HANDLING DONE");
+    // console.log(result);
   };
 
   return (
@@ -62,7 +72,7 @@ export const LoginForm = () => {
           type="submit"
           className="flex-shrink-0 w-full bg-main-green drop-shadow-xl text-white text-xs md:text-lg py-2 mt-5 mb-2 rounded-xl text-center hover:bg-low-green transition"
         >
-          Sign in
+          {loading ? "Loading..." : "Sign in"}
         </button>
       </div>
     </form>

@@ -12,10 +12,10 @@ import {
 } from "components";
 
 const Home: NextPage = () => {
-  const [showForm, switchForm] = React.useState("login");
+  const [form, setForm] = React.useState("login");
 
   function handleFormSwitch() {
-    switchForm(showForm == "login" ? "register" : "login");
+    setForm(form == "login" ? "register" : "login");
   }
 
   return (
@@ -23,9 +23,9 @@ const Home: NextPage = () => {
       <div className="bg-bg-green flex flex-grow items-center p-4">
         <Backplate
           toggle={handleFormSwitch}
-          currentForm={showForm}
-          left={showForm == "login" ? <LoginForm /> : <RegisterForm />}
-          right={showForm == "login" ? <LoginVisual /> : <RegisterVisual />}
+          currentForm={form}
+          left={form == "login" ? <LoginForm /> : <RegisterForm />}
+          right={form == "login" ? <LoginVisual /> : <RegisterVisual />}
         />
       </div>
     </div>

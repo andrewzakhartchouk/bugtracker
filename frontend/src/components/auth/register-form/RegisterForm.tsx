@@ -1,39 +1,55 @@
-import { FormEvent, FormEventHandler } from "react";
+import React from "react";
+import { FormEvent } from "react";
+import { useLoading } from "hooks";
+
+interface State {
+  loading: boolean;
+}
+
+interface RegisterEventTarget {
+  name: { value: string };
+  email: { value: string };
+  password: { value: string };
+  password_confirm: { value: string };
+}
 
 export const RegisterForm = () => {
+  const [loading, setLoading] = useLoading(false);
+
   const handleSubmit = async (event: FormEvent) => {
     // TODO: Sending to endpoint
     event.preventDefault();
+    setLoading();
+
     console.log("HANDLE REGISTER");
 
-    const target = event.target as typeof event.target & {
-      name: { value: string };
-      email: { value: string };
-      password: { value: string };
-      password_confirm: { value: string };
-    };
+    // const target = event.target as typeof event.target & RegisterEventTarget;
 
-    const formData = {
-      name: target.name.value,
-      email: target.email.value,
-      password: target.password.value,
-      password_confirm: target.password_confirm.value,
-    };
-    const jsonData = JSON.stringify(formData);
+    // const formData = {
+    //   name: target.name.value,
+    //   email: target.email.value,
+    //   password: target.password.value,
+    //   password_confirm: target.password_confirm.value,
+    // };
+    // const jsonData = JSON.stringify(formData);
 
-    const endpoint = "/api/register";
-    const data = {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: jsonData,
-    };
+    // const endpoint = "/api/register";
+    // const data = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    //   body: jsonData,
+    // };
 
-    const res = await fetch(endpoint, data);
-    const result = await res.json();
+    // const res = await fetch(endpoint, data);
+    // const result = await res.json();
 
-    console.log(result);
+    await new Promise((res) => setTimeout(res, 3000));
+    setLoading();
+
+    console.log("HANDLING DONE");
+    // console.log(result);
   };
 
   return (
@@ -79,7 +95,7 @@ export const RegisterForm = () => {
           type="submit"
           className="flex-shrink-0 w-full bg-main-green drop-shadow-xl text-white text-xs md:text-lg py-2 mt-5 mb-2 rounded-xl text-center hover:bg-low-green transition"
         >
-          Sign up
+          {loading ? "Loading..." : "Sign up"}
         </button>
       </div>
     </form>
