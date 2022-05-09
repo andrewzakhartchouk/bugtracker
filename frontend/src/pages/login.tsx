@@ -1,7 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import React from "react";
 import {
   Backplate,
@@ -11,7 +8,7 @@ import {
   RegisterForm,
 } from "components";
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   const [form, setForm] = React.useState("login");
 
   function handleFormSwitch() {
@@ -32,4 +29,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Login;

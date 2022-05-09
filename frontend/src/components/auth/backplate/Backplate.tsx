@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { MainTitle } from "./MainTitle";
+import Link from "next/link";
 
 interface Props {
   toggle: React.MouseEventHandler<HTMLButtonElement>;
@@ -45,12 +46,11 @@ export const Backplate: NextPage<Props> = (props) => {
           <>{left}</>
 
           <div className="w-full flex flex-col md:flex-row text-center md:text-justify justify-center mt-2 text-xs md:text-base text-gray-500">
-            <a
-              href=""
-              className="text-main-green hover:underline underline-offset-2"
-            >
-              Sign in as a Guest
-            </a>
+            <Link href="/dashboard">
+              <a className="text-main-green hover:underline underline-offset-2">
+                Sign in as a Guest
+              </a>
+            </Link>
           </div>
         </div>
         <div className="bg-gradient-to-b from-high-green to-low-green hidden md:p-6 p-10 rounded-tr-3xl md:flex justify-center">
