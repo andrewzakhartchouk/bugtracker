@@ -1,8 +1,6 @@
 import { useLoading } from "hooks";
 import { ProfileMenu } from "./ProfileMenu";
 
-// TODO: Close menu when clicking outside
-
 export const Profile = () => {
   interface User {
     name: String;
@@ -13,6 +11,7 @@ export const Profile = () => {
   };
 
   const [toggle, setToggle] = useLoading(false);
+  // TODO: Close menu when clicking outside
 
   return (
     <div className="flex relative select-none" onClick={() => setToggle()}>
