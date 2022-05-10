@@ -11,6 +11,7 @@ export const Profile = () => {
   };
 
   const [toggle, setToggle] = useLoading(false);
+
   // TODO: Close menu when clicking outside
 
   return (
