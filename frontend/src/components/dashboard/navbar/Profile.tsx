@@ -1,5 +1,6 @@
 import { useLoading } from "hooks";
 import { ProfileMenu } from "./ProfileMenu";
+import { useClickOutside } from "hooks";
 
 export const Profile = () => {
   interface User {
@@ -7,27 +8,26 @@ export const Profile = () => {
   }
 
   const user: User = {
-    name: "Andrew",
+    name: "Andrewaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   };
 
   const [toggle, setToggle] = useLoading(false);
 
-  // TODO: Close menu when clicking outside
+  const menuRef = useClickOutside(() => setToggle(false));
 
   return (
-    <div className="flex relative select-none" onClick={() => setToggle()}>
-      <div className="flex my-auto">
-        <div
-          className={`text-white hover:text-high-green hover:underline underline-offset-2 cursor-pointer ${
-            toggle ? "underline" : ""
-          }`}
-        >
-          {user.name}
-        </div>
-        <div className="rounded-full bg-white p-3 mx-3"></div>
+    <>
+      <div
+        ref={menuRef}
+        className={`my-auto min-w-0 flex text-sm text-white truncate hover:text-high-green hover:underline underline-offset-2 cursor-pointer ${
+          toggle ? "underline" : ""
+        }`}
+        onClick={() => setToggle()}
+      >
+        {user.name}
       </div>
-
+      <div className="flex-none block whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2"></div>
       <ProfileMenu show={toggle}></ProfileMenu>
-    </div>
+    </>
   );
 };

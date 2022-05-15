@@ -1,5 +1,9 @@
 import { Logo } from "./Logo";
-import { HomeIcon, ChevronDoubleRightIcon } from "@heroicons/react/solid";
+import {
+  HomeIcon,
+  ChevronDoubleRightIcon,
+  MenuIcon,
+} from "@heroicons/react/solid";
 import { CalendarIcon, ClipboardListIcon } from "@heroicons/react/outline";
 import { Profile } from "./Profile";
 
@@ -33,12 +37,12 @@ export const Navbar = () => {
   return (
     <nav className="bg-nav-green p-3 flex">
       <Logo></Logo>
-      <div className="flex w-full justify-between">
-        <ul className="flex">
+      <div className="w-full justify-between relative hidden sm:flex">
+        <ul className="hidden ml-10 sm:flex">
           {links.map((object, index) => {
             return (
               <li
-                className="flex my-auto mx-5 text-sm font-semibold text-white tracking-wider hover:text-high-green cursor-pointer"
+                className="flex my-auto mx-2 md:mx-4 text-sm font-semibold text-white tracking-wider hover:text-high-green cursor-pointer"
                 key={index}
               >
                 {object.icon}
@@ -48,6 +52,9 @@ export const Navbar = () => {
           })}
         </ul>
         <Profile></Profile>
+      </div>
+      <div className="flex my-auto sm:hidden">
+        <MenuIcon className="h-6 w-6 text-white"></MenuIcon>
       </div>
     </nav>
   );
