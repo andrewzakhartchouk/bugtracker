@@ -35,10 +35,10 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-nav-green p-3 flex">
+    <nav className="bg-nav-green p-3 flex justify-between">
       <Logo></Logo>
       <div className="w-full justify-between relative hidden sm:flex">
-        <ul className="hidden ml-10 sm:flex">
+        <ul className="hidden sm:flex w-full">
           {links.map((object, index) => {
             return (
               <li
