@@ -44,17 +44,15 @@ export const ProfileMenu = (props: Props) => {
         <ul className="text-white font-thin tracking-wide mx-3">
           {links.map((object, index) => {
             return (
-              <>
-                <li
-                  className="flex whitespace-nowrap my-1 hover:text-high-green cursor-pointer last:pt-1 last:mt-2 last:border-t last:border-t-white"
-                  key={index}
-                >
-                  {object.icon}
-                  <Link href={object.page}>
-                    <a className="ml-2">{object.name}</a>
-                  </Link>
-                </li>
-              </>
+              <li
+                className="flex whitespace-nowrap my-1 hover:text-high-green cursor-pointer last:pt-1 last:mt-2 last:border-t last:border-t-white"
+                key={index}
+              >
+                {object.icon}
+                <Link href={object.page}>
+                  <a className="ml-2">{object.name}</a>
+                </Link>
+              </li>
             );
           })}
         </ul>

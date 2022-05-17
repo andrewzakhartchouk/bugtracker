@@ -8,7 +8,7 @@ export const Profile = () => {
   }
 
   const user: User = {
-    name: "Andrewaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    name: "Andrew",
   };
 
   const [toggle, setToggle] = useLoading(false);
@@ -24,7 +24,7 @@ export const Profile = () => {
           }`}
           onClick={() => setToggle()}
         >
-          <p className=" w-24 md:w-40 lg:w-full overflow-hidden my-auto text-sm text-white hover:text-high-green hover:underline underline-offset-2 ">
+          <p className="text-right w-24 md:w-40 lg:w-full overflow-hidden my-auto text-sm text-white hover:text-high-green hover:underline underline-offset-2 ">
             {user.name}
           </p>
         </div>
