@@ -11,7 +11,7 @@ export const ProfileMenu = (props: Props) => {
   const { show } = props;
 
   interface TabObject {
-    name: String;
+    name: string;
     icon: JSX.Element;
     page: Url;
   }

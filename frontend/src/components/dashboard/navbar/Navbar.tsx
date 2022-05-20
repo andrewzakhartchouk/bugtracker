@@ -8,7 +8,7 @@ import { CalendarIcon, ClipboardListIcon } from "@heroicons/react/outline";
 import { Profile } from "./Profile";
 
 interface TabObject {
-  name: String;
+  name: string;
   icon: JSX.Element;
 }
 

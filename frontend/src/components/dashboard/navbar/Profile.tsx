@@ -4,7 +4,7 @@ import { useClickOutside } from "hooks";
 
 export const Profile = () => {
   interface User {
-    name: String;
+    name: string;
   }
 
   const user: User = {

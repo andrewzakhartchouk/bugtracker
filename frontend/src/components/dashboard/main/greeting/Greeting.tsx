@@ -1,5 +1,5 @@
 interface User {
-  name: String;
+  name: string;
 }
 
 export const Greeting = (user: User) => {
@@ -10,8 +10,8 @@ export const Greeting = (user: User) => {
     return greetingAtTime(time);
   }
 
-  function greetingAtTime(hour: Number) {
-    let greeting: String = "Hello";
+  function greetingAtTime(hour: number) {
+    let greeting: string = "Hello";
     if (4 < hour && hour < 13) {
       greeting = "Good morning";
     } else if (12 < hour && hour < 19) {

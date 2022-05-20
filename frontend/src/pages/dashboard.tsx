@@ -15,7 +15,7 @@ const Dashboard: NextPage = () => {
     <div className="flex flex-col min-h-screen bg-bg-green overflow-auto">
       <Navbar></Navbar>
       <div className="flex flex-grow bg-bottom bg-waves p-20">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full">
           <Tile>
             <Greeting name={"Andrew"}></Greeting>
           </Tile>
