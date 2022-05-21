@@ -2,6 +2,7 @@ import { ChatAltIcon } from "@heroicons/react/solid";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { Priority } from "utils";
 import { Key } from "react";
+import * as Time from "utils";
 
 interface Stage {
   name: string;
@@ -18,38 +19,8 @@ interface Task {
   comment_number: number;
 }
 
-function getBackground(color: string): { backgroundColor: string } {
+function setBackground(color: string): { backgroundColor: string } {
   return { backgroundColor: `#${color}` };
-}
-
-function timeLeft(dt: string): string {
-  let target: Date = new Date(dt);
-  let now: Date = new Date();
-
-  let diff: number = target.valueOf() - now.valueOf();
-  let days: number = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-  let timeLeft: string = formatStringFromDays(days);
-  return timeLeft;
-}
-
-function formatStringFromDays(days: number): string {
-  let formatted: string = "";
-
-  let intoYears = Math.floor(days / 365);
-  let intoMonths = Math.floor((days % 365) / 30);
-  let intoDays = Math.floor((days % 365) % 30);
-
-  formatted =
-    intoYears != 0
-      ? intoYears.toString() + "y"
-      : intoMonths != 0
-      ? intoMonths.toString() + "m"
-      : intoDays != 0
-      ? intoDays.toString() + "d"
-      : intoDays.toString();
-
-  return formatted;
 }
 
 export const Task = (props: Task) => {
@@ -64,9 +35,9 @@ export const Task = (props: Task) => {
             : "bg-main-green"
         }`}
       ></div>
-      <span>{timeLeft(props.end_date)}</span>
+      <span>{Time.timeLeft(props.end_date)}</span>
       <div
-        style={getBackground(props.stage.color)}
+        style={setBackground(props.stage.color)}
         className="rounded-bl-lg whitespace-nowrap rounded-tr-lg px-2 py-0.5 text-white"
       >
         {props.stage.name}
