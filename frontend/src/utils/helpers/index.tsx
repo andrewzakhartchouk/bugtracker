@@ -1,1 +1,2 @@
-export * from "./time";
+export * as Time from "./time";
+export * as Design from "./design";

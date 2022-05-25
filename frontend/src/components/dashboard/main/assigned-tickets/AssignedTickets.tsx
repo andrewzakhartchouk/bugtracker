@@ -1,4 +1,4 @@
-import { Task } from "components/task";
+import { Task } from "components";
 import { Key } from "react";
 import { Priority } from "utils";
 
