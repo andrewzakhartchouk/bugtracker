@@ -35,26 +35,28 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-nav-green p-3 flex justify-between">
-      <Logo></Logo>
-      <div className="w-full justify-between relative hidden sm:flex">
-        <ul className="hidden sm:flex w-full ml-6 md:ml-12">
-          {links.map((object, index) => {
-            return (
-              <li
-                className="flex my-auto mx-2 md:mx-4 text-sm font-semibold text-white tracking-wider hover:text-high-green cursor-pointer"
-                key={index}
-              >
-                {object.icon}
-                <p className="mx-1">{object.name}</p>
-              </li>
-            );
-          })}
-        </ul>
-        <Profile></Profile>
-      </div>
-      <div className="flex my-auto sm:hidden">
-        <MenuIcon className="h-6 w-6 text-white"></MenuIcon>
+    <nav className="bg-nav-green p-3">
+      <div className="flex justify-between">
+        <Logo></Logo>
+        <div className="w-full justify-between relative hidden sm:flex">
+          <ul className="hidden sm:flex w-full ml-6 md:ml-12">
+            {links.map((object, index) => {
+              return (
+                <li
+                  className="flex my-auto mx-2 md:mx-4 text-sm font-semibold text-white tracking-wider hover:text-high-green cursor-pointer"
+                  key={index}
+                >
+                  {object.icon}
+                  <p className="mx-1">{object.name}</p>
+                </li>
+              );
+            })}
+          </ul>
+          <Profile></Profile>
+        </div>
+        <div className="flex my-auto sm:hidden">
+          <MenuIcon className="h-6 w-6 text-white"></MenuIcon>
+        </div>
       </div>
     </nav>
   );

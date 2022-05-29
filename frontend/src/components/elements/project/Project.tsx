@@ -1,17 +1,15 @@
-interface ProjectSet {
-  project: Project;
-  team: Team;
+import { Design } from "utils";
+
+interface Project {
+  projectName: string;
+  team: Array<User>;
   stages: Array<Stage>;
 }
 
-interface Project {
+interface User {
   name: string;
-}
-
-interface User {}
-
-interface Team {
-  users: Array<User>;
+  image: string;
+  lead: boolean;
 }
 
 interface Stage {
@@ -20,16 +18,49 @@ interface Stage {
   color: string;
 }
 
-export const Project = (props: ProjectSet) => {
+export const Project = (props: Project) => {
   return (
-    <div className="flex flex-col">
-      <div className="font-bold text-lg">{props.project.name}</div>
-      <div className="flex flex-row gap-2">
-        <div className="flex flex-col">
-          <div>Team</div>
+    <div className="flex flex-col w-full">
+      <div className="font-bold text-2xl text-gray-700 pb-3">
+        {props.projectName}
+      </div>
+      <div className="flex flex-row w-full gap-2 overflow-hidden">
+        <div className="flex basis-1/2 flex-col">
+          <div className="text-gray-500 font-medium">Team</div>
+          <ul className="flex flex-col gap-1 overflow-y-scroll no-scrollbar">
+            {props.team.map((user, index) => {
+              return (
+                <div className="flex gap-2" key={index}>
+                  <span className="my-auto text-gray-700 text-sm">
+                    {user.name}
+                  </span>
+                  {user.lead && (
+                    <span className="text-main-green text-xs my-auto font-bold">
+                      LEAD
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </ul>
         </div>
-        <div className="flex flex-col">
-          <div>Stages</div>
+        <div className="flex basis-1/2 flex-col w-full">
+          <div className="text-gray-500 font-medium">Stages</div>
+          <ul className="flex flex-col gap-1 w-full overflow-y-scroll no-scrollbar">
+            {props.stages.map((stage, index) => {
+              return (
+                <div className="flex gap-2 text-sm" key={index}>
+                  <div
+                    style={Design.setBackground(stage.color)}
+                    className="flex w-full justify-between my-auto text-white px-2 py-1 rounded-bl-lg rounded-tr-lg"
+                  >
+                    <span>{stage.name}</span>
+                    <span className="mx-2">{stage.count}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </div>
