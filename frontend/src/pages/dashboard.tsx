@@ -74,46 +74,91 @@ const Dashboard: NextPage = () => {
         { name: "Reviewed", count: 200, color: "00FF00" },
       ],
     },
+    {
+      projectName: "Abbott",
+      team: [
+        { name: "Darius", image: "", lead: false },
+        { name: "Jason", image: "", lead: false },
+        { name: "Andrew", image: "", lead: false },
+      ],
+      stages: [
+        { name: "Backlog", count: 2, color: "FF0000" },
+        { name: "In Progress", count: 22, color: "0000FF" },
+        { name: "Reviewed", count: 200, color: "00FF00" },
+      ],
+    },
+    {
+      projectName: "Abbott",
+      team: [
+        { name: "Darius", image: "", lead: false },
+        { name: "Jason", image: "", lead: false },
+        { name: "Andrew", image: "", lead: false },
+      ],
+      stages: [
+        { name: "Backlog", count: 2, color: "FF0000" },
+        { name: "In Progress", count: 22, color: "0000FF" },
+        { name: "Reviewed", count: 200, color: "00FF00" },
+      ],
+    },
+    {
+      projectName: "Abbott",
+      team: [
+        { name: "Darius", image: "", lead: false },
+        { name: "Jason", image: "", lead: false },
+        { name: "Andrew", image: "", lead: false },
+      ],
+      stages: [
+        { name: "Backlog", count: 2, color: "FF0000" },
+        { name: "In Progress", count: 22, color: "0000FF" },
+        { name: "Reviewed", count: 200, color: "00FF00" },
+      ],
+    },
+    {
+      projectName: "Abbott",
+      team: [
+        { name: "Darius", image: "", lead: false },
+        { name: "Jason", image: "", lead: false },
+        { name: "Andrew", image: "", lead: false },
+      ],
+      stages: [
+        { name: "Backlog", count: 2, color: "FF0000" },
+        { name: "In Progress", count: 22, color: "0000FF" },
+        { name: "Reviewed", count: 200, color: "00FF00" },
+      ],
+    },
   ];
 
   return (
     <div className="flex flex-col h-screen bg-bg-green overflow-hidden">
       <Navbar></Navbar>
-      <div className="flex flex-1 bg-bottom bg-waves p-20">
-        <div className="flex flex-col gap-4 w-full">
-          <div className="flex">
+      <div className="h-full flex flex-col bg-bottom bg-waves p-16 gap-4 w-full">
+        <div className="flex">
+          <Tile>
+            <Greeting name={"Andrew"}></Greeting>
+          </Tile>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-4 w-full">
             <Tile>
-              <Greeting name={"Andrew"}></Greeting>
+              <AssignedTickets></AssignedTickets>
+            </Tile>
+            <Tile>
+              <Schedule></Schedule>
+            </Tile>
+            <Tile>
+              <RecentActivity></RecentActivity>
             </Tile>
           </div>
-          <div className="flex flex-row gap-4 w-full overflow-hidden">
-            <div className="flex flex-col gap-4">
-              <Tile>
-                <AssignedTickets></AssignedTickets>
-              </Tile>
-              <Tile>
-                <Schedule></Schedule>
-              </Tile>
-              <Tile>
-                <RecentActivity></RecentActivity>
-              </Tile>
-            </div>
-            <div className="w-full">
-              <div className="grid grid-cols-2 gap-4">
-                {projects.map((project, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="flex h-64 max-h-64 overflow-y-scroll no-scrollbar"
-                    >
-                      <Tile>
-                        <Project {...project}></Project>
-                      </Tile>
-                    </div>
-                  );
-                })}
-                <AddProject></AddProject>
-              </div>
+          <div className="flex overflow-y-scroll no-scrollbar relative w-full">
+            <div className="grid grid-cols-2 gap-4 absolute w-full">
+              {projects.map((project, index) => {
+                return (
+                  <Tile key={index}>
+                    <Project {...project}></Project>
+                  </Tile>
+                );
+              })}
+              <AddProject></AddProject>
             </div>
           </div>
         </div>

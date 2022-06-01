@@ -19,7 +19,7 @@ export const Schedule = () => {
   const dates: Array<Date> = dayList();
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-x-scroll no-scrollbar">
       <div className="w-full pb-3 font-bold text-2xl text-gray-700">
         Schedule
       </div>

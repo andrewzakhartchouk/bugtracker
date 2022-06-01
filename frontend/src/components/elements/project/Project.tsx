@@ -20,14 +20,14 @@ interface Stage {
 
 export const Project = (props: Project) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-44 max-h-44">
       <div className="font-bold text-2xl text-gray-700 pb-3">
         {props.projectName}
       </div>
       <div className="flex flex-row w-full gap-2 overflow-hidden">
         <div className="flex basis-1/2 flex-col">
           <div className="text-gray-500 font-medium">Team</div>
-          <ul className="flex flex-col gap-1 overflow-y-scroll no-scrollbar">
+          <ul className="flex flex-col gap-0.5 overflow-y-scroll no-scrollbar">
             {props.team.map((user, index) => {
               return (
                 <div className="flex gap-2" key={index}>
