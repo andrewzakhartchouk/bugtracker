@@ -6,31 +6,40 @@ import {
 } from "@heroicons/react/solid";
 import { CalendarIcon, ClipboardListIcon } from "@heroicons/react/outline";
 import { Profile } from "./Profile";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-interface TabObject {
+interface NavTab {
   name: string;
   icon: JSX.Element;
+  link: string;
 }
 
 export const Navbar = () => {
-  const links: Array<TabObject> = [
+  const router = useRouter();
+
+  const links: Array<NavTab> = [
     {
       name: "Home",
       icon: <HomeIcon className="h-4 w-4 my-auto"></HomeIcon>,
+      link: "/dashboard",
     },
     {
       name: "Tasks",
       icon: <ClipboardListIcon className="h-4 w-4 my-auto"></ClipboardListIcon>,
+      link: "/tasks",
     },
     {
       name: "Projects",
       icon: (
         <ChevronDoubleRightIcon className="h-4 w-4 my-auto"></ChevronDoubleRightIcon>
       ),
+      link: "/projects",
     },
     {
       name: "Calendar",
       icon: <CalendarIcon className="h-4 w-4 my-auto"></CalendarIcon>,
+      link: "/calendar",
     },
   ];
 
@@ -42,13 +51,18 @@ export const Navbar = () => {
           <ul className="hidden sm:flex w-full ml-6 md:ml-12">
             {links.map((object, index) => {
               return (
-                <li
-                  className="flex my-auto mx-2 md:mx-4 text-sm font-semibold text-white tracking-wider hover:text-high-green cursor-pointer"
-                  key={index}
-                >
-                  {object.icon}
-                  <p className="mx-1">{object.name}</p>
-                </li>
+                <Link href={object.link} key={index}>
+                  <a
+                    className={`flex my-auto mx-2 md:mx-4 text-sm font-semibold text-white tracking-wider hover:text-high-green cursor-pointer ${
+                      router.pathname == object.link
+                        ? "underline underline-offset-2"
+                        : ""
+                    }`}
+                  >
+                    {object.icon}
+                    <p className="mx-1">{object.name}</p>
+                  </a>
+                </Link>
               );
             })}
           </ul>

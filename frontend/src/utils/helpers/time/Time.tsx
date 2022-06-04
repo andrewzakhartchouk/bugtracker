@@ -1,12 +1,19 @@
+import { Deadline } from "utils";
+
 export function timeLeft(dt: string, verbose: boolean = false): string {
+  let days: number = getDaysFromNow(dt);
+  let timeLeft: string = formatDaysToString(days, verbose);
+  return timeLeft;
+}
+
+export function getDaysFromNow(dt: string): number {
   let target: Date = new Date(dt);
   let now: Date = new Date();
 
   let diff: number = target.valueOf() - now.valueOf();
   let days: number = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
-  let timeLeft: string = formatDaysToString(days, verbose);
-  return timeLeft;
+  return days;
 }
 
 export function formatDaysToString(
@@ -34,9 +41,23 @@ export function formatDaysToString(
     if (days < 0) {
       formatted = formatted.replace("-", "");
       formatted += " ago";
-    } else {
+    } else if (days > 0) {
       formatted = "in " + formatted;
     }
   }
   return formatted;
+}
+
+export function whenDeadlineDue(days: number): Deadline {
+  let deadline: Deadline = Deadline.Future;
+  let dayOfWeek: number = new Date().getDay();
+  let weeks = Math.floor((days + dayOfWeek - 1) / 7);
+  if (days < 0) {
+    deadline = Deadline.Past;
+  } else if (weeks < 1) {
+    deadline = Deadline.ThisWeek;
+  } else if (weeks < 2) {
+    deadline = Deadline.NextWeek;
+  }
+  return deadline;
 }

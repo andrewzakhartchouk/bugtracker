@@ -74,70 +74,18 @@ const Dashboard: NextPage = () => {
         { name: "Reviewed", count: 200, color: "00FF00" },
       ],
     },
-    {
-      projectName: "Abbott",
-      team: [
-        { name: "Darius", image: "", lead: false },
-        { name: "Jason", image: "", lead: false },
-        { name: "Andrew", image: "", lead: false },
-      ],
-      stages: [
-        { name: "Backlog", count: 2, color: "FF0000" },
-        { name: "In Progress", count: 22, color: "0000FF" },
-        { name: "Reviewed", count: 200, color: "00FF00" },
-      ],
-    },
-    {
-      projectName: "Abbott",
-      team: [
-        { name: "Darius", image: "", lead: false },
-        { name: "Jason", image: "", lead: false },
-        { name: "Andrew", image: "", lead: false },
-      ],
-      stages: [
-        { name: "Backlog", count: 2, color: "FF0000" },
-        { name: "In Progress", count: 22, color: "0000FF" },
-        { name: "Reviewed", count: 200, color: "00FF00" },
-      ],
-    },
-    {
-      projectName: "Abbott",
-      team: [
-        { name: "Darius", image: "", lead: false },
-        { name: "Jason", image: "", lead: false },
-        { name: "Andrew", image: "", lead: false },
-      ],
-      stages: [
-        { name: "Backlog", count: 2, color: "FF0000" },
-        { name: "In Progress", count: 22, color: "0000FF" },
-        { name: "Reviewed", count: 200, color: "00FF00" },
-      ],
-    },
-    {
-      projectName: "Abbott",
-      team: [
-        { name: "Darius", image: "", lead: false },
-        { name: "Jason", image: "", lead: false },
-        { name: "Andrew", image: "", lead: false },
-      ],
-      stages: [
-        { name: "Backlog", count: 2, color: "FF0000" },
-        { name: "In Progress", count: 22, color: "0000FF" },
-        { name: "Reviewed", count: 200, color: "00FF00" },
-      ],
-    },
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-bg-green overflow-hidden">
+    <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar lg:overflow-hidden">
       <Navbar></Navbar>
-      <div className="h-full flex flex-col bg-bottom bg-waves p-16 gap-4 w-full">
+      <div className="flex-grow flex flex-col p-8 lg:p-16 gap-4 w-full">
         <div className="flex">
           <Tile>
             <Greeting name={"Andrew"}></Greeting>
           </Tile>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-col lg:flex-none lg:grid lg:grid-cols-2 gap-4">
           <div className="flex flex-col gap-4 w-full">
             <Tile>
               <AssignedTickets></AssignedTickets>
@@ -149,8 +97,8 @@ const Dashboard: NextPage = () => {
               <RecentActivity></RecentActivity>
             </Tile>
           </div>
-          <div className="flex overflow-y-scroll no-scrollbar relative w-full">
-            <div className="grid grid-cols-2 gap-4 absolute w-full">
+          <div className="flex lg:overflow-y-scroll no-scrollbar lg:relative w-full">
+            <div className="grid grid-cols-2 lg:absolute gap-4 w-full">
               {projects.map((project, index) => {
                 return (
                   <Tile key={index}>

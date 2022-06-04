@@ -23,11 +23,9 @@ export const Greeting = (user: User) => {
   }
 
   return (
-    <>
-      <span className="text-3xl text-gray-500">
-        {getGreeting() + ","}&nbsp;
-      </span>
-      <span className="text-3xl font-bold text-gray-700">{user.name}</span>
-    </>
+    <div className="text-xl md:text-2xl lg:text-3xl">
+      <span className="text-gray-500">{getGreeting() + ","}&nbsp;</span>
+      <span className="font-bold text-gray-700">{user.name}</span>
+    </div>
   );
 };

@@ -18,21 +18,20 @@ interface Project {
 export const Activity = (activity: Activity) => {
   return (
     <Bar>
-      <div className="flex w-full justify-between font-medium">
-        <div className="flex w-full">
-          <div
-            style={Design.setColor(`${activity.project.color}`)}
-            className="flex my-auto text-sm mr-2 basis-28 overflow-hidden font-bold"
-          >
-            {activity.project.name}
-          </div>
-          <div className="flex my-auto basis-auto text-gray-700">
-            {activity.message}
-          </div>
+      <div
+        style={Design.setColor(`${activity.project.color}`)}
+        className="flex my-auto text-xs mr-2 basis-28 overflow-hidden font-bold"
+      >
+        {activity.project.name}
+      </div>
+      <div className="overflow-hidden whitespace-nowrap">
+        <div className="my-auto font-medium text-gray-700">
+          {activity.message}
         </div>
-        <div className="flex my-auto whitespace-nowrap text-gray-400">
-          {Time.timeLeft(activity.created_at, true)}
-        </div>
+      </div>
+      <div className="flex items-end flex-grow"></div>
+      <div className="flex my-auto whitespace-nowrap text-gray-400">
+        {Time.timeLeft(activity.created_at, true)}
       </div>
     </Bar>
   );

@@ -1,25 +1,9 @@
 import { ChatAltIcon } from "@heroicons/react/solid";
 import { CheckCircleIcon } from "@heroicons/react/outline";
-import { Priority, Time, Design } from "utils";
-import { Key } from "react";
+import { Priority, Time, Design, ListTask } from "utils";
 import { Bar } from "components";
 
-interface Stage {
-  name: string;
-  color: string;
-}
-
-interface Task {
-  id: Key;
-  stage: Stage;
-  priority: Priority;
-  tags: string | null;
-  end_date: string;
-  description: string;
-  comment_number: number;
-}
-
-export const Task = (props: Task) => {
+export const Task = (props: ListTask) => {
   return (
     <Bar>
       <div
@@ -34,7 +18,7 @@ export const Task = (props: Task) => {
       <span>{Time.timeLeft(props.end_date)}</span>
       <div
         style={Design.setBackground(props.stage.color)}
-        className="rounded-bl-lg whitespace-nowrap rounded-tr-lg px-2 py-0.5 text-white"
+        className="rounded-bl-lg whitespace-nowrap rounded-tr-lg px-2 py-0.5 text-white hidden md:block"
       >
         {props.stage.name}
       </div>
@@ -55,9 +39,13 @@ export const Task = (props: Task) => {
       </div>
       <div className="flex items-end flex-grow"></div>
       <div className="flex justify-center">
-        <p className="my-auto font-bold text-xs">{props.comment_number}</p>
-        <ChatAltIcon className="h-5 w-5 text-gray-700"></ChatAltIcon>
-        <CheckCircleIcon className="ml-2 h-5 w-5 cursor-pointer text-gray-700 hover:text-main-green"></CheckCircleIcon>
+        <div className="flex group cursor-pointer">
+          <p className="my-auto font-bold text-xs group-hover:text-main-green">
+            {props.comment_number}
+          </p>
+          <ChatAltIcon className="h-5 w-5 text-gray-700 group-hover:text-main-green"></ChatAltIcon>
+        </div>
+        <CheckCircleIcon className="h-5 w-5 cursor-pointer text-gray-700 hidden md:block  hover:text-main-green"></CheckCircleIcon>
       </div>
     </Bar>
   );

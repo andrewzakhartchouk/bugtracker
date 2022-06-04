@@ -1,3 +1,4 @@
+import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { Design } from "utils";
 
 interface Project {
@@ -20,12 +21,13 @@ interface Stage {
 
 export const Project = (props: Project) => {
   return (
-    <div className="flex flex-col w-full h-44 max-h-44">
-      <div className="font-bold text-2xl text-gray-700 pb-3">
+    <div className="flex flex-col w-full sm:h-44 sm:max-h-44 group-hover:cursor-pointer">
+      <div className="flex justify-between font-bold text-lg md:text-xl lg:text-2xl cursor-pointer text-gray-700 sm:pb-3 hover:text-main-green">
         {props.projectName}
+        <ChevronDoubleRightIcon className="w-6 md:w-7 lg:w-8"></ChevronDoubleRightIcon>
       </div>
-      <div className="flex flex-row w-full gap-2 overflow-hidden">
-        <div className="flex basis-1/2 flex-col">
+      <div className="hidden flex-row w-full gap-2 overflow-hidden sm:flex">
+        <div className="flex basis-2/5 flex-col">
           <div className="text-gray-500 font-medium">Team</div>
           <ul className="flex flex-col gap-0.5 overflow-y-scroll no-scrollbar">
             {props.team.map((user, index) => {
@@ -36,7 +38,8 @@ export const Project = (props: Project) => {
                   </span>
                   {user.lead && (
                     <span className="text-main-green text-xs my-auto font-bold">
-                      LEAD
+                      <p className="hidden md:block lg:hidden xl:block">LEAD</p>
+                      <p className="block md:hidden lg:block xl:hidden">L</p>
                     </span>
                   )}
                 </div>
@@ -44,7 +47,7 @@ export const Project = (props: Project) => {
             })}
           </ul>
         </div>
-        <div className="flex basis-1/2 flex-col w-full">
+        <div className="flex basis-3/5 flex-col w-full overflow-hidden">
           <div className="text-gray-500 font-medium">Stages</div>
           <ul className="flex flex-col gap-1 w-full overflow-y-scroll no-scrollbar">
             {props.stages.map((stage, index) => {
@@ -52,10 +55,10 @@ export const Project = (props: Project) => {
                 <div className="flex gap-2 text-sm" key={index}>
                   <div
                     style={Design.setBackground(stage.color)}
-                    className="flex w-full justify-between my-auto text-white px-2 py-1 rounded-bl-lg rounded-tr-lg"
+                    className="flex w-full justify-between my-auto text-white gap-5 px-2 py-1 rounded-bl-lg rounded-tr-lg whitespace-nowrap"
                   >
                     <span>{stage.name}</span>
-                    <span className="mx-2">{stage.count}</span>
+                    <span className="">{stage.count}</span>
                   </div>
                 </div>
               );

@@ -20,9 +20,9 @@ export const Schedule = () => {
 
   return (
     <div className="w-full overflow-x-scroll no-scrollbar">
-      <div className="w-full pb-3 font-bold text-2xl text-gray-700">
+      {/* <div className="w-full pb-3 font-bold text-2xl text-gray-700">
         Schedule
-      </div>
+      </div> */}
       <div className="flex w-full gap-1 relative">
         {dates.map((date, index) => {
           return (
