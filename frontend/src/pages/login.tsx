@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 import {
   Backplate,
   LoginVisual,
@@ -9,7 +9,7 @@ import {
 } from "components";
 
 const Login: NextPage = () => {
-  const [form, setForm] = React.useState("login");
+  const [form, setForm] = useState("login");
 
   function handleFormSwitch() {
     setForm(form == "login" ? "register" : "login");

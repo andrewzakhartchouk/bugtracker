@@ -1,40 +1,88 @@
-import { Deadline, ListTask, SortedTasks, Time } from "utils";
+import { Deadline, ListTask, Time } from "utils";
+import { Priority } from "utils/enums";
 
-interface test {
-  key: string;
-  list: Array<ListTask>;
+interface GroupedObject {
+  [key: string]: {
+    title: string;
+    data: Array<ListTask>;
+  };
 }
 
 export function sortTasks(
   sortBy: string,
   tasks: Array<ListTask>
-): Array<SortedTasks> | null {
-  let sorted: Array<SortedTasks> = [];
-  let array = [];
+): GroupedObject {
+  let sorted: GroupedObject = sortByDeadline(tasks);
 
-  let object: SortedTasks = { title: null, tasks: null };
-  object.title = "test";
-  object.tasks = [];
+  if (sortBy == "deadline") {
+    sorted = sortByDeadline(tasks);
+  } else if (sortBy == "priority") {
+    sorted = sortByPriority(tasks);
+  } else if (sortBy == "project") {
+    sorted = sortByProject(tasks);
+  }
+  return sorted;
+}
+
+export function sortByDeadline(tasks: Array<ListTask>): GroupedObject {
+  let sorted: GroupedObject = {
+    past: { title: "Past", data: [] },
+    thisWeek: { title: "This week", data: [] },
+    nextWeek: { title: "Next week", data: [] },
+    future: { title: "Future", data: [] },
+  };
+
+  tasks.forEach((task) => {
+    let deadline: Deadline = getDeadline(task.end_date);
+    if (deadline == Deadline.Past) {
+      sorted.past.data.push(task);
+    } else if (deadline == Deadline.ThisWeek) {
+      sorted.thisWeek.data.push(task);
+    } else if (deadline == Deadline.NextWeek) {
+      sorted.nextWeek.data.push(task);
+    } else if (deadline == Deadline.Future) {
+      sorted.future.data.push(task);
+    }
+  });
 
   return sorted;
 }
 
-export function sortByDeadline(tasks: Array<ListTask>) {
-  let deadlines = tasks;
-  deadlines.sort(compareDeadlines);
-  return compareDeadlines;
-}
-
 export function sortByPriority(tasks: Array<ListTask>) {
-  tasks.sort((a: ListTask, b: ListTask) => {
-    return a.priority > b.priority ? 1 : -1;
+  let sorted: GroupedObject = {
+    high: { title: "High", data: [] },
+    medium: { title: "Medium", data: [] },
+    low: { title: "Low", data: [] },
+  };
+
+  tasks.forEach((task) => {
+    if (task.priority == Priority.High) {
+      sorted.high.data.push(task);
+    }
+    if (task.priority == Priority.Medium) {
+      sorted.medium.data.push(task);
+    }
+    if (task.priority == Priority.Low) {
+      sorted.low.data.push(task);
+    }
   });
+
+  return sorted;
 }
 
 export function sortByProject(tasks: Array<ListTask>) {
-  tasks.sort((a: ListTask, b: ListTask) => {
-    return a.project > b.project ? 1 : -1;
+  let sorted: GroupedObject = {};
+
+  tasks.forEach((task) => {
+    if (task.project.name in sorted) {
+      sorted[task.project.name].title = task.project.name;
+      sorted[task.project.name].data.push(task);
+    } else {
+      sorted[task.project.name] = { title: task.project.name, data: [task] };
+    }
   });
+
+  return sorted;
 }
 
 const compareDeadlines = (a: ListTask, b: ListTask) => {

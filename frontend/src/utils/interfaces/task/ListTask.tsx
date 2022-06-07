@@ -3,7 +3,7 @@ import { Priority, Stage } from "utils";
 
 export interface ListTask {
   id: Key;
-  project: Key;
+  project: { id: Key; name: string };
   stage: Stage;
   priority: Priority;
   tags: string | null;

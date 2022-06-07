@@ -1,2 +1,3 @@
-export * from "./sort-bar";
-export * from "./task-list";
+export * from "./SortBar";
+export * from "./TaskList";
+export * from "./FullTask";

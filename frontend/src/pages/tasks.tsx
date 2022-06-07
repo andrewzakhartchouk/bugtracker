@@ -1,73 +1,30 @@
 import { Navbar, Panel, Selected, SortBar, TaskList } from "components";
-import { ListTask, Priority, TaskUtil } from "utils";
+import { useEffect, useState } from "react";
+import { sortTasks } from "utils/helpers/tasks";
 
 const Tasks = () => {
-  const tasks: Array<ListTask> = [
-    {
-      id: 1,
-      project: 1,
-      stage: { name: "Review", color: "22f55e" },
-      priority: Priority.High,
-      tags: "Tag1",
-      end_date: "2022/06/03",
-      description: "Make the backend",
-      comment_number: 10,
-    },
-    {
-      id: 2,
-      project: 1,
-      stage: { name: "In Progress", color: "3bf2f6" },
-      priority: Priority.Medium,
-      tags: "Tag2 Tag3",
-      end_date: "2022/06/04",
-      description: "Learn graphene, build the GraphQL API",
-      comment_number: 3,
-    },
-    {
-      id: 3,
-      project: 2,
-      stage: { name: "Backlog", color: "ef44ee" },
-      priority: Priority.Low,
-      tags: "Tag3",
-      end_date: "2022/06/10",
-      description:
-        "Make responsive layouts for every page and handle long text that keeps going on and on and on and on and on and on...",
-      comment_number: 1,
-    },
-    {
-      id: 1,
-      project: 1,
-      stage: { name: "Review", color: "22f55e" },
-      priority: Priority.High,
-      tags: "Tag1",
-      end_date: "2022/06/12",
-      description: "Make the backend",
-      comment_number: 10,
-    },
-    {
-      id: 2,
-      project: 1,
-      stage: { name: "In Progress", color: "3bf2f6" },
-      priority: Priority.Medium,
-      tags: "Tag2 Tag3",
-      end_date: "2022/06/13",
-      description: "Learn graphene, build the GraphQL API",
-      comment_number: 3,
-    },
-    {
-      id: 3,
-      project: 2,
-      stage: { name: "Backlog", color: "ef44ee" },
-      priority: Priority.Low,
-      tags: "Tag3",
-      end_date: "2022/05/20",
-      description:
-        "Make responsive layouts for every page and handle long text that keeps going on and on and on and on and on and on...",
-      comment_number: 1,
-    },
-  ];
+  const endpoint = "/api/tasks/list";
 
-  const test = TaskUtil.sortByProject(tasks);
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch(endpoint);
+      const body = await result.json();
+      setTasks(body.tasks);
+      console.log("CALLING USE EFFECT");
+      return body.tasks;
+    };
+    fetchData();
+  }, []);
+
+  const [sorting, setSorting] = useState("deadline");
+
+  function handleSortSwitch(sortBy: string) {
+    setSorting(sortBy);
+  }
+
+  let groupedTasks = sortTasks(sorting, tasks);
 
   return (
     <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar lg:overflow-hidden">
@@ -82,13 +39,15 @@ const Tasks = () => {
           </div>
           <Panel>
             <div className="flex flex-col w-full gap-5">
-              <SortBar></SortBar>
-              <TaskList tasks={tasks}></TaskList>
+              <SortBar sort={handleSortSwitch} selected={sorting}></SortBar>
+              {groupedTasks != null && (
+                <TaskList groups={groupedTasks}></TaskList>
+              )}
             </div>
           </Panel>
         </div>
         <div className="flex w-full">
-          <Selected>test</Selected>
+          <Selected></Selected>
         </div>
       </div>
     </div>
