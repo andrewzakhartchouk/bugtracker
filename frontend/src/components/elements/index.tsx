@@ -6,3 +6,4 @@ export * from "./activity";
 export * from "./project";
 export * from "./panel";
 export * from "./comment";
+export * from "./spinner";

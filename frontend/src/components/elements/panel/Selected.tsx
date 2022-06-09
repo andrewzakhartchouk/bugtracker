@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronUpIcon } from "@heroicons/react/solid";
-import { TaskProperty, Comment } from "components";
+import { TaskProperty, Comment, GreenScalingDots } from "components";
 import { Key } from "react";
 import { Design, Priority } from "utils";
 
@@ -49,9 +49,7 @@ export const Selected = (props: Props) => {
   if (props.loading)
     return (
       <div className="flex w-full text-panel-green justify-center bg-black p-10 rounded-tr-3xl rounded-bl-3xl bg-opacity-40">
-        <div className="flex my-auto">
-          <div className="orbit h-10 w-10"></div>
-        </div>
+        <GreenScalingDots></GreenScalingDots>
       </div>
     );
 

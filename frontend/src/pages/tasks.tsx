@@ -1,4 +1,11 @@
-import { Navbar, Panel, Selected, SortBar, TaskList } from "components";
+import {
+  GreenScalingDots,
+  Navbar,
+  Panel,
+  Selected,
+  SortBar,
+  TaskList,
+} from "components";
 import { Key, useEffect, useState } from "react";
 import { sortTasks } from "utils/helpers/tasks";
 
@@ -10,11 +17,13 @@ const Tasks = () => {
 
   useEffect(() => {
     const fetchList = async () => {
+      setLoadingList(true);
       await new Promise((resolve) => setTimeout(resolve, 2000));
       const result = await fetch(listEndpoint);
       const body = await result.json();
       setTasks(body.tasks);
       console.log("CALLING USE EFFECT");
+      setLoadingList(false);
       return body.tasks;
     };
     fetchList();
@@ -39,6 +48,7 @@ const Tasks = () => {
   }
 
   const [loadingTask, setLoadingTask] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
 
   let groupedTasks = sortTasks(sorting, tasks);
 
@@ -56,11 +66,15 @@ const Tasks = () => {
           <Panel>
             <div className="flex flex-col w-full gap-3">
               <SortBar sort={handleSortSwitch} selected={sorting}></SortBar>
-              {groupedTasks != null && (
-                <TaskList
-                  groups={groupedTasks}
-                  select={handleTaskSelection}
-                ></TaskList>
+              {loadingList ? (
+                <GreenScalingDots></GreenScalingDots>
+              ) : (
+                groupedTasks != null && (
+                  <TaskList
+                    groups={groupedTasks}
+                    select={handleTaskSelection}
+                  ></TaskList>
+                )
               )}
             </div>
           </Panel>
