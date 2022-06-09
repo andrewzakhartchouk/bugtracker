@@ -11,7 +11,7 @@ export const Task = (props: ListTask) => {
           props.priority == Priority.High
             ? "bg-main-red"
             : props.priority == Priority.Medium
-            ? "bg-yellow-500"
+            ? "bg-amber-500"
             : "bg-main-green"
         }`}
       ></div>

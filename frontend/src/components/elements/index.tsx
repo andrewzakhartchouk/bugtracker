@@ -5,3 +5,4 @@ export * from "./calendar-block";
 export * from "./activity";
 export * from "./project";
 export * from "./panel";
+export * from "./comment";

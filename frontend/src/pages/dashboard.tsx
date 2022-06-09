@@ -77,7 +77,7 @@ const Dashboard: NextPage = () => {
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar lg:overflow-hidden">
+    <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar">
       <Navbar></Navbar>
       <div className="flex-grow flex flex-col p-8 lg:p-16 gap-4 w-full">
         <div className="flex">

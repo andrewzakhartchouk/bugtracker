@@ -3,6 +3,7 @@ import { ListTask } from "utils";
 
 interface Props {
   groups: GroupedObject;
+  select: Function;
 }
 
 interface GroupedObject {
@@ -14,8 +15,8 @@ interface GroupedObject {
 
 export const TaskList = (props: Props) => {
   return (
-    <>
-      <ul className="flex flex-col w-full overflow-y-scroll no-scrollbar gap-4">
+    <div className="flex flex-col no-scrollbar lg:overflow-y-scroll lg:relative h-full">
+      <ul className="flex flex-col gap-4 lg:absolute w-full">
         {Object.keys(props.groups).map((group, index) => {
           return (
             props.groups[group].data.length != 0 && (
@@ -23,10 +24,10 @@ export const TaskList = (props: Props) => {
                 <div className="text-gray-500 font-bold text-lg mb-1 md:text-xl lg:text-2xl">
                   {props.groups[group].title}
                 </div>
-                <ul className="flex flex-col w-full overflow-y-scroll no-scrollbar gap-1">
+                <ul className="flex flex-col gap-1">
                   {props.groups[group].data.map((task) => {
                     return (
-                      <li key={task.id}>
+                      <li key={task.id} onClick={() => props.select(task.id)}>
                         <Task {...task}></Task>
                       </li>
                     );
@@ -37,6 +38,6 @@ export const TaskList = (props: Props) => {
           );
         })}
       </ul>
-    </>
+    </div>
   );
 };
