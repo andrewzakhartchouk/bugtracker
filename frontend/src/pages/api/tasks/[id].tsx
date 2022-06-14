@@ -53,39 +53,39 @@ export default function handler(req, res) {
           created_at: "2022/05/01 12:00:00",
         },
         {
-          id: 1,
+          id: 4,
           comment:
             "Could you let me know over Slack when you're finished with this",
           submitted_by: { name: "Jason", image: "" },
           created_at: "2022/05/01 12:00:00",
         },
         {
-          id: 2,
+          id: 5,
           comment: "Was it just for the registration form?",
           submitted_by: { name: "Darius", image: "" },
           created_at: "2022/05/01 12:00:00",
         },
         {
-          id: 3,
+          id: 6,
           comment: "Its only occurring on that page. Old implementation?",
           submitted_by: { name: "Jason", image: "" },
           created_at: "2022/05/01 12:00:00",
         },
         {
-          id: 1,
+          id: 7,
           comment:
             "Could you let me know over Slack when you're finished with this",
           submitted_by: { name: "Jason", image: "" },
           created_at: "2022/05/01 12:00:00",
         },
         {
-          id: 2,
+          id: 8,
           comment: "Was it just for the registration form?",
           submitted_by: { name: "Darius", image: "" },
           created_at: "2022/05/01 12:00:00",
         },
         {
-          id: 3,
+          id: 9,
           comment: "Its only occurring on that page. Old implementation?",
           submitted_by: { name: "Jason", image: "" },
           created_at: "2022/05/01 12:00:00",

@@ -1,10 +1,6 @@
 import { useLoading } from "hooks";
 import React, { FormEvent } from "react";
-
-interface LoginEventTarget {
-  email: { value: string };
-  password: { value: string };
-}
+import { LoginEventTarget } from "utils";
 
 export const LoginForm = () => {
   const [loading, setLoading] = useLoading(false);

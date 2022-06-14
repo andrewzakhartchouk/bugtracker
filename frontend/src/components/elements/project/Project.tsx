@@ -1,25 +1,7 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
-import { Design } from "utils";
+import { Design, ProjectOverview } from "utils";
 
-interface Project {
-  projectName: string;
-  team: Array<User>;
-  stages: Array<Stage>;
-}
-
-interface User {
-  name: string;
-  image: string;
-  lead: boolean;
-}
-
-interface Stage {
-  name: string;
-  count: number;
-  color: string;
-}
-
-export const Project = (props: Project) => {
+export const Project = (props: ProjectOverview) => {
   return (
     <div className="flex flex-col w-full sm:h-44 sm:max-h-44 group-hover:cursor-pointer">
       <div className="flex justify-between font-bold text-lg md:text-xl lg:text-2xl cursor-pointer text-gray-700 sm:pb-3 hover:text-main-green">

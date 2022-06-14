@@ -1,17 +1,7 @@
 import React from "react";
 import { FormEvent } from "react";
 import { useLoading } from "hooks";
-
-interface State {
-  loading: boolean;
-}
-
-interface RegisterEventTarget {
-  name: { value: string };
-  email: { value: string };
-  password: { value: string };
-  password_confirm: { value: string };
-}
+import { RegisterEventTarget } from "utils";
 
 export const RegisterForm = () => {
   const [loading, setLoading] = useLoading(false);

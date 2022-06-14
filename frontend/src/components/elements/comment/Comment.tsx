@@ -1,24 +1,14 @@
+import { CommentType } from "utils";
+
 interface Props {
-  comment: Comment;
-}
-
-interface Comment {
-  id: number;
-  comment: string;
-  submitted_by: User;
-  created_at: string;
-}
-
-interface User {
-  name: string;
-  image: string;
+  comment: CommentType;
 }
 
 export const Comment = (props: Props) => {
   return (
-    <div className="flex flex-column text-white text-sm">
-      <div className="flex flex-row basis-32">
-        <div className="block whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2"></div>
+    <div className="flex flex-column text-white text-xs lg:text-sm">
+      <div className="flex flex-row basis-28 lg:basis-32">
+        <div className="hidden whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2 lg:block"></div>
         <span className="my-auto">{props.comment.submitted_by.name}</span>
       </div>
       <div className="flex w-full justify-between">

@@ -66,7 +66,7 @@ export const AssignedTickets = () => {
       <div className="font-bold text-lg md:text-xl lg:text-2xl text-gray-700">
         You have <span className="text-main-red">10</span> assigned tickets.
       </div>
-      <div className="flex flex-col h-36 max-h-36 gap-1">
+      <div className="flex flex-col h-56 max-h-56 gap-1">
         <span className="text-gray-500 text-sm md:text-base font-medium">
           Upcoming
         </span>

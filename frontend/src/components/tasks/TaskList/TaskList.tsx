@@ -1,16 +1,9 @@
 import { Task } from "components";
-import { ListTask } from "utils";
+import { GroupedObject } from "utils";
 
 interface Props {
   groups: GroupedObject;
   select: Function;
-}
-
-interface GroupedObject {
-  [key: string]: {
-    title: string;
-    data: Array<ListTask>;
-  };
 }
 
 export const TaskList = (props: Props) => {

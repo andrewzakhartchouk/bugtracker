@@ -1,2 +1,4 @@
 export * from "./Panel";
-export * from "./Selected";
+export * from "./PanelButtons";
+export * from "./SelectedTask";
+export * from "./EditTask";

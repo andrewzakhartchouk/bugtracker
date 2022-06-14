@@ -1,21 +1,8 @@
 import { Activity } from "components";
-import { Key } from "react";
-
-interface Activity {
-  id: Key;
-  project: Project;
-  message: string;
-  created_at: string;
-}
-
-interface Project {
-  id: Key;
-  name: string;
-  color: string;
-}
+import { ActivityType } from "utils";
 
 export const RecentActivity = () => {
-  const activities: Array<Activity> = [
+  const activities: Array<ActivityType> = [
     {
       id: 1,
       project: { id: 1, name: "Government", color: "ff0000" },
@@ -47,7 +34,7 @@ export const RecentActivity = () => {
       <div className="w-full pb-3 font-bold text-lg md:text-xl lg:text-2xl text-gray-700">
         Recent Activity
       </div>
-      <div className="flex flex-col w-full relative h-24 max-h-24">
+      <div className="flex flex-col w-full relative h-36 max-h-36">
         <ul className="flex flex-col gap-1.5 overflow-y-scroll no-scrollbar">
           {activities.map((activity, index) => {
             return (

@@ -1,19 +1,22 @@
 import {
+  EditTask,
   GreenScalingDots,
   Navbar,
   Panel,
-  Selected,
+  SelectedTask,
   SortBar,
   TaskList,
 } from "components";
 import { Key, useEffect, useState } from "react";
-import { sortTasks } from "utils/helpers/tasks";
+import { TaskUtil } from "utils";
 
 const Tasks = () => {
   const listEndpoint = "/api/tasks/list";
   const taskEndpoint = "/api/tasks/";
 
   const [tasks, setTasks] = useState([]);
+  const [loadingTask, setLoadingTask] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
 
   useEffect(() => {
     const fetchList = async () => {
@@ -22,7 +25,6 @@ const Tasks = () => {
       const result = await fetch(listEndpoint);
       const body = await result.json();
       setTasks(body.tasks);
-      console.log("CALLING USE EFFECT");
       setLoadingList(false);
       return body.tasks;
     };
@@ -47,10 +49,7 @@ const Tasks = () => {
     setLoadingTask(false);
   }
 
-  const [loadingTask, setLoadingTask] = useState(false);
-  const [loadingList, setLoadingList] = useState(false);
-
-  let groupedTasks = sortTasks(sorting, tasks);
+  let groupedTasks = TaskUtil.sortTasks(sorting, tasks);
 
   return (
     <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar">
@@ -80,7 +79,11 @@ const Tasks = () => {
           </Panel>
         </div>
         <div className="flex">
-          <Selected loading={loadingTask} task={selectedTask}></Selected>
+          {/* <SelectedTask
+            loading={loadingTask}
+            task={selectedTask}
+          ></SelectedTask> */}
+          <EditTask></EditTask>
         </div>
       </div>
     </div>

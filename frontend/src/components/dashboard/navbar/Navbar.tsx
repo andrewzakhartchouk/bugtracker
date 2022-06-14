@@ -4,16 +4,11 @@ import {
   ChevronDoubleRightIcon,
   MenuIcon,
 } from "@heroicons/react/solid";
-import { CalendarIcon, ClipboardListIcon } from "@heroicons/react/outline";
+import { ClipboardListIcon } from "@heroicons/react/outline";
 import { Profile } from "./Profile";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
-interface NavTab {
-  name: string;
-  icon: JSX.Element;
-  link: string;
-}
+import { NavTab } from "utils";
 
 export const Navbar = () => {
   const router = useRouter();
@@ -35,11 +30,6 @@ export const Navbar = () => {
         <ChevronDoubleRightIcon className="h-4 w-4 my-auto"></ChevronDoubleRightIcon>
       ),
       link: "/projects",
-    },
-    {
-      name: "Calendar",
-      icon: <CalendarIcon className="h-4 w-4 my-auto"></CalendarIcon>,
-      link: "/calendar",
     },
   ];
 

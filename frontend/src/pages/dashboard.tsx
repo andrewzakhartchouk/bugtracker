@@ -9,27 +9,10 @@ import {
   Tile,
 } from "components";
 import { NextPage } from "next";
-
-interface Project {
-  projectName: string;
-  team: Array<User>;
-  stages: Array<Stage>;
-}
-
-interface User {
-  name: string;
-  image: string;
-  lead: boolean;
-}
-
-interface Stage {
-  name: string;
-  count: number;
-  color: string;
-}
+import { ProjectOverview } from "utils";
 
 const Dashboard: NextPage = () => {
-  const projects: Array<Project> = [
+  const projects: Array<ProjectOverview> = [
     {
       projectName: "Morrison",
       team: [
@@ -90,9 +73,9 @@ const Dashboard: NextPage = () => {
             <Tile>
               <AssignedTickets></AssignedTickets>
             </Tile>
-            <Tile>
+            {/* <Tile>
               <Schedule></Schedule>
-            </Tile>
+            </Tile> */}
             <Tile>
               <RecentActivity></RecentActivity>
             </Tile>

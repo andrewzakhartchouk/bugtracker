@@ -1,18 +1,11 @@
-import { Deadline, ListTask, Time } from "utils";
-import { Priority } from "utils/enums";
-
-interface GroupedObject {
-  [key: string]: {
-    title: string;
-    data: Array<ListTask>;
-  };
-}
+import { Deadline, ListTask, SortedCategories, Time } from "utils";
+import { Priority } from "utils";
 
 export function sortTasks(
   sortBy: string,
   tasks: Array<ListTask>
-): GroupedObject {
-  let sorted: GroupedObject = sortByDeadline(tasks);
+): SortedCategories {
+  let sorted: SortedCategories = sortByDeadline(tasks);
 
   if (sortBy == "deadline") {
     sorted = sortByDeadline(tasks);
@@ -24,8 +17,8 @@ export function sortTasks(
   return sorted;
 }
 
-export function sortByDeadline(tasks: Array<ListTask>): GroupedObject {
-  let sorted: GroupedObject = {
+function sortByDeadline(tasks: Array<ListTask>): SortedCategories {
+  let sorted: SortedCategories = {
     past: { title: "Past", data: [] },
     thisWeek: { title: "This week", data: [] },
     nextWeek: { title: "Next week", data: [] },
@@ -48,8 +41,8 @@ export function sortByDeadline(tasks: Array<ListTask>): GroupedObject {
   return sorted;
 }
 
-export function sortByPriority(tasks: Array<ListTask>) {
-  let sorted: GroupedObject = {
+function sortByPriority(tasks: Array<ListTask>) {
+  let sorted: SortedCategories = {
     high: { title: "High", data: [] },
     medium: { title: "Medium", data: [] },
     low: { title: "Low", data: [] },
@@ -70,8 +63,8 @@ export function sortByPriority(tasks: Array<ListTask>) {
   return sorted;
 }
 
-export function sortByProject(tasks: Array<ListTask>) {
-  let sorted: GroupedObject = {};
+function sortByProject(tasks: Array<ListTask>) {
+  let sorted: SortedCategories = {};
 
   tasks.forEach((task) => {
     if (task.project.name in sorted) {

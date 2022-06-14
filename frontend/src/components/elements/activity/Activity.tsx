@@ -1,21 +1,7 @@
 import { Bar } from "components";
-import { Key } from "react";
-import { Time, Design } from "utils";
+import { Time, Design, ActivityType } from "utils";
 
-interface Activity {
-  id: Key;
-  project: Project;
-  message: string;
-  created_at: string;
-}
-
-interface Project {
-  id: Key;
-  name: string;
-  color: string;
-}
-
-export const Activity = (activity: Activity) => {
+export const Activity = (activity: ActivityType) => {
   return (
     <Bar>
       <div

@@ -2,6 +2,7 @@ import { UserIcon, CogIcon } from "@heroicons/react/solid";
 import { LogoutIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { Url } from "url";
+import { TabObject } from "utils";
 
 interface Props {
   show: boolean;
@@ -9,12 +10,6 @@ interface Props {
 
 export const ProfileMenu = (props: Props) => {
   const { show } = props;
-
-  interface TabObject {
-    name: string;
-    icon: JSX.Element;
-    page: Url;
-  }
 
   const links: Array<TabObject> = [
     {
