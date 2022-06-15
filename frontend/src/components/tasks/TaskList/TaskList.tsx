@@ -1,8 +1,8 @@
 import { Task } from "components";
-import { GroupedObject } from "utils";
+import { SortedCategories } from "utils";
 
 interface Props {
-  groups: GroupedObject;
+  groups: SortedCategories;
   select: Function;
 }
 

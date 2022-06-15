@@ -1,6 +1,6 @@
 import { PencilIcon, ChatAltIcon, TrashIcon } from "@heroicons/react/solid";
 
-export const PanelButtons = () => {
+export const TaskButtons = () => {
   return (
     <div className="flex flex-col gap-3 absolute left-2 text-white">
       <div className="rounded-full bg-main-green p-2 cursor-pointer transition hover:bg-white hover:text-main-green">

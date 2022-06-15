@@ -119,7 +119,7 @@ export const SelectedTask = (props: Props) => {
                   </div>
                 </TaskProperty>
               </div>
-              <div className="flex w-full">
+              <div className="flex w-full basis-1/3">
                 <TaskProperty title={"Attachments"}>
                   <div className="flex flex-wrap gap-2 overflow-y-scroll no-scrollbar max-h-32 h-32">
                     <div className="block square bg-red-500 w-20 h-20"></div>
