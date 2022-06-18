@@ -3,16 +3,62 @@ import {
   TaskProperty,
   Comment,
   GreenScalingDots,
-  PanelButtons,
+  TaskButtons,
 } from "components";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Design, Priority, CompleteTask } from "utils";
 
 interface Props {
   task: CompleteTask | null;
   loading: boolean;
+  edit: Function;
+  delete: Function;
 }
 
 export const SelectedTask = (props: Props) => {
+  const commentsEndpoint = "/api/comments";
+
+  const [commenting, setCommenting] = useState(false);
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+
+  const validation = {
+    comment: {
+      required: "Please input a comment before sending.",
+      minLength: { value: 8, message: "A minimum of 8 characters is required" },
+      maxLength: {
+        value: 100,
+        message: "A maximum of 100 characters is required",
+      },
+    },
+  };
+
+  async function handleComment(data: any) {
+    const res = await fetch(commentsEndpoint, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const response = await res.json();
+    console.log(response);
+  }
+
+  function handleCommentState() {
+    setCommenting(!commenting);
+  }
+
+  function handleAttachmentUpload() {
+    console.log("Handle attachment");
+  }
+
   if (props.loading)
     return (
       <div className="flex w-full text-panel-green justify-center bg-black p-10 rounded-tr-3xl rounded-bl-3xl bg-opacity-40">
@@ -77,8 +123,9 @@ export const SelectedTask = (props: Props) => {
                 </div>
               </TaskProperty>
               <TaskProperty title={"Schedule"}>
-                <div className="flex whitespace-nowrap text-white justify-start text-xs lg:text-base">
-                  {props.task.start_date} - {props.task.end_date}
+                <div className="flex whitespace-nowrap text-white justify-start text-xs font-medium lg:text-base">
+                  {props.task.start_date.replace(/-/g, "/")} -{" "}
+                  {props.task.end_date.replace(/-/g, "/")}
                 </div>
               </TaskProperty>
             </div>
@@ -97,24 +144,18 @@ export const SelectedTask = (props: Props) => {
                 </div>
               </TaskProperty>
               <TaskProperty title={"Assigned"}>
-                <ul className="flex flex-col gap-1 max-h-16 overflow-y-scroll no-scrollbar">
-                  {props.task.assigned.map((user, index) => {
-                    return (
-                      <li key={index} className="flex">
-                        <div className="block whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2"></div>
-                        <div className="text-white w-28 overflow-x-scroll no-scrollbar my-auto text-xs lg:text-base">
-                          {user.name}
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <li className="flex">
+                  <div className="block whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2"></div>
+                  <div className="text-white w-28 overflow-x-scroll no-scrollbar my-auto text-xs lg:text-base">
+                    {props.task.assigned.name}
+                  </div>
+                </li>
               </TaskProperty>
             </div>
             <div className="flex flex-row gap-3">
               <div className="flex w-full">
                 <TaskProperty title={"Description"}>
-                  <div className="flex text-white  overflow-y-scroll no-scrollbar max-h-32 h-32 text-sm lg:text-base">
+                  <div className="flex text-white overflow-y-scroll no-scrollbar max-h-32 h-32 text-sm lg:text-base">
                     {props.task.description}
                   </div>
                 </TaskProperty>
@@ -143,11 +184,37 @@ export const SelectedTask = (props: Props) => {
                 </ul>
               </TaskProperty>
             </div>
+            {commenting && (
+              <div>
+                <form className="bottom-0 flex flex-row gap-2 w-full">
+                  <input
+                    type="text"
+                    autoFocus
+                    {...register("comment", validation.comment)}
+                    className="w-full px-5 outline-none rounded-bl-2xl rounded-tr-2xl"
+                  />
+                  <button
+                    onClick={handleSubmit(handleComment)}
+                    className="px-4 py-0.5 flex bg-panel-green rounded-full hover:bg-main-green hover:text-white"
+                  >
+                    <span>Send</span>
+                  </button>
+                </form>
+                <small className="absolute text-main-red">
+                  {errors?.comment && errors.comment.message}
+                </small>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="flex h-full items-center relative">
-          <PanelButtons></PanelButtons>
+          <TaskButtons
+            edit={props.edit}
+            comment={handleCommentState}
+            delete={props.delete}
+            attachment={handleAttachmentUpload}
+          ></TaskButtons>
         </div>
       </>
     );

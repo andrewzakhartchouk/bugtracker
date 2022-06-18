@@ -1,4 +1,4 @@
-import { ChatAltIcon } from "@heroicons/react/solid";
+import { ChatIcon } from "@heroicons/react/solid";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { Priority, Time, Design, ListTask } from "utils";
 import { Bar } from "components";
@@ -43,7 +43,7 @@ export const Task = (props: ListTask) => {
           <p className="my-auto font-bold text-xs group-hover:text-main-green">
             {props.comment_number}
           </p>
-          <ChatAltIcon className="h-5 w-5 text-gray-700 group-hover:text-main-green"></ChatAltIcon>
+          <ChatIcon className="h-5 w-5 text-gray-700 group-hover:text-main-green"></ChatIcon>
         </div>
         <CheckCircleIcon className="h-5 w-5 cursor-pointer text-gray-700 hidden md:block  hover:text-main-green"></CheckCircleIcon>
       </div>

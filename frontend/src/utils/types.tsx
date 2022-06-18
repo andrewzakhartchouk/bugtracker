@@ -47,19 +47,20 @@ export interface CompleteTask {
   end_date: string;
   project: ProjectLabel;
   stage: Stage;
-  assigned: Array<User>;
+  assigned: User;
   description: string;
   submitted_by: User;
   comments: Array<CommentType>;
 }
 
 export interface User {
+  id: Key;
   name: string;
   image: string;
 }
 
 export interface CommentType {
-  id: number;
+  id: Key;
   comment: string;
   submitted_by: User;
   created_at: string;
@@ -75,6 +76,7 @@ export interface ActivityType {
 export interface ProjectLabel {
   id: Key;
   name: string;
+  stages: Array<Stage>;
   color?: string;
 }
 
@@ -109,7 +111,7 @@ export interface SortedCategories {
 }
 
 export interface CommentType {
-  id: number;
+  id: Key;
   comment: string;
   submitted_by: User;
   created_at: string;

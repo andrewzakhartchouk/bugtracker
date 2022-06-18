@@ -1,3 +1,4 @@
+import { PlusIcon } from "@heroicons/react/solid";
 import {
   EditTask,
   GreenScalingDots,
@@ -17,17 +18,20 @@ const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [loadingTask, setLoadingTask] = useState(false);
   const [loadingList, setLoadingList] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [editing, setEditing] = useState(false);
+
+  async function fetchList() {
+    setLoadingList(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const result = await fetch(listEndpoint);
+    const body = await result.json();
+    setTasks(body.tasks);
+    setLoadingList(false);
+    return body.tasks;
+  }
 
   useEffect(() => {
-    const fetchList = async () => {
-      setLoadingList(true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      const result = await fetch(listEndpoint);
-      const body = await result.json();
-      setTasks(body.tasks);
-      setLoadingList(false);
-      return body.tasks;
-    };
     fetchList();
   }, []);
 
@@ -37,8 +41,6 @@ const Tasks = () => {
     setSorting(sortBy);
   }
 
-  const [selectedTask, setSelectedTask] = useState(null);
-
   async function handleTaskSelection(id: Key) {
     setLoadingTask(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -47,6 +49,11 @@ const Tasks = () => {
     const body = await result.json();
     setSelectedTask(body.task);
     setLoadingTask(false);
+  }
+
+  function handleDelete() {
+    setSelectedTask(null);
+    fetchList();
   }
 
   let groupedTasks = TaskUtil.sortTasks(sorting, tasks);
@@ -64,7 +71,16 @@ const Tasks = () => {
           </div>
           <Panel>
             <div className="flex flex-col w-full gap-3">
-              <SortBar sort={handleSortSwitch} selected={sorting}></SortBar>
+              <div className="flex flex-row">
+                <button
+                  onClick={() => setEditing(true)}
+                  className="flex gap-1 whitespace-nowrap px-5 py-0.5 bg-main-green text-white font-medium rounded-full hover:bg-low-green"
+                >
+                  <PlusIcon className="h-4 w-4 my-auto"></PlusIcon>
+                  <span className="my-auto">Create task</span>
+                </button>
+                <SortBar sort={handleSortSwitch} selected={sorting}></SortBar>
+              </div>
               {loadingList ? (
                 <GreenScalingDots></GreenScalingDots>
               ) : (
@@ -79,11 +95,16 @@ const Tasks = () => {
           </Panel>
         </div>
         <div className="flex">
-          {/* <SelectedTask
-            loading={loadingTask}
-            task={selectedTask}
-          ></SelectedTask> */}
-          <EditTask></EditTask>
+          {editing ? (
+            <EditTask task={selectedTask} cancel={setEditing}></EditTask>
+          ) : (
+            <SelectedTask
+              loading={loadingTask}
+              task={selectedTask}
+              edit={setEditing}
+              delete={handleDelete}
+            ></SelectedTask>
+          )}
         </div>
       </div>
     </div>

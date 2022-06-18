@@ -3,3 +3,4 @@ export * from "./TaskButtons";
 export * from "./FormButtons";
 export * from "./SelectedTask";
 export * from "./EditTask";
+export * from "./SelectStyle";
