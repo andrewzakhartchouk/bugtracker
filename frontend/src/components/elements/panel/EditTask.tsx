@@ -1,86 +1,185 @@
 import { XIcon } from "@heroicons/react/solid";
-import { FormButtons, TaskEditField } from "components";
-import { ChangeEvent, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import Select, { StylesConfig } from "react-select";
+import { FormButtons, SelectStyle, TaskEditField } from "components";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import AsyncSelect from "react-select/async";
+import Select from "react-select";
+import { CompleteTask, ProjectLabel, Stage, User } from "utils";
 
-export const EditTask = () => {
+interface Props {
+  task: CompleteTask | null;
+  cancel: Function;
+}
+
+export const EditTask = (props: Props) => {
+  const projectsEndpoint: string = "/api/projects/list";
+  const usersEndpoint: string = "/api/users/list";
+  const tasksEndpoint: string = "/api/tasks";
+
+  const [assignedInput, setAssignedInput] = useState("");
+  const [defaultProject, setDefaultProject] = useState<Object | null>(null);
+  const [defaultStage, setDefaultStage] = useState<Object | null>(null);
+  const [defaultUser, setDefaultUser] = useState<Object | null>(null);
+  const [projectInput, setProjectInput] = useState("");
+  const [stageOptions, setStageOptions] = useState<Array<Object>>([]);
+  const [tags, setTags] = useState<Array<string>>([]);
+
   const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
     control,
+    handleSubmit,
+    register,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => console.log(data);
+  const formValidation = {
+    name: { required: "Task name is required." },
+    project: { required: "Project is required." },
+    stage: { required: "Stage is required." },
+  };
 
-  const [tags, setTags] = useState<Array<string>>([]);
+  function handleAssignedInputChange(value: string) {
+    setAssignedInput(value);
+  }
+
+  function handleProjectChange(option: Object) {
+    setDefaultProject(option);
+    handleStageOptions(option?.stages);
+    setDefaultStage({});
+    setValue("stage", null);
+  }
+
+  function handleProjectInputChange(value: string) {
+    setProjectInput(value);
+  }
+
+  function handleStageOptions(stages: Array<Stage>) {
+    const options = stages.map((stage) => ({
+      label: stage.name,
+      value: stage.id,
+    }));
+    setStageOptions(options);
+  }
 
   function handleTags(event: ChangeEvent<HTMLInputElement>) {
-    let input: string = event.target.value;
+    const input: string = event.target.value;
+    const trimmed = input.trim();
     if (input == "") setTags([]);
-    else if (/\s/.test(input) && input.trim() != "") {
-      setTags((state) => [...state, input]);
+    else if (/\s/.test(input) && trimmed != "") {
+      setTags((state) => [...state, trimmed]);
       setValue("tags", "");
     }
   }
 
+  const loadProjectOptions = async (
+    inputValue: string,
+    callback: (arg0: any) => void
+  ): Promise<any> => {
+    const response = await fetch(projectsEndpoint);
+    const json = await response.json();
+    const object = json.projects;
+    callback(
+      object.map((project: ProjectLabel) => ({
+        label: `${project.name}`,
+        value: project.id,
+        stages: project.stages,
+      }))
+    );
+  };
+
+  const loadUserOptions = async (
+    inputValue: string,
+    callback: (arg0: any) => void
+  ): Promise<any> => {
+    const response = await fetch(usersEndpoint);
+    const json = await response.json();
+    const object = json.users;
+    callback(
+      object.map((user: User) => ({
+        label: `${user.name}`,
+        value: user.id,
+      }))
+    );
+  };
+
+  async function onSubmit(data: any) {
+    const formData = { ...data, tags };
+    console.log(formData);
+    if (props.task) {
+      const res = await fetch(tasksEndpoint, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const response = await res.json();
+      console.log(response);
+    } else {
+      const res = await fetch(tasksEndpoint, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const response = await res.json();
+      console.log(response);
+    }
+  }
+
   function removeTag(tag: string) {
-    let result: Array<string> = tags.filter((a) => a !== tag);
+    const result: Array<string> = tags.filter((a) => a !== tag);
     setTags(result);
   }
 
-  const defaultPriority = 0;
-  const priorityOptions = [
-    {
-      value: 0,
-      label: "High",
-    },
-    {
-      value: 1,
-      label: "Medium",
-    },
-    {
-      value: 2,
-      label: "Low",
-    },
-  ];
-
-  const priorityStyle: StylesConfig = {
-    menu: (provided, state) => ({
-      ...provided,
-      background: "#081C15",
-      color: "white",
-      padding: 0,
-    }),
-    control: (provided, state) => ({
-      ...provided,
-      background: "transparent",
-      outline: "none",
-      border: 0,
-      padding: 0,
-      boxShadow: "none",
-    }),
-    valueContainer: (provided, state) => ({
-      ...provided,
-      padding: 0,
-      color: "white",
-    }),
-    singleValue: (provided, state) => ({
-      ...provided,
-      padding: 0,
-      color: "white",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      background: state.isSelected ? "#3F906B" : "#081C15",
-      ":hover": {
-        backgroundColor: "#3F906B",
-      },
-    }),
-  };
+  useEffect(() => {
+    if (props.task) {
+      reset({
+        name: props.task.name,
+        priority: props.task.priority,
+        start_date: props.task.start_date,
+        end_date: props.task.end_date,
+        project: props.task.project.id,
+        stage: props.task.stage.id,
+        assigned: props.task.assigned.id,
+        description: props.task.description,
+      });
+      setTags(props.task.tags);
+      setDefaultProject({
+        label: props.task.project.name,
+        value: props.task.project.id,
+      });
+      setDefaultStage({
+        label: props.task.stage.name,
+        value: props.task.stage.id,
+      });
+      setStageOptions(
+        props.task.project.stages.map((stage) => ({
+          label: `${stage.name}`,
+          value: stage.id,
+        }))
+      );
+      setDefaultUser({
+        label: props.task.assigned.name,
+        value: props.task.assigned.id,
+      });
+    } else {
+      reset({
+        name: null,
+        priority: null,
+        start_date: null,
+        end_date: null,
+        project: null,
+        stage: null,
+        assigned: null,
+        description: null,
+      });
+    }
+  }, [props.task, reset]);
 
   return (
     <>
@@ -90,40 +189,44 @@ export const EditTask = () => {
             <TaskEditField title="Task">
               <input
                 type="text"
-                {...register("task")}
+                {...register("name", formValidation.name)}
                 aria-label="Task"
-                className="text-2xl font-medium text-white bg-transparent border-0 outline-none w-flex break-normal"
+                className="text-2xl font-medium text-white bg-transparent border-0 outline-none w-flex break-normal w-full"
               />
+              <small className="text-main-red">
+                {errors?.name && errors.name.message}
+              </small>
             </TaskEditField>
           </div>
           <div className="flex flex-row gap-2">
-            <TaskEditField title="Priority">
-              <Controller
-                control={control}
-                defaultValue={defaultPriority}
-                name="priority"
-                render={({ field }) => (
-                  <Select
-                    placeholder=""
-                    defaultValue={defaultPriority}
-                    instanceId={"prioritySelect"}
-                    styles={priorityStyle}
-                    onChange={(val) => field.onChange(val.value)}
-                    options={priorityOptions}
-                  ></Select>
-                )}
-              ></Controller>
-            </TaskEditField>
-            <TaskEditField title="Tags">
-              <div className="flex flex-row gap-1 flex-wrap">
-                <div className="flex gap-1 flex-wrap">
+            <div className="flex basis-4/12">
+              <TaskEditField title="Priority">
+                <select
+                  {...register("priority")}
+                  className="bg-transparent text-white w-full outline-none"
+                >
+                  <option value={0} className="text-black bg-transparent">
+                    High
+                  </option>
+                  <option value={1} className="text-black bg-transparent">
+                    Medium
+                  </option>
+                  <option value={2} className="text-black bg-transparent">
+                    Low
+                  </option>
+                </select>
+              </TaskEditField>
+            </div>
+            <div className="flex basis-9/12">
+              <TaskEditField title="Tags">
+                <div className="flex gap-1 flex-wrap w-full">
                   {tags.length > 0 &&
                     tags.map((tag, index) => {
                       if (tag != "")
                         return (
                           <div
                             key={index}
-                            className="flex text-white rounded-full px-2 text-sm border-2 border-white"
+                            className="inline-flex text-white rounded-full px-2 text-sm border-2 border-white"
                           >
                             <span className="my-auto">{tag}</span>
                             <XIcon
@@ -133,21 +236,22 @@ export const EditTask = () => {
                           </div>
                         );
                     })}
+                  <input
+                    type="text"
+                    {...register("tags")}
+                    onChange={(e) => handleTags(e)}
+                    aria-label="Tags"
+                    className="w-auto font-medium text-white bg-transparent border-0 outline-none"
+                  />
                 </div>
-                <input
-                  type="text"
-                  {...register("tags")}
-                  onChange={(e) => handleTags(e)}
-                  aria-label="Tags"
-                  className="flex font-medium text-white bg-transparent border-0 outline-none"
-                />
-              </div>
-            </TaskEditField>
+              </TaskEditField>
+            </div>
           </div>
           <div className="flex flex-row gap-2">
             <TaskEditField title="Start Date">
               <input
                 type="date"
+                aria-label="Start date"
                 {...register("start_date")}
                 className="flex w-full bg-transparent outline-none font-medium text-black invert"
               />
@@ -155,22 +259,90 @@ export const EditTask = () => {
             <TaskEditField title="End Date">
               <input
                 type="date"
+                aria-label="End date"
                 {...register("end_date")}
                 className="flex w-full bg-transparent outline-none font-medium text-black invert"
               />
             </TaskEditField>
           </div>
           <div className="flex flex-row gap-2">
-            <TaskEditField title="Project"></TaskEditField>
-            <TaskEditField title="Stage"></TaskEditField>
-            <TaskEditField title="Assigned"></TaskEditField>
+            <TaskEditField title="Project">
+              <Controller
+                control={control}
+                {...register("project", formValidation.project)}
+                ref={null}
+                render={({ field }) => (
+                  <AsyncSelect
+                    aria-label="Project"
+                    value={defaultProject}
+                    cacheOptions={true}
+                    styles={SelectStyle}
+                    loadOptions={loadProjectOptions}
+                    onInputChange={handleProjectInputChange}
+                    defaultOptions={true}
+                    onChange={(option) => {
+                      handleProjectChange(option);
+                      return field.onChange(option?.value);
+                    }}
+                  ></AsyncSelect>
+                )}
+              ></Controller>
+              <small className="text-main-red">
+                {errors?.project && errors.project.message}
+              </small>
+            </TaskEditField>
+            <TaskEditField title="Stage">
+              <Controller
+                control={control}
+                {...register("stage", formValidation.stage)}
+                ref={null}
+                render={({ field }) => (
+                  <Select
+                    aria-label="Stage"
+                    value={defaultStage}
+                    styles={SelectStyle}
+                    options={stageOptions}
+                    onChange={(option) => {
+                      setDefaultStage(option);
+                      return field.onChange(option?.value);
+                    }}
+                  ></Select>
+                )}
+              ></Controller>
+              <small className="text-main-red">
+                {errors?.stage && errors.stage.message}
+              </small>
+            </TaskEditField>
+            <TaskEditField title="Assigned">
+              <Controller
+                control={control}
+                name="assigned"
+                render={({ field }) => (
+                  <AsyncSelect
+                    aria-label="Assigned"
+                    value={defaultUser}
+                    cacheOptions={true}
+                    styles={SelectStyle}
+                    isClearable={true}
+                    loadOptions={loadUserOptions}
+                    onInputChange={handleAssignedInputChange}
+                    defaultOptions={true}
+                    onChange={(option) => {
+                      setDefaultUser(option);
+                      return field.onChange(option?.value);
+                    }}
+                  ></AsyncSelect>
+                )}
+              ></Controller>
+            </TaskEditField>
           </div>
           <div className="flex flex-row gap-2">
             <TaskEditField title="Description">
               <textarea
+                aria-label="Description"
                 {...register("description")}
-                rows={10}
-                className="w-full bg-transparent text-white resize-none outline-none"
+                rows={5}
+                className="w-full bg-transparent text-white resize-none outline-none no-scrollbar"
               ></textarea>
             </TaskEditField>
           </div>
@@ -180,7 +352,7 @@ export const EditTask = () => {
       <div className="flex h-full items-center relative">
         <FormButtons
           confirm={handleSubmit(onSubmit)}
-          cancel={() => console.log("Cancel")}
+          cancel={props.cancel}
         ></FormButtons>
       </div>
     </>
