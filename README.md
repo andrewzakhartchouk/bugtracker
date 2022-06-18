@@ -11,6 +11,7 @@ While I use Asana at work, at times I want something a bit more simple, and some
 - Python
 - Javascript
 - HTML/CSS
+- GraphQL (Graphene)
 
 ### Frameworks
 - Django
@@ -59,9 +60,34 @@ One of the first things I started off with was the design of the web app. It fle
   ![My Projects](https://user-images.githubusercontent.com/65052923/173713527-767c9843-c7c3-414f-b21d-5b0be307a79e.png)
   ![Project](https://user-images.githubusercontent.com/65052923/173713530-540e5bbb-8d1e-439c-b686-9877d6604dc0.png)
 </details>
-  
-  
-  
+
+### Sequence Diagrams
+In my efforts to document and plan out the flow of parts of the project, I made [sequence diagrams](https://sequencediagram.org/).
+
+<details>
+  <summary>Login</summary>
+
+  ![LoginSequence](https://user-images.githubusercontent.com/65052923/173956124-7901b8fc-8a00-4e1f-b420-ce8fc4540e17.png)
+</details>
+<details>
+  <summary>Register</summary>
+
+  ![RegisterSequence](https://user-images.githubusercontent.com/65052923/173956219-099c0cf6-f37a-48a9-839b-c5ad695e4d31.png)
+</details>
+<details>
+  <summary>Create task</summary>
+
+  ![CreateTaskSequence](https://user-images.githubusercontent.com/65052923/173956233-86882a3e-72f2-4604-bec4-f5ee112fa58a.png)
+</details>
+
+### Database Relationship Diagram
+Forming the backbone of the project, I used [DBDiagram](https://dbdiagram.io) to plan out all the tables and their relations that I would need.
+
+<details>
+  <summary>Database Relationship Diagram</summary>
+
+  ![Database Relationship Diagram](https://user-images.githubusercontent.com/65052923/173957350-e8c130d0-3021-442e-a768-99c4c34b148f.png)
+</details>
   
 
 
