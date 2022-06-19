@@ -1,6 +1,6 @@
 import { PlusIcon } from "@heroicons/react/solid";
 import {
-  EditTask,
+  TaskForm,
   GreenScalingDots,
   Navbar,
   Panel,
@@ -8,7 +8,7 @@ import {
   SortBar,
   TaskList,
 } from "components";
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect, useRef, useState } from "react";
 import { TaskUtil } from "utils";
 
 const Tasks = () => {
@@ -20,6 +20,8 @@ const Tasks = () => {
   const [loadingList, setLoadingList] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [editing, setEditing] = useState(false);
+
+  const taskRef = useRef(null);
 
   async function fetchList() {
     setLoadingList(true);
@@ -42,6 +44,7 @@ const Tasks = () => {
   }
 
   async function handleTaskSelection(id: Key) {
+    taskRef.current.scrollIntoView();
     setLoadingTask(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     let endpoint = taskEndpoint + id;
@@ -77,7 +80,7 @@ const Tasks = () => {
                   className="flex gap-1 whitespace-nowrap px-5 py-0.5 bg-main-green text-white font-medium rounded-full hover:bg-low-green"
                 >
                   <PlusIcon className="h-4 w-4 my-auto"></PlusIcon>
-                  <span className="my-auto">Create task</span>
+                  <span className="my-auto text-xs lg:text-base">Add task</span>
                 </button>
                 <SortBar sort={handleSortSwitch} selected={sorting}></SortBar>
               </div>
@@ -94,9 +97,9 @@ const Tasks = () => {
             </div>
           </Panel>
         </div>
-        <div className="flex">
+        <div ref={taskRef} className="flex">
           {editing ? (
-            <EditTask task={selectedTask} cancel={setEditing}></EditTask>
+            <TaskForm task={selectedTask} cancel={setEditing}></TaskForm>
           ) : (
             <SelectedTask
               loading={loadingTask}

@@ -176,9 +176,12 @@ export const SelectedTask = (props: Props) => {
                 <ul className="flex flex-col gap-3 overflow-y-scroll no-scrollbar max-h-40">
                   {props.task.comments.map((comment) => {
                     return (
-                      <li key={comment.id}>
-                        <Comment comment={comment}></Comment>
-                      </li>
+                      <div key={comment.id} className="flex flex-col gap-3">
+                        <li>
+                          <Comment comment={comment}></Comment>
+                        </li>
+                        <div className="border-b border-gray-600"></div>
+                      </div>
                     );
                   })}
                 </ul>

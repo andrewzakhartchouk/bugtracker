@@ -5,10 +5,10 @@ interface Props {
 
 export const SortBar = (props: Props) => {
   return (
-    <div className="flex flex-row gap-2 justify-end text-main-green w-full">
+    <div className="flex flex-row gap-0.5 justify-end text-main-green text-xs w-full lg:gap-2 lg:text-base">
       <div
         onClick={() => props.sort("deadline")}
-        className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-5 py-1 cursor-pointer ${
+        className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-2 py-1 cursor-pointer lg:px-5 lg:py-1 ${
           props.selected == "deadline"
             ? "text-white bg-main-green hover:border-main-green"
             : "font-bold underline-offset-2 hover:underline"
@@ -18,7 +18,7 @@ export const SortBar = (props: Props) => {
       </div>
       <div
         onClick={() => props.sort("priority")}
-        className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-5 py-1 cursor-pointer ${
+        className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-2 py-1 cursor-pointer lg:px-5 lg:py-1 ${
           props.selected == "priority"
             ? "text-white bg-main-green hover:border-main-green"
             : "font-bold underline-offset-2 hover:underline"
@@ -28,7 +28,7 @@ export const SortBar = (props: Props) => {
       </div>
       <div
         onClick={() => props.sort("project")}
-        className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-5 py-1 cursor-pointer ${
+        className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-2 py-1 cursor-pointer lg:px-5 lg:py-1 ${
           props.selected == "project"
             ? "text-white bg-main-green hover:border-main-green"
             : "font-bold underline-offset-2 hover:underline"

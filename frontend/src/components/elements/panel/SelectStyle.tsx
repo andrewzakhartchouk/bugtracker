@@ -1,5 +1,9 @@
 import { StylesConfig } from "react-select";
 
+const breakpoints = [640, 768, 1024, 1280, 1536];
+
+const mediaQuery = breakpoints.map((bp) => `@media (min-width: ${bp}px)`);
+
 export const SelectStyle: StylesConfig = {
   menu: (provided, state) => ({
     ...provided,
@@ -29,16 +33,24 @@ export const SelectStyle: StylesConfig = {
   valueContainer: (provided, state) => ({
     ...provided,
     color: "white",
-    fontSize: "1rem",
-    lineHeight: "1.5rem",
+    fontSize: "0.825rem",
+    lineHeight: "1.25rem",
+    [mediaQuery[2]]: {
+      fontSize: "1rem",
+      lineHeight: "1.5rem",
+    },
   }),
   singleValue: (provided, state) => ({
     ...provided,
     padding: 0,
     color: "white",
     paddingBottom: "4px",
-    fontSize: "1rem",
-    lineHeight: "1.5rem",
+    fontSize: "0.825rem",
+    lineHeight: "1rem",
+    [mediaQuery[2]]: {
+      fontSize: "1rem",
+      lineHeight: "1.25rem",
+    },
   }),
   option: (provided, state) => ({
     ...provided,

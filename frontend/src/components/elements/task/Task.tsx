@@ -40,10 +40,8 @@ export const Task = (props: ListTask) => {
       <div className="flex items-end flex-grow"></div>
       <div className="flex justify-center">
         <div className="flex group cursor-pointer">
-          <p className="my-auto font-bold text-xs group-hover:text-main-green">
-            {props.comment_number}
-          </p>
-          <ChatIcon className="h-5 w-5 text-gray-700 group-hover:text-main-green"></ChatIcon>
+          <p className="my-auto font-bold text-xs">{props.comment_number}</p>
+          <ChatIcon className="h-5 w-5 text-gray-700"></ChatIcon>
         </div>
         <CheckCircleIcon className="h-5 w-5 cursor-pointer text-gray-700 hidden md:block  hover:text-main-green"></CheckCircleIcon>
       </div>

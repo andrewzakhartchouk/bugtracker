@@ -14,7 +14,7 @@ interface Props {
 
 export const TaskButtons = (props: Props) => {
   return (
-    <div className="flex flex-col gap-3 absolute left-2 text-white">
+    <div className="flex text-white gap-3 absolute top-2 right-2 lg:left-2 lg:top-auto lg:flex-col">
       <div className="flex group">
         <div
           onClick={() => props.edit(true)}

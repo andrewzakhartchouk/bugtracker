@@ -7,7 +7,7 @@ interface Props {
 
 export const FormButtons = (props: Props) => {
   return (
-    <div className="flex flex-col gap-3 absolute left-2 text-white">
+    <div className="flex gap-3 absolute text-white top-2 right-2 lg:left-2 lg:top-auto lg:flex-col">
       <div className="flex group">
         <button
           className="relative rounded-full bg-main-green p-2 cursor-pointer transition outline-none hover:bg-white hover:text-main-green"

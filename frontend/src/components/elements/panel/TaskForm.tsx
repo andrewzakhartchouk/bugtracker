@@ -11,7 +11,7 @@ interface Props {
   cancel: Function;
 }
 
-export const EditTask = (props: Props) => {
+export const TaskForm = (props: Props) => {
   const projectsEndpoint: string = "/api/projects/list";
   const usersEndpoint: string = "/api/users/list";
   const tasksEndpoint: string = "/api/tasks";
@@ -191,7 +191,7 @@ export const EditTask = (props: Props) => {
                 type="text"
                 {...register("name", formValidation.name)}
                 aria-label="Task"
-                className="text-2xl font-medium text-white bg-transparent border-0 outline-none w-flex break-normal w-full"
+                className="text-lg font-medium text-white bg-transparent border-0 outline-none w-flex break-normal w-full lg:text-2xl"
               />
               <small className="text-main-red">
                 {errors?.name && errors.name.message}
@@ -203,7 +203,7 @@ export const EditTask = (props: Props) => {
               <TaskEditField title="Priority">
                 <select
                   {...register("priority")}
-                  className="bg-transparent text-white w-full outline-none"
+                  className="bg-transparent text-white w-full outline-none text-sm lg:text-base"
                 >
                   <option value={0} className="text-black bg-transparent">
                     High
@@ -226,7 +226,7 @@ export const EditTask = (props: Props) => {
                         return (
                           <div
                             key={index}
-                            className="inline-flex text-white rounded-full px-2 text-sm border-2 border-white"
+                            className="inline-flex text-white rounded-full px-2 text-xs lg:text-sm border-2 border-white"
                           >
                             <span className="my-auto">{tag}</span>
                             <XIcon
@@ -241,7 +241,7 @@ export const EditTask = (props: Props) => {
                     {...register("tags")}
                     onChange={(e) => handleTags(e)}
                     aria-label="Tags"
-                    className="w-auto font-medium text-white bg-transparent border-0 outline-none"
+                    className="w-auto font-medium text-white bg-transparent border-0 outline-none text-sm lg:text-base"
                   />
                 </div>
               </TaskEditField>
@@ -253,7 +253,7 @@ export const EditTask = (props: Props) => {
                 type="date"
                 aria-label="Start date"
                 {...register("start_date")}
-                className="flex w-full bg-transparent outline-none font-medium text-black invert"
+                className="flex w-full bg-transparent outline-none font-medium text-black invert text-sm lg:text-base"
               />
             </TaskEditField>
             <TaskEditField title="End Date">
@@ -261,7 +261,7 @@ export const EditTask = (props: Props) => {
                 type="date"
                 aria-label="End date"
                 {...register("end_date")}
-                className="flex w-full bg-transparent outline-none font-medium text-black invert"
+                className="flex w-full bg-transparent outline-none font-medium text-black invert text-sm lg:text-base"
               />
             </TaskEditField>
           </div>
@@ -280,6 +280,7 @@ export const EditTask = (props: Props) => {
                     loadOptions={loadProjectOptions}
                     onInputChange={handleProjectInputChange}
                     defaultOptions={true}
+                    components={{ DropdownIndicator: () => null }}
                     onChange={(option) => {
                       handleProjectChange(option);
                       return field.onChange(option?.value);
@@ -302,6 +303,7 @@ export const EditTask = (props: Props) => {
                     value={defaultStage}
                     styles={SelectStyle}
                     options={stageOptions}
+                    components={{ DropdownIndicator: () => null }}
                     onChange={(option) => {
                       setDefaultStage(option);
                       return field.onChange(option?.value);
@@ -324,6 +326,7 @@ export const EditTask = (props: Props) => {
                     cacheOptions={true}
                     styles={SelectStyle}
                     isClearable={true}
+                    components={{ DropdownIndicator: () => null }}
                     loadOptions={loadUserOptions}
                     onInputChange={handleAssignedInputChange}
                     defaultOptions={true}
@@ -342,7 +345,7 @@ export const EditTask = (props: Props) => {
                 aria-label="Description"
                 {...register("description")}
                 rows={5}
-                className="w-full bg-transparent text-white resize-none outline-none no-scrollbar"
+                className="w-full bg-transparent text-white resize-none outline-none no-scrollbar text-sm lg:text-base"
               ></textarea>
             </TaskEditField>
           </div>
