@@ -12,9 +12,9 @@ export const Greeting = (user: User) => {
 
   function greetingAtTime(hour: number) {
     let greeting: string = "Hello";
-    if (4 < hour && hour < 13) {
+    if (4 < hour && hour < 12) {
       greeting = "Good morning";
-    } else if (12 < hour && hour < 19) {
+    } else if (12 <= hour && hour < 19) {
       greeting = "Good afternoon";
     } else if (18 < hour && hour < 25) {
       greeting = "Good evening";

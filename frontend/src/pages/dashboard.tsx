@@ -3,7 +3,7 @@ import {
   AssignedTickets,
   Greeting,
   Navbar,
-  Project,
+  ProjectSummary,
   RecentActivity,
   Schedule,
   Tile,
@@ -16,45 +16,48 @@ const Dashboard: NextPage = () => {
     {
       projectName: "Morrison",
       team: [
-        { name: "Darius", image: "", lead: true },
-        { name: "Jason", image: "", lead: false },
-        { name: "Andrew", image: "", lead: false },
-        { name: "Daniel", image: "", lead: false },
-        { name: "Alvin", image: "", lead: false },
+        { id: 1, name: "Darius", image: "", lead: true },
+        { id: 2, name: "Jason", image: "", lead: false },
+        { id: 3, name: "Andrew", image: "", lead: false },
+        { id: 4, name: "Daniel", image: "", lead: false },
+        { id: 5, name: "Alvin", image: "", lead: false },
+        { id: 6, name: "Andrew", image: "", lead: false },
+        { id: 7, name: "Daniel", image: "", lead: false },
+        { id: 8, name: "Alvin", image: "", lead: false },
       ],
       stages: [
-        { name: "Backlog", count: 2, color: "FF0000" },
-        { name: "In Progress", count: 22, color: "0000FF" },
-        { name: "Reviewed", count: 200, color: "00FF00" },
+        { id: 1, name: "Backlog", count: 2, color: "FF0000" },
+        { id: 2, name: "In Progress", count: 22, color: "0000FF" },
+        { id: 3, name: "Reviewed", count: 200, color: "00FF00" },
       ],
     },
     {
       projectName: "Turnbull",
       team: [
-        { name: "James", image: "", lead: true },
-        { name: "Kevin", image: "", lead: true },
-        { name: "Andrew", image: "", lead: false },
+        { id: 1, name: "James", image: "", lead: true },
+        { id: 2, name: "Kevin", image: "", lead: true },
+        { id: 3, name: "Andrew", image: "", lead: false },
       ],
       stages: [
-        { name: "Backlog", count: 2, color: "FF0000" },
-        { name: "Needs Attn.", count: 2, color: "FFB0BF" },
-        { name: "In Progress", count: 22, color: "0000FF" },
-        { name: "Need to Review", count: 22, color: "00FFFF" },
-        { name: "Reviewing", count: 200, color: "FF0FF0" },
-        { name: "Complete", count: 200, color: "00FF00" },
+        { id: 1, name: "Backlog", count: 2, color: "FF0000" },
+        { id: 2, name: "Needs Attn.", count: 2, color: "FFB0BF" },
+        { id: 3, name: "In Progress", count: 22, color: "0000FF" },
+        { id: 4, name: "Need to Review", count: 22, color: "00FFFF" },
+        { id: 5, name: "Reviewing", count: 200, color: "FF0FF0" },
+        { id: 6, name: "Complete", count: 200, color: "00FF00" },
       ],
     },
     {
       projectName: "Abbott",
       team: [
-        { name: "Darius", image: "", lead: false },
-        { name: "Jason", image: "", lead: false },
-        { name: "Andrew", image: "", lead: false },
+        { id: 1, name: "Darius", image: "", lead: false },
+        { id: 2, name: "Jason", image: "", lead: false },
+        { id: 3, name: "Andrew", image: "", lead: false },
       ],
       stages: [
-        { name: "Backlog", count: 2, color: "FF0000" },
-        { name: "In Progress", count: 22, color: "0000FF" },
-        { name: "Reviewed", count: 200, color: "00FF00" },
+        { id: 1, name: "Backlog", count: 2, color: "FF0000" },
+        { id: 2, name: "In Progress", count: 22, color: "0000FF" },
+        { id: 3, name: "Reviewed", count: 200, color: "00FF00" },
       ],
     },
   ];
@@ -85,7 +88,7 @@ const Dashboard: NextPage = () => {
               {projects.map((project, index) => {
                 return (
                   <Tile key={index}>
-                    <Project {...project}></Project>
+                    <ProjectSummary {...project}></ProjectSummary>
                   </Tile>
                 );
               })}

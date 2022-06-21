@@ -32,7 +32,7 @@ export const AssignedTickets = () => {
       comment_number: 1,
     },
     {
-      id: 1,
+      id: 4,
       stage: { name: "Review", color: "22f55e" },
       priority: Priority.High,
       tags: "Tag1",
@@ -41,7 +41,7 @@ export const AssignedTickets = () => {
       comment_number: 10,
     },
     {
-      id: 2,
+      id: 5,
       stage: { name: "In Progress", color: "3bf2f6" },
       priority: Priority.Medium,
       tags: "Tag2 Tag3",
@@ -50,7 +50,7 @@ export const AssignedTickets = () => {
       comment_number: 3,
     },
     {
-      id: 3,
+      id: 6,
       stage: { name: "Backlog", color: "ef44ee" },
       priority: Priority.Low,
       tags: "Tag3",
@@ -71,9 +71,9 @@ export const AssignedTickets = () => {
           Upcoming
         </span>
         <ul className="flex flex-col w-full overflow-y-scroll no-scrollbar gap-1">
-          {tasks.map((task, index) => {
+          {tasks.map((task) => {
             return (
-              <li key={index}>
+              <li key={task.id}>
                 <Task {...task}></Task>
               </li>
             );

@@ -1,2 +1,2 @@
-export * from "./Project";
+export * from "./ProjectSummary";
 export * from "./AddProject";

@@ -56,6 +56,7 @@ export interface CompleteTask {
 export interface User {
   id: Key;
   name: string;
+  lead?: boolean;
   image: string;
 }
 
@@ -81,7 +82,15 @@ export interface ProjectLabel {
 }
 
 export interface ProjectOverview {
+  id: Key;
   projectName: string;
+  team: Array<User>;
+  stages: Array<Stage>;
+}
+
+export interface CompleteProject {
+  id: Key;
+  name: string;
   team: Array<User>;
   stages: Array<Stage>;
 }
@@ -89,6 +98,7 @@ export interface ProjectOverview {
 export interface Stage {
   id: Key;
   name: string;
+  count: number;
   color?: string;
 }
 
