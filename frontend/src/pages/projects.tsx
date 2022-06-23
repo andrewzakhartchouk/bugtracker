@@ -3,10 +3,6 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import {
   GreenScalingDots,
   Navbar,
-  Panel,
-  Task,
-  Team,
-  Stages,
   SelectedTask,
   TaskForm,
   ProjectList,
@@ -14,7 +10,6 @@ import {
   SelectedProject,
 } from "components";
 import { Key, useEffect, useRef, useState } from "react";
-import { ListTask } from "utils";
 
 const Projects = () => {
   const projectsEndpoint = "/api/projects/";
@@ -76,6 +71,18 @@ const Projects = () => {
     setSelectedTask(null);
   }
 
+  async function handleProjectDelete() {
+    setShowProject(false);
+    setSelectedProject(null);
+  }
+
+  function handleTaskCreate() {
+    setShowProject(false);
+    setSelectedTask(null);
+    setShowTask(true);
+    setEditingTask(true);
+  }
+
   return (
     <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar">
       <Navbar></Navbar>
@@ -96,6 +103,7 @@ const Projects = () => {
                 projects={projects}
                 handleTask={handleTaskSelection}
                 handleProject={handleProjectSelection}
+                edit={handleTaskCreate}
               ></ProjectList>
             )
           )}
@@ -113,12 +121,16 @@ const Projects = () => {
               ></SelectedTask>
             )
           ) : editingProject ? (
-            <ProjectForm></ProjectForm>
+            <ProjectForm
+              project={selectedProject}
+              cancel={setEditingProject}
+            ></ProjectForm>
           ) : (
             <SelectedProject
               project={selectedProject}
               loading={loadingProject}
               edit={setEditingProject}
+              delete={handleProjectDelete}
             ></SelectedProject>
           )}
         </div>

@@ -4,7 +4,7 @@ import {
   ChevronUpIcon,
 } from "@heroicons/react/solid";
 import { GreenScalingDots, PanelProperty, ProjectButtons } from "components";
-import { CompleteProject, User } from "utils";
+import { CompleteProject, Design, User } from "utils";
 
 interface Props {
   project: CompleteProject | null;
@@ -46,7 +46,7 @@ export const SelectedProject = (props: Props) => {
               </PanelProperty>
             </div>
             <div className="flex flex-row gap-3">
-              <PanelProperty title={"Started"}>
+              <PanelProperty title={"Team"}>
                 <div className="flex whitespace-nowrap text-white justify-start text-xs font-medium lg:text-base">
                   {props.project.created_at}
                 </div>
@@ -88,26 +88,26 @@ export const SelectedProject = (props: Props) => {
                 </>
               </PanelProperty>
             </div>
-            <div className="flex flex-row gap-3 w-full">
-              <PanelProperty title={"Stages"}>
-                <ul>
-                  {props.project.stages.map((stage) => {
-                    return (
-                      <li key={stage.id} className="">
-                        <div>{stage.name}</div>
-                        <div>
-                          <ChevronUpIcon className="h-4"></ChevronUpIcon>
-                        </div>
-                        <div>
-                          <ChevronDownIcon className="h-4"></ChevronDownIcon>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </PanelProperty>
-              <div className="flex flex-grow"></div>
-            </div>
+            <PanelProperty title={"Stages"}>
+              <ul className="flex flex-col gap-2">
+                {props.project.stages.map((stage) => {
+                  return (
+                    <li
+                      key={stage.id}
+                      style={Design.setBackground(stage.color)}
+                      className="flex flex-row p-2 rounded-xl text-white whitespace-nowrap justify-evenly"
+                    >
+                      <div className="flex gap-1">
+                        <ChevronUpIcon className="h-6 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-green"></ChevronUpIcon>
+                        <ChevronDownIcon className="h-6 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-red"></ChevronDownIcon>
+                      </div>
+                      <span className="my-auto font-medium">{stage.name}</span>
+                      <span>{stage.count}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </PanelProperty>
           </div>
         </div>
 
