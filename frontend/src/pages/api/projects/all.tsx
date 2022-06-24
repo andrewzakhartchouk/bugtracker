@@ -6,7 +6,8 @@ export default function handler(req, res) {
       {
         id: 1,
         name: "Albanese",
-        team: [
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -65,7 +66,8 @@ export default function handler(req, res) {
       {
         id: 2,
         name: "Morisson",
-        team: [
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -124,7 +126,8 @@ export default function handler(req, res) {
       {
         id: 3,
         name: "Turnbull",
-        team: [
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -183,7 +186,9 @@ export default function handler(req, res) {
       {
         id: 4,
         name: "Abbott",
-        team: [
+
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -242,7 +247,9 @@ export default function handler(req, res) {
       {
         id: 5,
         name: "Rudd",
-        team: [
+
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -301,7 +308,9 @@ export default function handler(req, res) {
       {
         id: 6,
         name: "Gillard",
-        team: [
+
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -360,7 +369,9 @@ export default function handler(req, res) {
       {
         id: 7,
         name: "Howard",
-        team: [
+
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -419,7 +430,9 @@ export default function handler(req, res) {
       {
         id: 8,
         name: "Keating",
-        team: [
+
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },
@@ -478,7 +491,9 @@ export default function handler(req, res) {
       {
         id: 9,
         name: "Hawke",
-        team: [
+
+        team: "Team A",
+        members: [
           { id: 1, name: "Darius" },
           { id: 2, name: "Andrew" },
           { id: 3, name: "Jason" },

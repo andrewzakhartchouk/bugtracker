@@ -4,6 +4,7 @@ export default function handler(req, res) {
       {
         id: 1,
         name: "Albanese",
+        team: "Team A",
         stages: [
           { id: 1, name: "Backlog" },
           { id: 2, name: "Reviewing" },
@@ -13,6 +14,7 @@ export default function handler(req, res) {
       {
         id: 2,
         name: "Morisson",
+        team: "Team A",
         stages: [
           { id: 4, name: "Backlog" },
           { id: 5, name: "Reviewing" },
@@ -22,6 +24,7 @@ export default function handler(req, res) {
       {
         id: 3,
         name: "Turnbull",
+        team: "Team A",
         stages: [
           { id: 7, name: "Backlog" },
           { id: 8, name: "Reviewing" },
@@ -31,6 +34,7 @@ export default function handler(req, res) {
       {
         id: 4,
         name: "Abbott",
+        team: "Team A",
         stages: [
           { id: 10, name: "Backlog" },
           { id: 11, name: "Reviewing" },
@@ -40,6 +44,8 @@ export default function handler(req, res) {
       {
         id: 5,
         name: "Rudd",
+
+        team: "Team A",
         stages: [
           { id: 13, name: "Backlog" },
           { id: 14, name: "Reviewing" },
@@ -49,6 +55,8 @@ export default function handler(req, res) {
       {
         id: 6,
         name: "Gillard",
+
+        team: "Team A",
         stages: [
           { id: 16, name: "Backlog" },
           { id: 17, name: "Reviewing" },
@@ -58,6 +66,8 @@ export default function handler(req, res) {
       {
         id: 7,
         name: "Howard",
+
+        team: "Team A",
         stages: [
           { id: 19, name: "Backlog" },
           { id: 20, name: "Reviewing" },
@@ -67,6 +77,8 @@ export default function handler(req, res) {
       {
         id: 8,
         name: "Keating",
+
+        team: "Team A",
         stages: [
           { id: 22, name: "Backlog" },
           { id: 23, name: "Reviewing" },
@@ -76,6 +88,8 @@ export default function handler(req, res) {
       {
         id: 9,
         name: "Hawke",
+
+        team: "Team A",
         stages: [
           { id: 25, name: "Backlog" },
           { id: 26, name: "Reviewing" },

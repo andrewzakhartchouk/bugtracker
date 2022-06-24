@@ -15,11 +15,12 @@ const Tasks = () => {
   const listEndpoint = "/api/tasks/list";
   const taskEndpoint = "/api/tasks/";
 
-  const [tasks, setTasks] = useState([]);
-  const [loadingTask, setLoadingTask] = useState(false);
-  const [loadingList, setLoadingList] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
   const [editing, setEditing] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
+  const [loadingTask, setLoadingTask] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [sorting, setSorting] = useState("deadline");
+  const [tasks, setTasks] = useState([]);
 
   const taskRef = useRef(null);
 
@@ -36,8 +37,6 @@ const Tasks = () => {
   useEffect(() => {
     fetchTaskList();
   }, []);
-
-  const [sorting, setSorting] = useState("deadline");
 
   function handleSortSwitch(sortBy: string) {
     setSorting(sortBy);

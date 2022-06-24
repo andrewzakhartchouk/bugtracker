@@ -14,8 +14,10 @@ import { ProjectOverview } from "utils";
 const Dashboard: NextPage = () => {
   const projects: Array<ProjectOverview> = [
     {
-      projectName: "Morrison",
-      team: [
+      id: 1,
+      name: "Morrison",
+      team: "Team A",
+      members: [
         { id: 1, name: "Darius", image: "", lead: true },
         { id: 2, name: "Jason", image: "", lead: false },
         { id: 3, name: "Andrew", image: "", lead: false },
@@ -32,8 +34,10 @@ const Dashboard: NextPage = () => {
       ],
     },
     {
-      projectName: "Turnbull",
-      team: [
+      id: 2,
+      name: "Turnbull",
+      team: "Team B",
+      members: [
         { id: 1, name: "James", image: "", lead: true },
         { id: 2, name: "Kevin", image: "", lead: true },
         { id: 3, name: "Andrew", image: "", lead: false },
@@ -48,8 +52,10 @@ const Dashboard: NextPage = () => {
       ],
     },
     {
-      projectName: "Abbott",
-      team: [
+      id: 3,
+      name: "Abbott",
+      team: "Team C",
+      members: [
         { id: 1, name: "Darius", image: "", lead: false },
         { id: 2, name: "Jason", image: "", lead: false },
         { id: 3, name: "Andrew", image: "", lead: false },
@@ -85,9 +91,9 @@ const Dashboard: NextPage = () => {
           </div>
           <div className="flex lg:overflow-y-scroll no-scrollbar lg:relative w-full">
             <div className="grid grid-cols-2 lg:absolute gap-4 w-full">
-              {projects.map((project, index) => {
+              {projects.map((project) => {
                 return (
-                  <Tile key={index}>
+                  <Tile key={project.id}>
                     <ProjectSummary {...project}></ProjectSummary>
                   </Tile>
                 );

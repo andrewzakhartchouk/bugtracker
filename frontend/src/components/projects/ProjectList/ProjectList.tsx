@@ -1,17 +1,18 @@
 import { InformationCircleIcon, PlusIcon } from "@heroicons/react/solid";
-import { Panel, Stages, Task, Team } from "components";
+import { Panel, Stages, Task, Members, AddProject } from "components";
 import { ListTask, ProjectOverview } from "utils";
 
 interface Props {
   projects: Array<ProjectOverview>;
-  handleTask: Function;
-  handleProject: Function;
-  edit: Function;
+  selectTask: Function;
+  selectProject: Function;
+  editTask: Function;
+  editProject: Function;
 }
 
 export const ProjectList = (props: Props) => {
   return (
-    <>
+    <div className="flex flex-col flex-grow gap-5">
       {props.projects.map((project) => {
         return (
           <div className="flex flex-col" key={project.id}>
@@ -19,7 +20,7 @@ export const ProjectList = (props: Props) => {
               <Panel>
                 <div className="flex flex-col gap-2 w-full">
                   <div
-                    onClick={() => props.handleProject(project.id)}
+                    onClick={() => props.selectProject(project.id)}
                     className="flex gap-5 text-gray-700 font-bold text-lg md:text-xl lg:text-2xl cursor-pointer hover:text-main-green"
                   >
                     {project.name}
@@ -31,7 +32,7 @@ export const ProjectList = (props: Props) => {
                         Team
                       </span>
                       <div className="h-36 max-h-36 overflow-y-scroll no-scrollbar">
-                        <Team team={project.team}></Team>
+                        <Members members={project.members}></Members>
                       </div>
                     </div>
 
@@ -51,7 +52,7 @@ export const ProjectList = (props: Props) => {
                             My tasks
                           </span>
                           <button
-                            onClick={() => props.edit(true)}
+                            onClick={() => props.editTask(true)}
                             className="flex gap-1 whitespace-nowrap px-3 bg-main-green text-white font-medium rounded-full hover:bg-low-green"
                           >
                             <PlusIcon className="h-4 w-4 my-auto"></PlusIcon>
@@ -65,7 +66,7 @@ export const ProjectList = (props: Props) => {
                             return (
                               <li
                                 key={task.id}
-                                onClick={() => props.handleTask(task.id)}
+                                onClick={() => props.selectTask(task.id)}
                               >
                                 <Task {...task}></Task>
                               </li>
@@ -81,6 +82,7 @@ export const ProjectList = (props: Props) => {
           </div>
         );
       })}
-    </>
+      <AddProject add={() => props.editProject(true)}></AddProject>
+    </div>
   );
 };

@@ -1,5 +1,3 @@
-import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/solid";
-import { InformationCircleIcon } from "@heroicons/react/outline";
 import {
   GreenScalingDots,
   Navbar,
@@ -8,6 +6,7 @@ import {
   ProjectList,
   ProjectForm,
   SelectedProject,
+  ProjectTasks,
 } from "components";
 import { Key, useEffect, useRef, useState } from "react";
 
@@ -20,7 +19,6 @@ const Projects = () => {
   const [loadingList, setLoadingList] = useState(false);
   const [projects, setProjects] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
-  const [viewTask, setViewTask] = useState(false);
   const [loadingTask, setLoadingTask] = useState(false);
   const [loadingProject, setLoadingProject] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -39,26 +37,33 @@ const Projects = () => {
   }
 
   async function handleTaskSelection(id: Key) {
-    setShowTask(true);
-    taskRef.current.scrollIntoView();
     setLoadingTask(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setEditingTask(false);
+    setEditingProject(false);
+    setShowTask(true);
+
+    taskRef.current.scrollIntoView();
     let endpoint = taskEndpoint + id;
     const result = await fetch(endpoint);
     const body = await result.json();
     setSelectedTask(body.task);
+
     setLoadingTask(false);
   }
 
   async function handleProjectSelection(id: Key) {
-    setShowProject(true);
-    setShowTask(false);
     setLoadingProject(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setEditingTask(false);
+    setEditingProject(false);
+    setShowProject(true);
+
     let endpoint = projectsEndpoint + id;
     const result = await fetch(endpoint);
     const body = await result.json();
     setSelectedProject(body.project);
+
     setLoadingProject(false);
   }
 
@@ -67,12 +72,18 @@ const Projects = () => {
   }, []);
 
   async function handleTaskDelete() {
-    setShowTask(false);
+    setEditingTask(false);
+    setEditingProject(false);
+    setShowTask(true);
+
     setSelectedTask(null);
   }
 
   async function handleProjectDelete() {
+    setEditingTask(false);
+    setEditingProject(false);
     setShowProject(false);
+
     setSelectedProject(null);
   }
 
@@ -81,6 +92,13 @@ const Projects = () => {
     setSelectedTask(null);
     setShowTask(true);
     setEditingTask(true);
+  }
+
+  function handleProjectCreate() {
+    setShowTask(false);
+    setSelectedProject(null);
+    setShowProject(true);
+    setEditingProject(true);
   }
 
   return (
@@ -94,18 +112,25 @@ const Projects = () => {
         <div className="hidden w-1 -rotate-90 absolute justify-end left-14 top-24 text-panel-green whitespace-nowrap text-3xl font-medium lg:flex">
           My projects
         </div>
-        <div className="flex flex-col gap-5 overflow-y-scroll no-scrollbar">
+        <div className="flex overflow-y-scroll no-scrollbar">
           {loadingList ? (
             <GreenScalingDots></GreenScalingDots>
           ) : (
-            projects != null && (
+            projects != null &&
+            (showProject ? (
+              <ProjectTasks
+                project={selectedProject}
+                select={handleTaskSelection}
+              ></ProjectTasks>
+            ) : (
               <ProjectList
                 projects={projects}
-                handleTask={handleTaskSelection}
-                handleProject={handleProjectSelection}
-                edit={handleTaskCreate}
+                selectTask={handleTaskSelection}
+                selectProject={handleProjectSelection}
+                editTask={handleTaskCreate}
+                editProject={handleProjectCreate}
               ></ProjectList>
-            )
+            ))
           )}
         </div>
         <div ref={taskRef} className="flex">

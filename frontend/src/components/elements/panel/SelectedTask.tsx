@@ -95,8 +95,10 @@ export const SelectedTask = (props: Props) => {
                     props.task.priority == Priority.High
                       ? "bg-main-red"
                       : props.task.priority == Priority.Medium
-                      ? "bg-amber-500"
-                      : "bg-main-green"
+                      ? "bg-amber-400"
+                      : props.task.priority == Priority.Low
+                      ? "bg-main-green"
+                      : "bg-transparent"
                   }`}
                 >
                   <span className="text-white text-xs lg:text-sm">

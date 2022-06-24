@@ -1,13 +1,13 @@
 import { User } from "utils";
 
 interface Props {
-  team: Array<User>;
+  members: Array<User>;
 }
 
-export const Team = (props: Props) => {
+export const Members = (props: Props) => {
   return (
     <ul className="flex flex-col gap-0.5 overflow-y-scroll no-scrollbar">
-      {props.team.map((user, index) => {
+      {props.members.map((user, index) => {
         return (
           <div className="flex gap-2" key={index}>
             <span className="my-auto text-gray-700 text-sm">{user.name}</span>

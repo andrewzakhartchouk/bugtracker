@@ -2,9 +2,10 @@ import { Key } from "react";
 import { Url } from "url";
 
 export enum Priority {
-  High = 0,
-  Medium = 1,
-  Low = 2,
+  None = 0,
+  High = 1,
+  Medium = 2,
+  Low = 3,
 }
 
 export enum Deadline {
@@ -83,15 +84,17 @@ export interface ProjectLabel {
 
 export interface ProjectOverview {
   id: Key;
-  projectName: string;
-  team: Array<User>;
+  name: string;
+  team: string;
+  members: Array<User>;
   stages: Array<Stage>;
 }
 
 export interface CompleteProject {
   id: Key;
   name: string;
-  team: Array<User>;
+  team: string;
+  members: Array<User>;
   stages: Array<Stage>;
 }
 

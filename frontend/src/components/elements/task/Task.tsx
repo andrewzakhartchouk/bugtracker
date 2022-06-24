@@ -11,8 +11,10 @@ export const Task = (props: ListTask) => {
           props.priority == Priority.High
             ? "bg-main-red"
             : props.priority == Priority.Medium
-            ? "bg-amber-500"
-            : "bg-main-green"
+            ? "bg-amber-400"
+            : props.priority == Priority.Low
+            ? "bg-main-green"
+            : "bg-transparent"
         }`}
       ></div>
       <span>{Time.timeLeft(props.end_date)}</span>

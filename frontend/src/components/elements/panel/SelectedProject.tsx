@@ -48,12 +48,12 @@ export const SelectedProject = (props: Props) => {
             <div className="flex flex-row gap-3">
               <PanelProperty title={"Team"}>
                 <div className="flex whitespace-nowrap text-white justify-start text-xs font-medium lg:text-base">
-                  {props.project.created_at}
+                  {props.project.team}
                 </div>
               </PanelProperty>
               <PanelProperty title={"Project Lead"}>
                 <ul>
-                  {props.project.team
+                  {props.project.members
                     .filter((user) => {
                       return user.lead === true;
                     })
@@ -71,7 +71,7 @@ export const SelectedProject = (props: Props) => {
               </PanelProperty>
               <PanelProperty title={"Members"}>
                 <>
-                  {props.project.team
+                  {props.project.members
                     .filter((user) => {
                       return user.lead !== true;
                     })
