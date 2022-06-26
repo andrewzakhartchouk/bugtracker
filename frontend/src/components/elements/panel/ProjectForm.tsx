@@ -64,7 +64,7 @@ export const ProjectForm = (props: Props) => {
     const toRemove = props?.project?.members.filter((user) => {
       return user.lead === true;
     });
-    const filtered = object.filter((o) => !toRemove?.includes(o));
+    const filtered = object.filter((o: User) => !toRemove?.includes(o));
     callback(
       filtered.map((user: User) => ({
         label: `${user.name}`,
