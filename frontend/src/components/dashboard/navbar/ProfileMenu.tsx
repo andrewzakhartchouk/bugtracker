@@ -12,16 +12,16 @@ export const ProfileMenu = (props: Props) => {
   const { show } = props;
 
   const links: Array<TabObject> = [
-    {
-      name: "Profile",
-      icon: <UserIcon className="h-5 w-5 my-auto"></UserIcon>,
-      page: "/dashboard" as unknown as Url,
-    },
-    {
-      name: "Settings",
-      icon: <CogIcon className="h-5 w-5 my-auto"></CogIcon>,
-      page: "/dashboard" as unknown as Url,
-    },
+    // {
+    //   name: "Profile",
+    //   icon: <UserIcon className="h-5 w-5 my-auto"></UserIcon>,
+    //   page: "/dashboard" as unknown as Url,
+    // },
+    // {
+    //   name: "Settings",
+    //   icon: <CogIcon className="h-5 w-5 my-auto"></CogIcon>,
+    //   page: "/dashboard" as unknown as Url,
+    // },
     {
       name: "Sign out",
       icon: <LogoutIcon className="h-5 w-5 my-auto"></LogoutIcon>,

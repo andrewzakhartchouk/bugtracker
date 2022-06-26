@@ -7,12 +7,19 @@ export function sortTasks(
 ): SortedCategories {
   let sorted: SortedCategories = sortByDeadline(tasks);
 
-  if (sortBy == "deadline") {
-    sorted = sortByDeadline(tasks);
-  } else if (sortBy == "priority") {
-    sorted = sortByPriority(tasks);
-  } else if (sortBy == "project") {
-    sorted = sortByProject(tasks);
+  switch (sortBy) {
+    case "deadline":
+      sorted = sortByDeadline(tasks);
+      break;
+    case "priority":
+      sorted = sortByPriority(tasks);
+      break;
+    case "project":
+      sorted = sortByProject(tasks);
+      break;
+    case "stage":
+      sorted = sortByStage(tasks);
+      break;
   }
   return sorted;
 }
@@ -72,6 +79,21 @@ function sortByProject(tasks: Array<ListTask>) {
       sorted[task.project.name].data.push(task);
     } else {
       sorted[task.project.name] = { title: task.project.name, data: [task] };
+    }
+  });
+
+  return sorted;
+}
+
+function sortByStage(tasks: Array<ListTask>) {
+  let sorted: SortedCategories = {};
+
+  tasks.forEach((task) => {
+    if (task.stage.name in sorted) {
+      sorted[task.stage.name].title = task.stage.name;
+      sorted[task.stage.name].data.push(task);
+    } else {
+      sorted[task.stage.name] = { title: task.stage.name, data: [task] };
     }
   });
 

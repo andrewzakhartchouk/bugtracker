@@ -2,9 +2,15 @@ import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronUpIcon,
+  ViewGridIcon,
 } from "@heroicons/react/solid";
-import { GreenScalingDots, PanelProperty, ProjectButtons } from "components";
-import { CompleteProject, Design, User } from "utils";
+import {
+  GreenScalingDots,
+  PanelProperty,
+  ProjectButtons,
+  StageBlock,
+} from "components";
+import { CompleteProject, Design } from "utils";
 
 interface Props {
   project: CompleteProject | null;
@@ -38,7 +44,7 @@ export const SelectedProject = (props: Props) => {
       <>
         <div className="flex w-full justify-center bg-black p-10 rounded-tr-3xl rounded-bl-3xl bg-opacity-40">
           <div className="flex flex-col w-full flex-grow gap-5 overflow-hidden">
-            <div className="flex flex-row">
+            <div className="flex flex-row gap-3">
               <PanelProperty title={"Project"}>
                 <div className="text-base max-h-8 overflow-y-scroll no-scrollbar font-bold text-panel-green lg:text-2xl">
                   {props.project.name}
@@ -91,20 +97,7 @@ export const SelectedProject = (props: Props) => {
             <PanelProperty title={"Stages"}>
               <ul className="flex flex-col gap-2">
                 {props.project.stages.map((stage) => {
-                  return (
-                    <li
-                      key={stage.id}
-                      style={Design.setBackground(stage.color)}
-                      className="flex flex-row p-2 rounded-xl text-white whitespace-nowrap justify-evenly"
-                    >
-                      <div className="flex gap-1">
-                        <ChevronUpIcon className="h-6 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-green"></ChevronUpIcon>
-                        <ChevronDownIcon className="h-6 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-red"></ChevronDownIcon>
-                      </div>
-                      <span className="my-auto font-medium">{stage.name}</span>
-                      <span>{stage.count}</span>
-                    </li>
-                  );
+                  return <StageBlock key={stage.id} stage={stage}></StageBlock>;
                 })}
               </ul>
             </PanelProperty>
@@ -114,7 +107,6 @@ export const SelectedProject = (props: Props) => {
         <div className="flex h-full items-center relative">
           <ProjectButtons
             edit={props.edit}
-            addUser={() => console.log("test")}
             delete={props.delete}
           ></ProjectButtons>
         </div>

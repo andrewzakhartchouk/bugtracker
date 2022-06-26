@@ -3,7 +3,7 @@ interface Props {
   title: string;
 }
 
-export const TaskEditField = (props: Props) => {
+export const FormField = (props: Props) => {
   return (
     <div className="flex flex-col w-full">
       <div className=" text-gray-400 font-medium">{props.title}</div>

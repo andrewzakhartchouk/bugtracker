@@ -6,7 +6,7 @@ export default function handler(req, res) {
       {
         id: 1,
         project: { id: 1, name: "Morrison" },
-        stage: { name: "Review", color: "22f55e" },
+        stage: { name: "Review", color: "e63232" },
         priority: Priority.High,
         tags: "Tag1",
         end_date: "2022/06/03",
@@ -16,7 +16,7 @@ export default function handler(req, res) {
       {
         id: 2,
         project: { id: 1, name: "Morrison" },
-        stage: { name: "In Progress", color: "3bf2f6" },
+        stage: { name: "In Progress", color: "f3722c" },
         priority: Priority.Medium,
         tags: "Tag2 Tag3",
         end_date: "2022/06/04",
@@ -26,7 +26,7 @@ export default function handler(req, res) {
       {
         id: 3,
         project: { id: 2, name: "Abbott" },
-        stage: { name: "Backlog", color: "ef44ee" },
+        stage: { name: "Backlog", color: "f8961e" },
         priority: Priority.Low,
         tags: "Tag3",
         end_date: "2022/06/10",
@@ -37,7 +37,7 @@ export default function handler(req, res) {
       {
         id: 4,
         project: { id: 1, name: "Morrison" },
-        stage: { name: "Review", color: "22f55e" },
+        stage: { name: "Review", color: "FFC71F" }, // FFCC33 ffd043 FFC71F
         priority: Priority.High,
         tags: "Tag1",
         end_date: "2022/06/12",
@@ -47,7 +47,7 @@ export default function handler(req, res) {
       {
         id: 5,
         project: { id: 1, name: "Morrison" },
-        stage: { name: "In Progress", color: "3bf2f6" },
+        stage: { name: "In Progress", color: "7fc96b" },
         priority: Priority.Medium,
         tags: "Tag2 Tag3",
         end_date: "2022/06/13",
@@ -57,7 +57,7 @@ export default function handler(req, res) {
       {
         id: 6,
         project: { id: 2, name: "Abbott" },
-        stage: { name: "Backlog", color: "ef44ee" },
+        stage: { name: "Backlog", color: "43aa8b" },
         priority: Priority.Low,
         tags: "Tag3",
         end_date: "2022/05/20",
@@ -68,7 +68,7 @@ export default function handler(req, res) {
       {
         id: 7,
         project: { id: 1, name: "Morrison" },
-        stage: { name: "Review", color: "22f55e" },
+        stage: { name: "Review", color: "277da1" },
         priority: Priority.High,
         tags: "Tag1",
         end_date: "2022/06/03",
@@ -78,7 +78,7 @@ export default function handler(req, res) {
       {
         id: 8,
         project: { id: 1, name: "Morrison" },
-        stage: { name: "In Progress", color: "3bf2f6" },
+        stage: { name: "In Progress", color: "3b498e" },
         priority: Priority.Medium,
         tags: "Tag2 Tag3",
         end_date: "2022/06/04",
@@ -88,7 +88,7 @@ export default function handler(req, res) {
       {
         id: 9,
         project: { id: 2, name: "Abbott" },
-        stage: { name: "Backlog", color: "ef44ee" },
+        stage: { name: "Backlog", color: "66418a" },
         priority: Priority.Low,
         tags: "Tag3",
         end_date: "2022/06/10",

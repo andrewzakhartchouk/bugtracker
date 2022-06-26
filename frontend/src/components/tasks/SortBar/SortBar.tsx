@@ -1,6 +1,7 @@
 interface Props {
   sort: Function;
   selected: string;
+  projectTab: boolean;
 }
 
 export const SortBar = (props: Props) => {
@@ -26,16 +27,29 @@ export const SortBar = (props: Props) => {
       >
         Priority
       </div>
-      <div
-        onClick={() => props.sort("project")}
-        className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-2 py-1 cursor-pointer lg:px-5 lg:py-1 ${
-          props.selected == "project"
-            ? "text-white bg-main-green hover:border-main-green"
-            : "font-bold underline-offset-2 hover:underline"
-        }`}
-      >
-        Project
-      </div>
+      {props.projectTab ? (
+        <div
+          onClick={() => props.sort("project")}
+          className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-2 py-1 cursor-pointer lg:px-5 lg:py-1 ${
+            props.selected == "project"
+              ? "text-white bg-main-green hover:border-main-green"
+              : "font-bold underline-offset-2 hover:underline"
+          }`}
+        >
+          Project
+        </div>
+      ) : (
+        <div
+          onClick={() => props.sort("stage")}
+          className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-2 py-1 cursor-pointer lg:px-5 lg:py-1 ${
+            props.selected == "stage"
+              ? "text-white bg-main-green hover:border-main-green"
+              : "font-bold underline-offset-2 hover:underline"
+          }`}
+        >
+          Stage
+        </div>
+      )}
     </div>
   );
 };

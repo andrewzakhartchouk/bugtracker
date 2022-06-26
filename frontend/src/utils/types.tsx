@@ -90,6 +90,15 @@ export interface ProjectOverview {
   stages: Array<Stage>;
 }
 
+export interface ProjectBlock {
+  id: Key;
+  name: string;
+  team: string;
+  members: Array<User>;
+  stages: Array<Stage>;
+  tasks: Array<ListTask>;
+}
+
 export interface CompleteProject {
   id: Key;
   name: string;
@@ -128,4 +137,11 @@ export interface CommentType {
   comment: string;
   submitted_by: User;
   created_at: string;
+}
+
+export interface TeamType {
+  id: Key;
+  name: string;
+  members: Array<User>;
+  projects: Array<ProjectLabel>;
 }

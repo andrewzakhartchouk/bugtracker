@@ -34,9 +34,9 @@ I am making an effort to try out as many new technologies as possible to broaden
 ## Progress
 
 - Project/Folder setup ![](https://progress-bar.dev/90)
-- Database/models planning ![](https://progress-bar.dev/95)
-- Frontend coding ![](https://progress-bar.dev/50)
-- Backend coding ![](https://progress-bar.dev/0)
+- Database/models planning ![](https://progress-bar.dev/96)
+- Frontend coding ![](https://progress-bar.dev/65)
+- Backend coding ![](https://progress-bar.dev/5)
 
 ## Design/Planning
 

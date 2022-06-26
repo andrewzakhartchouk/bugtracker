@@ -28,7 +28,7 @@ export const SelectStyle: StylesConfig = {
     padding: 0,
     boxShadow: "none",
     minHeight: "1.875rem",
-    height: "1.875rem",
+    height: state.isMulti ? "" : "1.875rem",
   }),
   valueContainer: (provided, state) => ({
     ...provided,
@@ -72,5 +72,28 @@ export const SelectStyle: StylesConfig = {
     ...provided,
     color: "white",
     margin: "0px",
+  }),
+  multiValue: (provided, state) => ({
+    ...provided,
+    color: "white",
+    margin: "0px 2px",
+    padding: "0px",
+    background: "#3F906B",
+    fontSize: "0.825rem",
+    lineHeight: "1.25rem",
+    [mediaQuery[2]]: {
+      fontSize: "1rem",
+      lineHeight: "1.25rem",
+    },
+  }),
+  multiValueLabel: (provided, state) => ({
+    ...provided,
+    color: "white",
+    padding: "0.2rem 0.5rem",
+    background: "transparent",
+  }),
+  multiValueRemove: (provided, state) => ({
+    ...provided,
+    ":hover": { backgroundColor: "#081C15" },
   }),
 };

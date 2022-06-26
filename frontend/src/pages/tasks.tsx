@@ -44,6 +44,7 @@ const Tasks = () => {
 
   async function handleTaskSelection(id: Key) {
     taskRef.current.scrollIntoView();
+    setEditing(false);
     setLoadingTask(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     let endpoint = taskEndpoint + id;
@@ -56,6 +57,11 @@ const Tasks = () => {
   async function handleDelete() {
     setSelectedTask(null);
     fetchTaskList();
+  }
+
+  function handleTaskCreate() {
+    setSelectedTask(null);
+    setEditing(true);
   }
 
   let groupedTasks = TaskUtil.sortTasks(sorting, tasks);
@@ -75,13 +81,17 @@ const Tasks = () => {
             <div className="flex flex-col w-full gap-3">
               <div className="flex flex-row">
                 <button
-                  onClick={() => setEditing(true)}
+                  onClick={() => handleTaskCreate()}
                   className="flex gap-1 whitespace-nowrap px-5 py-0.5 bg-main-green text-white font-medium rounded-full hover:bg-low-green"
                 >
                   <PlusIcon className="h-4 w-4 my-auto"></PlusIcon>
                   <span className="my-auto text-xs lg:text-base">Add task</span>
                 </button>
-                <SortBar sort={handleSortSwitch} selected={sorting}></SortBar>
+                <SortBar
+                  sort={handleSortSwitch}
+                  selected={sorting}
+                  projectTab={true}
+                ></SortBar>
               </div>
               {loadingList ? (
                 <GreenScalingDots></GreenScalingDots>

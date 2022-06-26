@@ -1,5 +1,5 @@
 import { XIcon } from "@heroicons/react/solid";
-import { FormButtons, SelectStyle, TaskEditField } from "components";
+import { FormButtons, SelectStyle, FormField } from "components";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import AsyncSelect from "react-select/async";
@@ -186,7 +186,7 @@ export const TaskForm = (props: Props) => {
       <form className="flex w-full bg-black p-10 rounded-tr-3xl rounded-bl-3xl bg-opacity-40">
         <div className="flex flex-col gap-2 w-full">
           <div className="flex flex-row gap-2">
-            <TaskEditField title="Task">
+            <FormField title="Task">
               <input
                 type="text"
                 {...register("name", formValidation.name)}
@@ -196,11 +196,11 @@ export const TaskForm = (props: Props) => {
               <small className="text-main-red">
                 {errors?.name && errors.name.message}
               </small>
-            </TaskEditField>
+            </FormField>
           </div>
           <div className="flex flex-row gap-2">
             <div className="flex basis-4/12">
-              <TaskEditField title="Priority">
+              <FormField title="Priority">
                 <select
                   {...register("priority")}
                   className="bg-transparent text-white w-full outline-none text-sm lg:text-base"
@@ -215,10 +215,10 @@ export const TaskForm = (props: Props) => {
                     Low
                   </option>
                 </select>
-              </TaskEditField>
+              </FormField>
             </div>
             <div className="flex basis-9/12">
-              <TaskEditField title="Tags">
+              <FormField title="Tags">
                 <div className="flex gap-1 flex-wrap w-full">
                   {tags.length > 0 &&
                     tags.map((tag, index) => {
@@ -244,29 +244,29 @@ export const TaskForm = (props: Props) => {
                     className="w-auto font-medium text-white bg-transparent border-0 outline-none text-sm lg:text-base"
                   />
                 </div>
-              </TaskEditField>
+              </FormField>
             </div>
           </div>
           <div className="flex flex-row gap-2">
-            <TaskEditField title="Start Date">
+            <FormField title="Start Date">
               <input
                 type="date"
                 aria-label="Start date"
                 {...register("start_date")}
                 className="flex w-full bg-transparent outline-none font-medium text-black invert text-sm lg:text-base"
               />
-            </TaskEditField>
-            <TaskEditField title="End Date">
+            </FormField>
+            <FormField title="End Date">
               <input
                 type="date"
                 aria-label="End date"
                 {...register("end_date")}
                 className="flex w-full bg-transparent outline-none font-medium text-black invert text-sm lg:text-base"
               />
-            </TaskEditField>
+            </FormField>
           </div>
           <div className="flex flex-row gap-2">
-            <TaskEditField title="Project">
+            <FormField title="Project">
               <Controller
                 control={control}
                 {...register("project", formValidation.project)}
@@ -291,8 +291,8 @@ export const TaskForm = (props: Props) => {
               <small className="text-main-red">
                 {errors?.project && errors.project.message}
               </small>
-            </TaskEditField>
-            <TaskEditField title="Stage">
+            </FormField>
+            <FormField title="Stage">
               <Controller
                 control={control}
                 {...register("stage", formValidation.stage)}
@@ -314,8 +314,8 @@ export const TaskForm = (props: Props) => {
               <small className="text-main-red">
                 {errors?.stage && errors.stage.message}
               </small>
-            </TaskEditField>
-            <TaskEditField title="Assigned">
+            </FormField>
+            <FormField title="Assigned">
               <Controller
                 control={control}
                 name="assigned"
@@ -337,17 +337,17 @@ export const TaskForm = (props: Props) => {
                   ></AsyncSelect>
                 )}
               ></Controller>
-            </TaskEditField>
+            </FormField>
           </div>
           <div className="flex flex-row gap-2">
-            <TaskEditField title="Description">
+            <FormField title="Description">
               <textarea
                 aria-label="Description"
                 {...register("description")}
                 rows={5}
                 className="w-full bg-transparent text-white resize-none outline-none no-scrollbar text-sm lg:text-base"
               ></textarea>
-            </TaskEditField>
+            </FormField>
           </div>
         </div>
       </form>

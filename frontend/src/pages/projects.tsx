@@ -88,8 +88,6 @@ const Projects = () => {
   }
 
   function handleTaskCreate() {
-    setShowProject(false);
-    setSelectedTask(null);
     setShowTask(true);
     setEditingTask(true);
   }
@@ -99,6 +97,19 @@ const Projects = () => {
     setSelectedProject(null);
     setShowProject(true);
     setEditingProject(true);
+  }
+
+  function handleProjectOpen() {
+    setEditingTask(false);
+    setEditingProject(false);
+    setShowTask(false);
+    setShowProject(true);
+  }
+
+  function handleProjectClose() {
+    setEditingTask(false);
+    setEditingProject(false);
+    setSelectedProject(null);
   }
 
   return (
@@ -112,7 +123,7 @@ const Projects = () => {
         <div className="hidden w-1 -rotate-90 absolute justify-end left-14 top-24 text-panel-green whitespace-nowrap text-3xl font-medium lg:flex">
           My projects
         </div>
-        <div className="flex overflow-y-scroll no-scrollbar">
+        <div className="flex flex-col lg:flex-row lg:overflow-y-scroll lg:no-scrollbar">
           {loadingList ? (
             <GreenScalingDots></GreenScalingDots>
           ) : (
@@ -121,13 +132,15 @@ const Projects = () => {
               <ProjectTasks
                 project={selectedProject}
                 select={handleTaskSelection}
+                showProject={handleProjectOpen}
+                back={setShowProject}
+                addTask={handleTaskCreate}
               ></ProjectTasks>
             ) : (
               <ProjectList
                 projects={projects}
                 selectTask={handleTaskSelection}
                 selectProject={handleProjectSelection}
-                editTask={handleTaskCreate}
                 editProject={handleProjectCreate}
               ></ProjectList>
             ))

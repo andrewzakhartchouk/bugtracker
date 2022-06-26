@@ -3,6 +3,7 @@ import {
   HomeIcon,
   ChevronDoubleRightIcon,
   MenuIcon,
+  UserGroupIcon,
 } from "@heroicons/react/solid";
 import { ClipboardListIcon } from "@heroicons/react/outline";
 import { Profile } from "./Profile";
@@ -17,7 +18,7 @@ export const Navbar = () => {
     {
       name: "Home",
       icon: <HomeIcon className="h-4 w-4 my-auto"></HomeIcon>,
-      link: "/dashboard",
+      link: "/",
     },
     {
       name: "Tasks",
@@ -30,6 +31,11 @@ export const Navbar = () => {
         <ChevronDoubleRightIcon className="h-4 w-4 my-auto"></ChevronDoubleRightIcon>
       ),
       link: "/projects",
+    },
+    {
+      name: "Teams",
+      icon: <UserGroupIcon className="h-4 w-4 my-auto"></UserGroupIcon>,
+      link: "/teams",
     },
   ];
 

@@ -1,7 +1,14 @@
+import Image from "next/image";
+
 export const RegisterVisual: React.FunctionComponent = () => {
   return (
     <>
-      <img src="/register.svg" alt="A SVG of a bug tracking illustration" />
+      <Image
+        src="/register.svg"
+        layout="fill"
+        objectFit="contain"
+        alt="A SVG of a bug tracking illustration"
+      />
     </>
   );
 };

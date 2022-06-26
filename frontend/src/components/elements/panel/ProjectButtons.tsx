@@ -2,7 +2,6 @@ import { PencilIcon, TrashIcon, UserAddIcon } from "@heroicons/react/solid";
 
 interface Props {
   edit: Function;
-  addUser: Function;
   delete: Function;
 }
 
@@ -18,17 +17,6 @@ export const ProjectButtons = (props: Props) => {
         </div>
         <div className="absolute invisible rounded-full text-xs text-black bg-white my-2.5 py-0.5 px-2 right-full transition-opacity opacity-0 group-hover:opacity-100 group-hover:visible">
           Edit
-        </div>
-      </div>
-      <div className="flex group">
-        <div
-          onClick={() => props.addUser()}
-          className="rounded-full bg-main-green p-2 cursor-pointer transition hover:bg-white hover:text-main-green"
-        >
-          <UserAddIcon className="h-6"></UserAddIcon>
-        </div>
-        <div className="absolute invisible whitespace-nowrap rounded-full text-xs text-black bg-white my-2.5 py-0.5 px-2 right-full transition-opacity opacity-0 group-hover:opacity-100 group-hover:visible">
-          Add user
         </div>
       </div>
       <div className="flex group">
