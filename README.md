@@ -14,11 +14,11 @@ While I use Asana at work, at times I want something a bit more simple, and some
 
 - Python
 - Javascript
-- HTML/CSS
+- HTML & CSS
 
 ### Frameworks
 
-- Django
+- Django & Django REST Framework
 - React/Next.js
 - Tailwind
 
@@ -36,7 +36,7 @@ I am making an effort to try out as many new technologies as possible to broaden
 - Project/Folder setup ![](https://progress-bar.dev/90)
 - Database/models planning ![](https://progress-bar.dev/96)
 - Frontend coding ![](https://progress-bar.dev/65)
-- Backend coding ![](https://progress-bar.dev/5)
+- Backend coding ![](https://progress-bar.dev/10)
 
 ## Design/Planning
 
