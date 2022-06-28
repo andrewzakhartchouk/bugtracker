@@ -36,7 +36,7 @@ I am making an effort to try out as many new technologies as possible to broaden
 - Project/Folder setup ![](https://progress-bar.dev/90)
 - Database/models planning ![](https://progress-bar.dev/96)
 - Frontend coding ![](https://progress-bar.dev/65)
-- Backend coding ![](https://progress-bar.dev/10)
+- Backend coding ![](https://progress-bar.dev/20)
 
 ## Design/Planning
 
@@ -101,7 +101,14 @@ In my efforts to document and plan out the flow of parts of the project, I made 
 Forming the backbone of the project, I used [DBDiagram](https://dbdiagram.io) to plan out all the tables and their relations that I would need.
 
 <details>
-  <summary>Database Relationship Diagram</summary>
+  <summary>Revised/Final</summary>
+
+![Database Relationship Diagram3](https://user-images.githubusercontent.com/65052923/176193546-cec23195-f6e2-4985-854f-c1d5a65ae7b0.png)
+
+</details>
+
+<details>
+  <summary>Initiual draft</summary>
 
 ![Database Relationship Diagram](https://user-images.githubusercontent.com/65052923/173957350-e8c130d0-3021-442e-a768-99c4c34b148f.png)
 
@@ -112,4 +119,5 @@ Forming the backbone of the project, I used [DBDiagram](https://dbdiagram.io) to
 To make the initial development more manageable and avoid burnout, I moved certain features into later development (hoping I don't decide to put it off forever).
 
 - [ ] Project boards: wouldn't be a kanban board without one.
-- [ ] Calendar: to visualise task deadlines and priorities
+- [ ] Calendar: to visualise task deadlines and priorities.
+- [ ] Notifications: when working in teams it makes updates, new tasks, etc. easier to follow.
