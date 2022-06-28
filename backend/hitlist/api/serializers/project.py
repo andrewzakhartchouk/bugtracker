@@ -1,19 +1,42 @@
 from rest_framework import serializers
 
-from . import user, stage, task
+from . import stage, task, project_member, team
 from .. import models
 
-class CreateProjectSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField()
-    project_lead = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all(), required=False, write_only=True, many=True)
-    members = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all(), required=False, write_only=True, many=True)
-    team = serializers.PrimaryKeyRelatedField(queryset=models.Team.objects.all())
-    
+class ProjectSerializer(serializers.ModelSerializer):
+    members = project_member.ProjectMemberSerializer(source='projectmember_set', read_only=True, many=True)
+    stages = stage.StageTagSerializer(source='stage_set', read_only=True, many=True)
+
     class Meta:
         model = models.Project
         fields = [
             "id",
+            "name",
             "team",
+            "members",
+            "stages",
+        ]
+        
+class BasicProjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Project
+        fields = [
+            "id",
+            "name",
+        ]
+
+class CreateProjectSerializer(serializers.ModelSerializer):
+    project_lead = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all(), required=False, write_only=True, many=True)
+    members = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all(), required=False, write_only=True, many=True)
+    team = serializers.PrimaryKeyRelatedField(queryset=models.Team.objects.all())
+    team_name = serializers.ReadOnlyField(source="team.name")
+    
+    class Meta:
+        model = models.Project
+        fields = [
+            "team",
+            "team_name",
             "name",
             "project_lead",
             "members",
@@ -48,9 +71,10 @@ class CreateProjectSerializer(serializers.ModelSerializer):
         return instance
         
 class ListProjectSerializer(serializers.ModelSerializer):
-    team = user.UserSerializer(source='project_members', read_only=True, many=True)
+    members = project_member.ProjectMemberSerializer(source='projectmember_set', read_only=True, many=True)
     stages = stage.StageTagSerializer(source='stage_set', read_only=True, many=True)
     tasks = task.ListTaskSerializer(source='task_set', read_only=True, many=True)
+    team = serializers.ReadOnlyField(source="team.name")
     
     class Meta:
         model = models.Project
@@ -58,7 +82,8 @@ class ListProjectSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "team",
+            "members",
             "stages",
             "tasks",
         ]
-        read_only_fields = ["team", "stages", "tasks"]
+        depth = 1

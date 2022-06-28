@@ -21,6 +21,10 @@ class Task(mixins.HasTimestamps, db.models.Model):
     submitted_by = db.models.ForeignKey("User", on_delete=db.models.CASCADE, related_name="submitted_by")
     checked = db.models.BooleanField(default=False)
     assigned_members = db.models.ManyToManyField("User", through="AssignedMember")
+
+    @property
+    def comment_count(self):
+        return self.comment_set.count()
     
     def __str__(self):
         return self.name[:25]

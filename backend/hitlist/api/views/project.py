@@ -1,5 +1,4 @@
 from rest_framework import generics
-from django import http, urls, shortcuts
 
 from .. import models, serializers
 
@@ -18,7 +17,7 @@ project_list_create_view = ProjectListCreateAPIView.as_view()
 
 class ProjectDetailAPIView(generics.RetrieveAPIView):
     queryset = models.Project.objects.all()
-    serializer_class = serializers.CreateProjectSerializer
+    serializer_class = serializers.ProjectSerializer
 
 project_detail_view = ProjectDetailAPIView.as_view()
 
