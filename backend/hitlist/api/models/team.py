@@ -7,4 +7,4 @@ class Team(mixins.HasTimestamps, db.models.Model):
     team_members = db.models.ManyToManyField("User", through="TeamMember")
     
     def __str__(self):
-        return self.name
+        return f"<{self.name}>"

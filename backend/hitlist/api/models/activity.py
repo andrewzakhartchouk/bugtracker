@@ -7,4 +7,4 @@ class Activity(mixins.HasTimestamps, db.models.Model):
     message = db.models.CharField(max_length=256)
     
     def __str__(self): 
-        return f"{self.message[:13]}..."
+        return f"<{self.message[:13]}...>"

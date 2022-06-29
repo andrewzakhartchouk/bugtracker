@@ -7,4 +7,4 @@ class TeamMember(mixins.AssignedAt, db.models.Model):
     team = db.models.ForeignKey("Team", on_delete=db.models.CASCADE)
     
     def __str__(self): 
-        return f"{self.user.name} ({self.team.name})"
+        return f"<{self.user.name} ({self.team.name})>"

@@ -9,5 +9,5 @@ class Project(mixins.HasTimestamps, db.models.Model):
     project_members = db.models.ManyToManyField("User", through="ProjectMember")
     
     def __str__(self):
-        return f"{self.name} ({self.team.name})"
+        return f"<{self.name} ({self.team.name})>"
 

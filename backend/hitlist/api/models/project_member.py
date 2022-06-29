@@ -8,4 +8,4 @@ class ProjectMember(mixins.AssignedAt, db.models.Model):
     project_lead = db.models.BooleanField(default=False)
     
     def __str__(self): 
-        return f"{self.user.name} ({self.project.name})"
+        return f"<{self.user.name} ({self.project.name})>"

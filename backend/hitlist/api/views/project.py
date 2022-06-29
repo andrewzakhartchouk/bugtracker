@@ -27,3 +27,13 @@ class ProjectUpdateAPIView(generics.UpdateAPIView):
     lookup_field = "pk"
 
 project_update_view = ProjectUpdateAPIView.as_view()
+
+class ProjectTaskListAPIView(generics.ListAPIView):
+    queryset = models.Task.objects.all()
+    serializer_class = serializers.task.ListTaskSerializer
+
+    def get_queryset(self):
+        project_pk = self.kwargs.get("pk")
+        return self.queryset.filter(project__pk=project_pk)
+
+project_task_list_view = ProjectTaskListAPIView.as_view()

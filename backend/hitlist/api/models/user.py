@@ -20,4 +20,4 @@ class User(mixins.HasTimestamps, contrib.auth.models.AbstractUser):
     objects = managers.UserManager()
 
     def __str__(self): 
-        return self.name
+        return f"<{self.name}>"

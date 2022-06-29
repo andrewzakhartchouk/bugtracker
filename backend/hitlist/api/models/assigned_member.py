@@ -8,4 +8,4 @@ class AssignedMember(mixins.AssignedAt, db.models.Model):
     task = db.models.ForeignKey("Task", on_delete=db.models.CASCADE)
     
     def __str__(self): 
-        return f"{self.user.name} ({self.task.name[:13]})"
+        return f"<{self.user.name} ({self.task.name[:13]})>"

@@ -9,5 +9,5 @@ class Stage(mixins.HasTimestamps, db.models.Model):
     order = db.models.IntegerField(default=1)
     
     def __str__(self):
-        return f"{self.name} ({self.project.name})"
+        return f"<{self.name} ({self.project.name} #{self.order})>"
     

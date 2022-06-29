@@ -4,8 +4,10 @@ from . import stage, task, project_member, team
 from .. import models
 
 class ProjectSerializer(serializers.ModelSerializer):
+
     members = project_member.ProjectMemberSerializer(source='projectmember_set', read_only=True, many=True)
     stages = stage.StageTagSerializer(source='stage_set', read_only=True, many=True)
+    team = team.TeamTagSerializer()
 
     class Meta:
         model = models.Project

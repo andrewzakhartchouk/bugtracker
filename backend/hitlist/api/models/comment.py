@@ -8,5 +8,5 @@ class Comment(mixins.HasTimestamps, db.models.Model):
     comment = db.models.CharField(max_length=256)
     
     def __str__(self):
-        return f"{self.comment[:13]}..."
+        return f"<{self.comment[:25]}>"
     

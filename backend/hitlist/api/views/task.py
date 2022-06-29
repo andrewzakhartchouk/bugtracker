@@ -14,8 +14,8 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
         return self.serializers.get(self.request.method, self.serializers['GET'])
 
     def get_queryset(self):
-        project_pk = self.kwargs.get("project_pk")
-        return self.queryset.filter(project__pk=project_pk)
+        user = self.request.user
+        return self.queryset.filter(user__pk=user.id)
         
 task_list_create_view = TaskListCreateAPIView.as_view()
 
@@ -24,8 +24,8 @@ class TaskDetailAPIView(generics.RetrieveAPIView):
     serializer_class = serializers.TaskSerializer
 
     def get_queryset(self):
-        project_pk = self.kwargs.get("project_pk")
-        return self.queryset.filter(project__pk=project_pk)
+        user = self.request.user
+        return self.queryset.filter(user__pk=user.id)
 
 task_detail_view = TaskDetailAPIView.as_view()
 
@@ -35,7 +35,7 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
     lookup_field = "pk"
 
     def get_queryset(self):
-        project_pk = self.kwargs.get("project_pk")
-        return self.queryset.filter(project__pk=project_pk)
+        user = self.request.user
+        return self.queryset.filter(user__pk=user.id)
 
 task_update_view = TaskUpdateAPIView.as_view()

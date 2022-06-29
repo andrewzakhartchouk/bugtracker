@@ -27,4 +27,4 @@ class Task(mixins.HasTimestamps, db.models.Model):
         return self.comment_set.count()
     
     def __str__(self):
-        return self.name[:25]
+        return f"<{self.name[:25]}>"
