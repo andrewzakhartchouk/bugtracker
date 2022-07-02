@@ -34,6 +34,6 @@ class ProjectTaskListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         project_pk = self.kwargs.get("pk")
-        return self.queryset.filter(project__pk=project_pk)
+        return self.queryset.get_project_tasks(project_pk)
 
 project_task_list_view = ProjectTaskListAPIView.as_view()

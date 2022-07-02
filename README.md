@@ -36,7 +36,7 @@ I am making an effort to try out as many new technologies as possible to broaden
 - Project/Folder setup ![](https://progress-bar.dev/90)
 - Database/models planning ![](https://progress-bar.dev/96)
 - Frontend coding ![](https://progress-bar.dev/65)
-- Backend coding ![](https://progress-bar.dev/20)
+- Backend coding ![](https://progress-bar.dev/40)
 
 ## Design/Planning
 
@@ -108,7 +108,7 @@ Forming the backbone of the project, I used [DBDiagram](https://dbdiagram.io) to
 </details>
 
 <details>
-  <summary>Initiual draft</summary>
+  <summary>Initial draft</summary>
 
 ![Database Relationship Diagram](https://user-images.githubusercontent.com/65052923/173957350-e8c130d0-3021-442e-a768-99c4c34b148f.png)
 

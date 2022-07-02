@@ -1,6 +1,6 @@
 from django import db
 
-from .. import mixins
+from .. import mixins, managers
 
 class Task(mixins.HasTimestamps, db.models.Model):
     
@@ -21,6 +21,8 @@ class Task(mixins.HasTimestamps, db.models.Model):
     submitted_by = db.models.ForeignKey("User", on_delete=db.models.CASCADE, related_name="submitted_by")
     checked = db.models.BooleanField(default=False)
     assigned_members = db.models.ManyToManyField("User", through="AssignedMember")
+
+    objects = managers.TaskManager()
 
     @property
     def comment_count(self):

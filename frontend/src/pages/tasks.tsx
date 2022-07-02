@@ -8,12 +8,13 @@ import {
   SortBar,
   TaskList,
 } from "components";
+import { NextPage } from "next";
 import { Key, useEffect, useRef, useState } from "react";
-import { TaskUtil } from "utils";
+import { UserServices } from "services";
+import { SortedCategories, TaskUtil } from "utils";
 
-const Tasks = () => {
-  const listEndpoint = "/api/tasks/list";
-  const taskEndpoint = "/api/tasks/";
+const Tasks: NextPage = () => {
+  const taskEndpoint = "http://127.0.0.1:8000/api/tasks/";
 
   const [editing, setEditing] = useState(false);
   const [loadingList, setLoadingList] = useState(false);
@@ -21,22 +22,29 @@ const Tasks = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [sorting, setSorting] = useState("deadline");
   const [tasks, setTasks] = useState([]);
+  const [groupedTasks, setGroupedTasks] = useState<any>([]);
 
   const taskRef = useRef(null);
-
-  async function fetchTaskList() {
-    setLoadingList(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    const result = await fetch(listEndpoint);
-    const body = await result.json();
-    setTasks(body.tasks);
-    setLoadingList(false);
-    return body.tasks;
-  }
+  const userServices = UserServices();
 
   useEffect(() => {
+    const fetchTaskList = async () => {
+      setLoadingList(true);
+      const tasks = await userServices.get(taskEndpoint);
+      console.log(tasks);
+      setTasks(tasks);
+      setLoadingList(false);
+      return tasks;
+    };
     fetchTaskList();
   }, []);
+
+  useEffect(() => {
+    if (tasks) {
+      const result: SortedCategories = TaskUtil.sortTasks(sorting, tasks);
+      setGroupedTasks(result);
+    }
+  }, [tasks]);
 
   function handleSortSwitch(sortBy: string) {
     setSorting(sortBy);
@@ -64,60 +72,57 @@ const Tasks = () => {
     setEditing(true);
   }
 
-  let groupedTasks = TaskUtil.sortTasks(sorting, tasks);
+  // let groupedTasks = TaskUtil.sortTasks(sorting, tasks);
 
   return (
-    <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar">
-      <Navbar></Navbar>
-      <div className="flex flex-col lg:grid lg:grid-cols-2 flex-grow gap-2 p-8 lg:py-16 lg:px-20">
-        <div className="flex lg:hidden pb-1 text-panel-green text-3xl font-medium">
+    <div className="flex flex-col lg:grid lg:grid-cols-2 flex-grow gap-2 p-8 lg:py-16 lg:px-20">
+      <div className="flex lg:hidden pb-1 text-panel-green text-3xl font-medium">
+        My tasks
+      </div>
+      <div className="flex relative">
+        <div className="hidden w-1 -rotate-90 absolute justify-end -top-4 -left-6 text-panel-green text-3xl whitespace-nowrap font-medium lg:flex">
           My tasks
         </div>
-        <div className="flex relative">
-          <div className="hidden w-1 -rotate-90 absolute justify-end -top-4 -left-6 text-panel-green text-3xl whitespace-nowrap font-medium lg:flex">
-            My tasks
-          </div>
-          <Panel>
-            <div className="flex flex-col w-full gap-3">
-              <div className="flex flex-row">
-                <button
-                  onClick={() => handleTaskCreate()}
-                  className="flex gap-1 whitespace-nowrap px-5 py-0.5 bg-main-green text-white font-medium rounded-full hover:bg-low-green"
-                >
-                  <PlusIcon className="h-4 w-4 my-auto"></PlusIcon>
-                  <span className="my-auto text-xs lg:text-base">Add task</span>
-                </button>
-                <SortBar
-                  sort={handleSortSwitch}
-                  selected={sorting}
-                  projectTab={true}
-                ></SortBar>
-              </div>
-              {loadingList ? (
-                <GreenScalingDots></GreenScalingDots>
-              ) : (
-                groupedTasks != null && (
-                  <TaskList
-                    groups={groupedTasks}
-                    select={handleTaskSelection}
-                  ></TaskList>
-                )
-              )}
+        <Panel>
+          <div className="flex flex-col w-full gap-3">
+            <div className="flex flex-row">
+              <button
+                onClick={() => handleTaskCreate()}
+                className="flex gap-1 whitespace-nowrap px-5 py-0.5 bg-main-green text-white font-medium rounded-full hover:bg-low-green"
+              >
+                <PlusIcon className="h-4 w-4 my-auto"></PlusIcon>
+                <span className="my-auto text-xs lg:text-base">Add task</span>
+              </button>
+              <SortBar
+                sort={handleSortSwitch}
+                selected={sorting}
+                projectTab={true}
+              ></SortBar>
             </div>
-          </Panel>
-        </div>
-        <div ref={taskRef} className="flex">
-          {editing ? (
-            <TaskForm task={selectedTask} cancel={setEditing}></TaskForm>
-          ) : (
-            <SelectedTask
-              loading={loadingTask}
-              task={selectedTask}
-              edit={setEditing}
-              delete={handleDelete}
-            ></SelectedTask>
-          )}
-        </div>
+            {loadingList ? (
+              <GreenScalingDots></GreenScalingDots>
+            ) : (
+              groupedTasks != null && (
+                <TaskList
+                  groups={groupedTasks}
+                  select={handleTaskSelection}
+                ></TaskList>
+              )
+            )}
+          </div>
+        </Panel>
+      </div>
+      <div ref={taskRef} className="flex">
+        {editing ? (
+          <TaskForm task={selectedTask} cancel={setEditing}></TaskForm>
+        ) : (
+          <SelectedTask
+            loading={loadingTask}
+            task={selectedTask}
+            edit={setEditing}
+            delete={handleDelete}
+          ></SelectedTask>
+        )}
       </div>
     </div>
   );

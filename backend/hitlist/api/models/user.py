@@ -13,6 +13,7 @@ class User(mixins.HasTimestamps, contrib.auth.models.AbstractUser):
     projects = db.models.ManyToManyField("Project", through="ProjectMember")
     teams = db.models.ManyToManyField("Team", through="TeamMember")
     tasks = db.models.ManyToManyField("Task", through="AssignedMember")
+    image = db.models.ForeignKey("ProfilePicture", related_name="image", null=True, on_delete=db.models.SET_NULL)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -69,37 +69,34 @@ const Dashboard: NextPage = () => {
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar">
-      <Navbar></Navbar>
-      <div className="flex-grow flex flex-col p-8 lg:p-16 gap-4 w-full">
-        <div className="flex">
+    <div className="flex-grow flex flex-col p-8 lg:p-16 gap-4 w-full">
+      <div className="flex">
+        <Tile>
+          <Greeting name={"Andrew"}></Greeting>
+        </Tile>
+      </div>
+      <div className="flex flex-col lg:flex-none lg:grid lg:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-4 w-full">
           <Tile>
-            <Greeting name={"Andrew"}></Greeting>
+            <AssignedTickets></AssignedTickets>
           </Tile>
-        </div>
-        <div className="flex flex-col lg:flex-none lg:grid lg:grid-cols-2 gap-4">
-          <div className="flex flex-col gap-4 w-full">
-            <Tile>
-              <AssignedTickets></AssignedTickets>
-            </Tile>
-            {/* <Tile>
+          {/* <Tile>
               <Schedule></Schedule>
             </Tile> */}
-            <Tile>
-              <RecentActivity></RecentActivity>
-            </Tile>
-          </div>
-          <div className="flex lg:overflow-y-scroll no-scrollbar lg:relative w-full">
-            <div className="grid grid-cols-2 lg:absolute gap-4 w-full">
-              {projects.map((project) => {
-                return (
-                  <Tile key={project.id}>
-                    <ProjectSummary {...project}></ProjectSummary>
-                  </Tile>
-                );
-              })}
-              <AddProject></AddProject>
-            </div>
+          <Tile>
+            <RecentActivity></RecentActivity>
+          </Tile>
+        </div>
+        <div className="flex lg:overflow-y-scroll no-scrollbar lg:relative w-full">
+          <div className="grid grid-cols-2 lg:absolute gap-4 w-full">
+            {projects.map((project) => {
+              return (
+                <Tile key={project.id}>
+                  <ProjectSummary {...project}></ProjectSummary>
+                </Tile>
+              );
+            })}
+            <AddProject></AddProject>
           </div>
         </div>
       </div>

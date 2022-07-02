@@ -15,11 +15,6 @@ export enum Deadline {
   Future = 3,
 }
 
-export interface LoginEventTarget {
-  email: { value: string };
-  password: { value: string };
-}
-
 export interface RegisterEventTarget {
   name: { value: string };
   email: { value: string };

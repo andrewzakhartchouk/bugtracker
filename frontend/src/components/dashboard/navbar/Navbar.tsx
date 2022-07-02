@@ -10,8 +10,11 @@ import { Profile } from "./Profile";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { NavTab } from "utils";
+import { useRecoilValue } from "recoil";
+import { AuthAtom } from "state";
 
 export const Navbar = () => {
+  const auth = useRecoilValue(AuthAtom);
   const router = useRouter();
 
   const links: Array<NavTab> = [
@@ -38,6 +41,8 @@ export const Navbar = () => {
       link: "/teams",
     },
   ];
+
+  if (!auth) return null;
 
   return (
     <nav className="bg-nav-green p-3">
