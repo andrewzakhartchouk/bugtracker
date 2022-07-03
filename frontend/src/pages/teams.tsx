@@ -2,14 +2,14 @@ import { PlusIcon } from "@heroicons/react/solid";
 import { GreenScalingDots, Navbar, Panel } from "components";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
+import { UserServices } from "services";
 import { TeamType } from "utils";
 
 const Teams: NextPage = () => {
-  const teamsEndpoint = "/api/teams/list";
-
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [teams, setTeams] = useState([]);
+  const userServices = UserServices();
 
   useEffect(() => {
     fetchTeamsList();
@@ -17,11 +17,10 @@ const Teams: NextPage = () => {
 
   async function fetchTeamsList() {
     setLoading(true);
-    const result = await fetch(teamsEndpoint);
-    const body = await result.json();
-    setTeams(body.teams);
+    const data = await userServices.get(process.env.NEXT_PUBLIC_API + "teams/");
+    setTeams(data);
     setLoading(false);
-    return body.teams;
+    return data;
   }
 
   if (loading)
@@ -34,6 +33,7 @@ const Teams: NextPage = () => {
 
   return (
     <>
+      <Navbar></Navbar>
       <div className="flex-grow flex flex-col p-8 lg:p-16 gap-4 w-full overflow-y-scroll no-scrollbar">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {teams.map((team: TeamType) => {

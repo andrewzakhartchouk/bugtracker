@@ -17,7 +17,7 @@ const Login: NextPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="bg-bg-green flex flex-grow items-center p-4">
+      <div className="flex flex-grow items-center">
         <Backplate
           toggle={handleFormSwitch}
           currentForm={form}

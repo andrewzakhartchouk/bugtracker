@@ -14,7 +14,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <AuthGuard>
           <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar">
-            <Navbar></Navbar>
             <Component {...pageProps} />
           </div>
         </AuthGuard>

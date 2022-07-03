@@ -1,10 +1,12 @@
 import Router from "next/router";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { UserServices } from "services";
 import { AuthAtom, LoggedAtom } from "state";
 
 export const AuthGuard = ({ children }) => {
   const setAuth = useSetRecoilState(AuthAtom);
+  const { logout } = UserServices();
   const [loggedIn, setLoggedIn] = useRecoilState(LoggedAtom);
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +20,7 @@ export const AuthGuard = ({ children }) => {
         setLoading(false);
       } else {
         setLoggedIn(false);
-        Router.push("/login");
+        logout();
       }
       setLoading(false);
     }

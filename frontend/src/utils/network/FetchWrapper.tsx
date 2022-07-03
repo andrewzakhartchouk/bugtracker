@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import jwt_decode from "jwt-decode";
 import { AuthAtom } from "state";
-import { UserServices } from "services";
 import Router from "next/router";
 
 export function FetchWrapper() {
@@ -43,10 +42,9 @@ export function FetchWrapper() {
     const token = await JSON.parse(localStorage.getItem("user"));
     if (!token) return {};
     let access = token.access;
-    if (token && checkToken(token.access)) {
+    if (isExpired(token.access)) {
       access = await refreshToken(token.refresh);
     }
-
     if (access) {
       return { Authorization: `Bearer ${access}` };
     } else {
@@ -54,20 +52,15 @@ export function FetchWrapper() {
     }
   }
 
-  function checkToken(access: any) {
-    const decodedAccess = jwt_decode(access);
-    return !isExpired(decodedAccess.exp);
-  }
-
   async function refreshToken(refresh: any) {
     if (!refresh) return false;
-    const decodedRefresh = jwt_decode(refresh);
-    if (isExpired(decodedRefresh.exp)) {
+    if (isExpired(refresh)) {
       setAuth(null);
       localStorage.removeItem("user");
       Router.push("/login");
     } else {
-      const refreshEndpoint: string = "http://127.0.0.1:8000/api/auth/refresh/";
+      const refreshEndpoint: string =
+        process.env.NEXT_PUBLIC_API + "auth/refresh/";
       const refreshResponse = await fetch(refreshEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -79,8 +72,10 @@ export function FetchWrapper() {
     }
   }
 
-  function isExpired(time: number) {
-    return Date.now() >= time * 1000 ? true : false;
+  function isExpired(token: string) {
+    const decodedToken = jwt_decode(token);
+    const expiryTime = decodedToken.exp;
+    return Date.now() >= expiryTime * 1000 ? true : false;
   }
 
   function handleAccessTokenChange(access: string) {
