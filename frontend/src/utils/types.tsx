@@ -39,8 +39,8 @@ export interface CompleteTask {
   name: string;
   priority: number;
   tags: Array<string>;
-  start_date: string;
-  end_date: string;
+  start_at: string;
+  end_at: string;
   project: ProjectLabel;
   stage: Stage;
   assigned: User;

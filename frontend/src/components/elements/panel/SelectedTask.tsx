@@ -112,7 +112,7 @@ export const SelectedTask = (props: Props) => {
               </PanelProperty>
               <PanelProperty title={"Tags"}>
                 <div className="flex gap-1 flex-wrap max-h-7 overflow-y-scroll no-scrollbar">
-                  {props.task.tags.map((tag, index) => {
+                  {props.task.tags?.split(" ").map((tag, index) => {
                     return (
                       <span
                         key={index}
@@ -126,8 +126,8 @@ export const SelectedTask = (props: Props) => {
               </PanelProperty>
               <PanelProperty title={"Schedule"}>
                 <div className="flex whitespace-nowrap text-white justify-start text-xs font-medium lg:text-base">
-                  {props.task.start_date.replace(/-/g, "/")} -{" "}
-                  {props.task.end_date.replace(/-/g, "/")}
+                  {Date.parse(props.task.start_at)} -{" "}
+                  {Date.parse(props.task.end_at)}
                 </div>
               </PanelProperty>
             </div>

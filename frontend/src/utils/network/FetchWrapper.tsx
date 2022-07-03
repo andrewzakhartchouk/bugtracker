@@ -67,7 +67,7 @@ export function FetchWrapper() {
         body: JSON.stringify({ refresh: refresh }),
       });
       const refreshResult = await refreshResponse.json();
-      handleAccessTokenChange(refreshResult.access);
+      updateAccessToken(refreshResult.access);
       return refreshResult.access;
     }
   }
@@ -78,7 +78,7 @@ export function FetchWrapper() {
     return Date.now() >= expiryTime * 1000 ? true : false;
   }
 
-  function handleAccessTokenChange(access: string) {
+  async function updateAccessToken(access: string) {
     const token = {
       access: access,
       refresh: auth?.refresh,
