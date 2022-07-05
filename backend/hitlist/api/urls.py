@@ -17,7 +17,7 @@ urlpatterns = [
     urls.path('projects/', views.project_list_create_view),
     urls.path('projects/<int:pk>/update/', views.project_update_view, name="project-edit"),
     urls.path('projects/<int:pk>/', views.project_detail_view, name="project-detail"),
-    urls.path('projects/<int:pk>/tasks', views.project_task_list_view, name="project-tasks"),
+    urls.path('projects/<int:pk>/tasks/', views.project_task_list_view, name="project-tasks"),
     # Stages
     urls.path('stages/', views.stage_create_view),
     urls.path('stages/<int:pk>/update/', views.stage_update_view, name="stage-edit"),

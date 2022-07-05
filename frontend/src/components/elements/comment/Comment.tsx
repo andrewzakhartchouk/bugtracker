@@ -5,11 +5,13 @@ interface Props {
 }
 
 export const Comment = (props: Props) => {
+  console.log(props.comment);
+
   return (
     <div className="flex flex-column text-white text-xs lg:text-sm">
       <div className="flex flex-row basis-28 lg:basis-32">
         <div className="hidden whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2 lg:block"></div>
-        <span className="my-auto">{props.comment.submitted_by.name}</span>
+        <span className="my-auto">{props.comment.user.name}</span>
       </div>
       <div className="flex w-full justify-between">
         <div className="flex px-1">{props.comment.comment}</div>

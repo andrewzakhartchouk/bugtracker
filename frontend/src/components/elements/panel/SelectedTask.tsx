@@ -7,7 +7,7 @@ import {
 } from "components";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Design, Priority, CompleteTask } from "utils";
+import { Design, Priority, CompleteTask, User } from "utils";
 
 interface Props {
   task: CompleteTask | null;
@@ -106,7 +106,9 @@ export const SelectedTask = (props: Props) => {
                       ? "High"
                       : props.task.priority == Priority.Medium
                       ? "Medium"
-                      : "Low"}
+                      : props.task.priority == Priority.Low
+                      ? "Low"
+                      : "None"}
                   </span>
                 </div>
               </PanelProperty>
@@ -139,19 +141,25 @@ export const SelectedTask = (props: Props) => {
               </PanelProperty>
               <PanelProperty title={"Stage"}>
                 <div
-                  style={Design.setBackground("2563eb")}
+                  style={Design.setBackground(props.task.stage.color)}
                   className="rounded-bl-lg whitespace-nowrap rounded-tr-lg px-2 py-0.5 font-medium text-center text-white text-xs lg:text-base"
                 >
                   {props.task.stage.name}
                 </div>
               </PanelProperty>
               <PanelProperty title={"Assigned"}>
-                <li className="flex">
-                  <div className="block whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2"></div>
-                  <div className="text-white w-28 overflow-x-scroll no-scrollbar my-auto text-xs lg:text-base">
-                    {props.task.assigned.name}
-                  </div>
-                </li>
+                <ul>
+                  {props.task.assigned.map((user: User) => {
+                    return (
+                      <li className="flex" key={user.id}>
+                        <div className="block whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2"></div>
+                        <div className="text-white w-28 overflow-x-scroll no-scrollbar my-auto text-xs lg:text-base">
+                          {user.name}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
               </PanelProperty>
             </div>
             <div className="flex flex-row gap-3">

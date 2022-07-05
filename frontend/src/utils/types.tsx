@@ -38,12 +38,12 @@ export interface CompleteTask {
   id: Key;
   name: string;
   priority: number;
-  tags: Array<string>;
+  tags: string;
   start_at: string;
   end_at: string;
   project: ProjectLabel;
   stage: Stage;
-  assigned: User;
+  assigned: Array<User>;
   description: string;
   submitted_by: User;
   comments: Array<CommentType>;
@@ -59,7 +59,7 @@ export interface User {
 export interface CommentType {
   id: Key;
   comment: string;
-  submitted_by: User;
+  user: User;
   created_at: string;
 }
 
@@ -106,7 +106,7 @@ export interface Stage {
   id: Key;
   name: string;
   count: number;
-  color?: string;
+  color: string;
 }
 
 export interface ListTask {
@@ -116,7 +116,7 @@ export interface ListTask {
   priority: Priority;
   tags: string | null;
   end_date: string;
-  description: string;
+  name: string;
   comment_number: number | null;
 }
 

@@ -1,5 +1,5 @@
 from .dashboard import DashboardSerializer
-from .task import ListTaskSerializer, TaskSerializer
+from .task import ListTaskSerializer, TaskSerializer, UpdateTaskSerializer
 from .stage import StageSerializer, CreateStageSerializer, StageTagSerializer
 from .team import TeamSerializer, TeamTagSerializer
 from .user import UserSerializer

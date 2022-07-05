@@ -14,6 +14,9 @@ class TaskQuerySet(db.models.query.QuerySet):
             return self.none()
         return self.filter(project__pk=project_id)
 
+    def get_team_tasks(self, team_ids):
+        return self.filter(project__team__in=team_ids)
+
 class TaskManager(db.models.Manager):
     def get_queryset(self):
         return TaskQuerySet(self.model, using=self._db)
@@ -24,3 +27,6 @@ class TaskManager(db.models.Manager):
 
     def get_project_tasks(self, project_id):
         return self.get_queryset().get_project_tasks(project_id)
+
+    def get_team_tasks(self, team_id):
+        return self.get_queryset().get_team_tasks(team_id)

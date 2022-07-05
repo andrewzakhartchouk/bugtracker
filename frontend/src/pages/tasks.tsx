@@ -44,7 +44,7 @@ const Tasks: NextPage = () => {
       const result: SortedCategories = TaskUtil.sortTasks(sorting, tasks);
       setGroupedTasks(result);
     }
-  }, [tasks]);
+  }, [sorting, tasks]);
 
   function handleSortSwitch(sortBy: string) {
     setSorting(sortBy);
@@ -55,7 +55,7 @@ const Tasks: NextPage = () => {
     setEditing(false);
     setLoadingTask(true);
     let data = await userServices.get(
-      process.env.NEXT_PUBLIC_API + `tasks/${id}`
+      process.env.NEXT_PUBLIC_API + `tasks/${id}/`
     );
     console.log("SELECTED", data);
     setSelectedTask(data);

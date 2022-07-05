@@ -17,7 +17,7 @@ export const Task = (props: ListTask) => {
             : "bg-transparent"
         }`}
       ></div>
-      <span>{Time.timeLeft(props.end_date)}</span>
+      <span>{Time.timeLeft(props.end_at)}</span>
       <div
         style={Design.setBackground(props.stage.color)}
         className="rounded-bl-lg whitespace-nowrap rounded-tr-lg px-2 py-0.5 text-white hidden md:block"
@@ -37,7 +37,7 @@ export const Task = (props: ListTask) => {
         })}
       </div>
       <div className="overflow-hidden whitespace-nowrap">
-        <div className="text-gray-700 font-medium">{props.description}</div>
+        <div className="text-gray-700 font-medium">{props.name}</div>
       </div>
       <div className="flex items-end flex-grow"></div>
       <div className="flex justify-center">

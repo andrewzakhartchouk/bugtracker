@@ -53,6 +53,7 @@ function sortByPriority(tasks: Array<ListTask>) {
     high: { title: "High", data: [] },
     medium: { title: "Medium", data: [] },
     low: { title: "Low", data: [] },
+    none: { title: "None", data: [] },
   };
 
   tasks.forEach((task) => {
@@ -64,6 +65,9 @@ function sortByPriority(tasks: Array<ListTask>) {
     }
     if (task.priority == Priority.Low) {
       sorted.low.data.push(task);
+    }
+    if (task.priority == Priority.None) {
+      sorted.none.data.push(task);
     }
   });
 

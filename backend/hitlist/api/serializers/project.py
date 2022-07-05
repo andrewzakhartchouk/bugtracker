@@ -48,7 +48,7 @@ class CreateProjectSerializer(serializers.ModelSerializer):
         for l in project_lead:
             obj.project_members.add(l, through_defaults={"project_lead": True})
         for m in members:
-            obj.project_members.add(m)    
+            obj.project_members.add(m)   
         
     def create(self, validated_data):
         project_lead = validated_data.pop("project_lead", [])
