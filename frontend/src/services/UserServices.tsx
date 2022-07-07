@@ -11,6 +11,9 @@ export function UserServices() {
     login,
     logout,
     get,
+    post,
+    put,
+    destroy,
   };
 
   async function login(formData: { email: string; password: string }) {
@@ -30,7 +33,18 @@ export function UserServices() {
   }
 
   async function get(endpoint: string, body = null) {
-    const result = await api.get(endpoint, body);
-    return result;
+    return await api.get(endpoint, body);
+  }
+
+  async function post(endpoint: string, body: any) {
+    return await api.post(endpoint, body);
+  }
+
+  async function put(endpoint: string, body: any) {
+    return await api.put(endpoint, body);
+  }
+
+  async function destroy(endpoint: string, body: any) {
+    return await api.delete(endpoint, body);
   }
 }

@@ -11,8 +11,6 @@ export const RegisterForm = () => {
     event.preventDefault();
     setLoading();
 
-    console.log("HANDLE REGISTER");
-
     // const target = event.target as typeof event.target & RegisterEventTarget;
 
     // const formData = {
@@ -37,9 +35,6 @@ export const RegisterForm = () => {
 
     await new Promise((res) => setTimeout(res, 3000));
     setLoading();
-
-    console.log("HANDLING DONE");
-    // console.log(result);
   };
 
   return (

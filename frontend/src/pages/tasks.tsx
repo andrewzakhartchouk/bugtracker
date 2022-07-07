@@ -31,7 +31,6 @@ const Tasks: NextPage = () => {
       const tasks = await userServices.get(
         process.env.NEXT_PUBLIC_API + "tasks/"
       );
-      console.log(tasks);
       setTasks(tasks);
       setLoadingList(false);
       return tasks;
@@ -57,7 +56,6 @@ const Tasks: NextPage = () => {
     let data = await userServices.get(
       process.env.NEXT_PUBLIC_API + `tasks/${id}/`
     );
-    console.log("SELECTED", data);
     setSelectedTask(data);
     setLoadingTask(false);
   }

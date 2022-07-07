@@ -4,7 +4,9 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
-import { CompleteTask, ProjectLabel, Stage, User } from "utils";
+import { CompleteTask, ProjectOverview, Stage, User } from "utils";
+import { UserServices } from "services";
+import { format } from "date-fns";
 
 interface Props {
   task: CompleteTask | null;
@@ -12,17 +14,17 @@ interface Props {
 }
 
 export const TaskForm = (props: Props) => {
-  const projectsEndpoint: string = "/api/projects/list";
-  const usersEndpoint: string = "/api/users/list";
-  const tasksEndpoint: string = "/api/tasks";
+  const projectsEndpoint: string = process.env.NEXT_PUBLIC_API + "projects/";
+  const tasksEndpoint: string = process.env.NEXT_PUBLIC_API + "tasks/";
 
-  const [assignedInput, setAssignedInput] = useState("");
   const [defaultProject, setDefaultProject] = useState<Object | null>(null);
   const [defaultStage, setDefaultStage] = useState<Object | null>(null);
   const [defaultUser, setDefaultUser] = useState<Object | null>(null);
-  const [projectInput, setProjectInput] = useState("");
   const [stageOptions, setStageOptions] = useState<Array<Object>>([]);
+  const [userOptions, setUserOptions] = useState<Array<Object>>([]);
   const [tags, setTags] = useState<Array<string>>([]);
+
+  const userServices = UserServices();
 
   const {
     control,
@@ -30,6 +32,7 @@ export const TaskForm = (props: Props) => {
     register,
     reset,
     setValue,
+    setError,
     formState: { errors },
   } = useForm();
 
@@ -39,27 +42,20 @@ export const TaskForm = (props: Props) => {
     stage: { required: "Stage is required." },
   };
 
-  function handleAssignedInputChange(value: string) {
-    setAssignedInput(value);
-  }
-
   function handleProjectChange(option: Object) {
     setDefaultProject(option);
+    setDefaultUser([]);
     handleStageOptions(option?.stages);
+    handleUserOptions(option?.members);
     setDefaultStage({});
     setValue("stage", null);
   }
 
-  function handleProjectInputChange(value: string) {
-    setProjectInput(value);
-  }
-
   function handleStageOptions(stages: Array<Stage>) {
-    const options = stages.map((stage) => ({
-      label: stage.name,
-      value: stage.id,
-    }));
-    setStageOptions(options);
+    if (stages) {
+      const options = mapOptions(stages);
+      setStageOptions(options);
+    }
   }
 
   function handleTags(event: ChangeEvent<HTMLInputElement>) {
@@ -72,62 +68,61 @@ export const TaskForm = (props: Props) => {
     }
   }
 
+  function handleUserOptions(users: Array<User>) {
+    if (users) {
+      const options = mapOptions(users);
+      setUserOptions(options);
+    }
+  }
+
   const loadProjectOptions = async (
     inputValue: string,
     callback: (arg0: any) => void
   ): Promise<any> => {
-    const response = await fetch(projectsEndpoint);
-    const json = await response.json();
-    const object = json.projects;
+    const options = await userServices.get(projectsEndpoint);
     callback(
-      object.map((project: ProjectLabel) => ({
+      options.map((project: ProjectOverview) => ({
         label: `${project.name}`,
         value: project.id,
         stages: project.stages,
+        members: project.members,
       }))
     );
   };
 
-  const loadUserOptions = async (
-    inputValue: string,
-    callback: (arg0: any) => void
-  ): Promise<any> => {
-    const response = await fetch(usersEndpoint);
-    const json = await response.json();
-    const object = json.users;
-    callback(
-      object.map((user: User) => ({
-        label: `${user.name}`,
-        value: user.id,
-      }))
-    );
-  };
+  function mapOptions(options: Array<any>) {
+    return options.map((option) => ({
+      value: option.id,
+      label: option.name,
+    }));
+  }
 
   async function onSubmit(data: any) {
-    const formData = { ...data, tags };
-    console.log(formData);
+    const formData = { ...data, tags: tags.join(" ") };
+
+    console.log("FORM DATA", data);
     if (props.task) {
-      const res = await fetch(tasksEndpoint, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const response = await res.json();
-      console.log(response);
+      try {
+        const res = await userServices.put(
+          tasksEndpoint + `${props.task.id}/update/`,
+          formData
+        );
+        console.log(res);
+      } catch (error) {
+        console.log("PATCH ERROR", error);
+      }
     } else {
-      const res = await fetch(tasksEndpoint, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const response = await res.json();
-      console.log(response);
+      try {
+        const res = await userServices.post(tasksEndpoint, formData);
+        console.log(res);
+      } catch (error) {
+        console.log("POST ERROR", error);
+        Object.entries(error).forEach((e) => {
+          const [key, value] = e;
+          console.log("WOOOO", key, value);
+          setError(key, { type: "manual", message: value[0] });
+        });
+      }
     }
   }
 
@@ -141,14 +136,16 @@ export const TaskForm = (props: Props) => {
       reset({
         name: props.task.name,
         priority: props.task.priority,
-        start_date: props.task.start_date,
-        end_date: props.task.end_date,
+        start_at: format(new Date(props.task.start_at), "Y-MM-dd"),
+        end_at: format(new Date(props.task.end_at), "Y-MM-dd"),
         project: props.task.project.id,
         stage: props.task.stage.id,
-        assigned: props.task.assigned.id,
+        assigned_members: props.task.assigned_members.map((user) => {
+          return user.id;
+        }),
         description: props.task.description,
       });
-      setTags(props.task.tags);
+      setTags(props.task.tags.split(" "));
       setDefaultProject({
         label: props.task.project.name,
         value: props.task.project.id,
@@ -157,27 +154,38 @@ export const TaskForm = (props: Props) => {
         label: props.task.stage.name,
         value: props.task.stage.id,
       });
+      setDefaultUser(
+        props.task.assigned_members.map((user: User) => {
+          return { label: user.name, value: user.id };
+        })
+      );
       setStageOptions(
         props.task.project.stages.map((stage) => ({
           label: `${stage.name}`,
           value: stage.id,
         }))
       );
-      setDefaultUser({
-        label: props.task.assigned.name,
-        value: props.task.assigned.id,
-      });
+      setUserOptions(
+        props.task.project.members.map((user: User) => ({
+          label: `${user.name}`,
+          value: user.id,
+        }))
+      );
     } else {
       reset({
         name: null,
-        priority: null,
+        priority: 0,
         start_date: null,
         end_date: null,
         project: null,
         stage: null,
-        assigned: null,
+        assigned_members: [],
         description: null,
       });
+      setTags([]);
+      setDefaultProject(null);
+      setDefaultStage(null);
+      setDefaultUser([]);
     }
   }, [props.task, reset]);
 
@@ -206,15 +214,21 @@ export const TaskForm = (props: Props) => {
                   className="bg-transparent text-white w-full outline-none text-sm lg:text-base"
                 >
                   <option value={0} className="text-black bg-transparent">
-                    High
+                    None
                   </option>
                   <option value={1} className="text-black bg-transparent">
-                    Medium
+                    High
                   </option>
                   <option value={2} className="text-black bg-transparent">
+                    Medium
+                  </option>
+                  <option value={3} className="text-black bg-transparent">
                     Low
                   </option>
                 </select>
+                <small className="text-main-red">
+                  {errors?.priority && errors.priority.message}
+                </small>
               </FormField>
             </div>
             <div className="flex basis-9/12">
@@ -244,6 +258,9 @@ export const TaskForm = (props: Props) => {
                     className="w-auto font-medium text-white bg-transparent border-0 outline-none text-sm lg:text-base"
                   />
                 </div>
+                <small className="text-main-red">
+                  {errors?.tags && errors.tags.message}
+                </small>
               </FormField>
             </div>
           </div>
@@ -252,17 +269,23 @@ export const TaskForm = (props: Props) => {
               <input
                 type="date"
                 aria-label="Start date"
-                {...register("start_date")}
+                {...register("start_at")}
                 className="flex w-full bg-transparent outline-none font-medium text-black invert text-sm lg:text-base"
               />
+              <small className="text-main-red">
+                {errors?.start_at && errors.start_at.message}
+              </small>
             </FormField>
             <FormField title="End Date">
               <input
                 type="date"
                 aria-label="End date"
-                {...register("end_date")}
+                {...register("end_at")}
                 className="flex w-full bg-transparent outline-none font-medium text-black invert text-sm lg:text-base"
               />
+              <small className="text-main-red">
+                {errors?.end_at && errors.end_at.message}
+              </small>
             </FormField>
           </div>
           <div className="flex flex-row gap-2">
@@ -278,7 +301,6 @@ export const TaskForm = (props: Props) => {
                     cacheOptions={true}
                     styles={SelectStyle}
                     loadOptions={loadProjectOptions}
-                    onInputChange={handleProjectInputChange}
                     defaultOptions={true}
                     components={{ DropdownIndicator: () => null }}
                     onChange={(option) => {
@@ -318,25 +340,30 @@ export const TaskForm = (props: Props) => {
             <FormField title="Assigned">
               <Controller
                 control={control}
-                name="assigned"
+                name="assigned_members"
                 render={({ field }) => (
-                  <AsyncSelect
+                  <Select
                     aria-label="Assigned"
+                    isMulti={true}
                     value={defaultUser}
-                    cacheOptions={true}
                     styles={SelectStyle}
+                    options={userOptions}
                     isClearable={true}
                     components={{ DropdownIndicator: () => null }}
-                    loadOptions={loadUserOptions}
-                    onInputChange={handleAssignedInputChange}
-                    defaultOptions={true}
                     onChange={(option) => {
                       setDefaultUser(option);
-                      return field.onChange(option?.value);
+                      return field.onChange(
+                        option.map((option) => {
+                          return option.value;
+                        })
+                      );
                     }}
-                  ></AsyncSelect>
+                  ></Select>
                 )}
               ></Controller>
+              <small className="text-main-red">
+                {errors?.assigned_members && errors.end_at.message}
+              </small>
             </FormField>
           </div>
           <div className="flex flex-row gap-2">
@@ -347,6 +374,9 @@ export const TaskForm = (props: Props) => {
                 rows={5}
                 className="w-full bg-transparent text-white resize-none outline-none no-scrollbar text-sm lg:text-base"
               ></textarea>
+              <small className="text-main-red">
+                {errors?.description && errors.description.message}
+              </small>
             </FormField>
           </div>
         </div>

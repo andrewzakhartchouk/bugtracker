@@ -20,12 +20,16 @@ class ProjectSerializer(serializers.ModelSerializer):
         ]
         
 class BasicProjectSerializer(serializers.ModelSerializer):
+    stages = stage.StageTagSerializer(source='stage_set', read_only=True, many=True)
+    members = project_member.ProjectMemberSerializer(source="projectmember_set", required=False, many=True, read_only=True)
 
     class Meta:
         model = models.Project
         fields = [
             "id",
             "name",
+            "stages",
+            "members",
         ]
 
 class CreateProjectSerializer(serializers.ModelSerializer):

@@ -13,7 +13,6 @@ class TeamTagSerializer(serializers.ModelSerializer):
         ]
 
 class TeamSerializer(serializers.ModelSerializer):
-
     members = user.UserSerializer(source='team_members', read_only=True, many=True)
     projects = serializers.SerializerMethodField()
     

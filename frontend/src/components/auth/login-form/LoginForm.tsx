@@ -33,7 +33,6 @@ export const LoginForm = () => {
     try {
       await userServices.login(formData);
     } catch (error) {
-      console.log(error);
       setError("password", { type: "manual", message: error });
     }
 
@@ -76,7 +75,7 @@ export const LoginForm = () => {
               className="relative text-xs md:text-sm appearance-none bg-transparent border-b border-gray-400 w-full focus:outline-none px-2 py-1 mt-2"
             />
             <small className="text-main-red text-xs lg:text-sm px-2">
-              {/* {errors?.password && errors.password.message} */}
+              {errors?.password && errors.password.message}
             </small>
           </div>
         </div>

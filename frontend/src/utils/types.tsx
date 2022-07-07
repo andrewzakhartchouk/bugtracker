@@ -43,7 +43,7 @@ export interface CompleteTask {
   end_at: string;
   project: ProjectLabel;
   stage: Stage;
-  assigned: Array<User>;
+  assigned_members: Array<User>;
   description: string;
   submitted_by: User;
   comments: Array<CommentType>;
@@ -74,7 +74,7 @@ export interface ProjectLabel {
   id: Key;
   name: string;
   stages: Array<Stage>;
-  color?: string;
+  members: Array<User>;
 }
 
 export interface ProjectOverview {
@@ -115,7 +115,7 @@ export interface ListTask {
   stage: Stage;
   priority: Priority;
   tags: string | null;
-  end_date: string;
+  end_at: string;
   name: string;
   comment_number: number | null;
 }

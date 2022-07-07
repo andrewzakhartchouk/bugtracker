@@ -75,7 +75,6 @@ export const ProjectForm = (props: Props) => {
 
   async function onSubmit(data: any) {
     const formData = { ...data };
-    console.log(formData);
     if (props.project) {
       const res = await fetch(projectsEndpoint, {
         method: "PATCH",
@@ -163,7 +162,7 @@ export const ProjectForm = (props: Props) => {
                     components={{ DropdownIndicator: () => null }}
                     onChange={(option) => {
                       handleLeadChange(option);
-                      return field.onChange(option?.value);
+                      return field.onChange(option.values);
                     }}
                   ></Select>
                 )}
@@ -190,7 +189,7 @@ export const ProjectForm = (props: Props) => {
                     onInputChange={handleMembersInputChange}
                     onChange={(option) => {
                       handleMembersChange(option);
-                      return field.onChange(option?.value);
+                      return field.onChange(option.values);
                     }}
                   ></AsyncSelect>
                 )}

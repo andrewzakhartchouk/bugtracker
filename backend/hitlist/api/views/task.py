@@ -7,7 +7,7 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
     # serializer_class = serializers.task.ListTaskSerializer
     serializers = {
         "GET": serializers.task.ListTaskSerializer,
-        "POST": serializers.task.TaskSerializer,
+        "POST": serializers.task.UpdateTaskSerializer,
     }
     
     def get_serializer_class(self, *args, **kwargs):

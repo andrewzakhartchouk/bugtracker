@@ -8,6 +8,7 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Design, Priority, CompleteTask, User } from "utils";
+import { format } from "date-fns";
 
 interface Props {
   task: CompleteTask | null;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export const SelectedTask = (props: Props) => {
-  const commentsEndpoint = "/api/comments";
+  const commentsEndpoint = "/api/comments/";
 
   const [commenting, setCommenting] = useState(false);
 
@@ -38,18 +39,7 @@ export const SelectedTask = (props: Props) => {
     },
   };
 
-  async function handleComment(data: any) {
-    const res = await fetch(commentsEndpoint, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const response = await res.json();
-    console.log(response);
-  }
+  async function handleComment(data: any) {}
 
   function handleCommentState() {
     setCommenting(!commenting);
@@ -128,8 +118,11 @@ export const SelectedTask = (props: Props) => {
               </PanelProperty>
               <PanelProperty title={"Schedule"}>
                 <div className="flex whitespace-nowrap text-white justify-start text-xs font-medium lg:text-base">
-                  {Date.parse(props.task.start_at)} -{" "}
-                  {Date.parse(props.task.end_at)}
+                  {props.task.start_at &&
+                    format(new Date(props.task.start_at), "Y/M/d")}{" "}
+                  {props.task.start_at && " - "}
+                  {props.task.end_at &&
+                    format(new Date(props.task.end_at), "Y/M/d")}
                 </div>
               </PanelProperty>
             </div>
@@ -148,8 +141,8 @@ export const SelectedTask = (props: Props) => {
                 </div>
               </PanelProperty>
               <PanelProperty title={"Assigned"}>
-                <ul>
-                  {props.task.assigned.map((user: User) => {
+                <ul className="flex flex-col gap-1">
+                  {props.task.assigned_members.map((user: User) => {
                     return (
                       <li className="flex" key={user.id}>
                         <div className="block whitespace-nowrap rounded-full my-auto bg-white p-3 mx-2"></div>

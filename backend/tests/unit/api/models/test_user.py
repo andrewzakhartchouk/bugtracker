@@ -1,32 +1,43 @@
-from django import test
-import time, models
+import email
+from django import urls
+from rest_framework import test, status
 
-@models.FakeUser.fake_me
-class TimestampTestCase(test.TransactionTestCase):
-    def test_created_at_set_on_create(self):
-        user = models.FakeUser()
-        self.assertIsNone(user.created_at)
-        user.save()
-        self.assertIsNotNone(user.created_at)
+from api import models
+from api.views import dashboard
 
-    def test_updated_at_set_on_create(self):
-        user = models.FakeUser()
-        self.assertIsNone(user.updated_at)
-        user.save()
-        self.assertIsNotNone(user.updated_at)
+class UserTestCase(test.APITestCase):
+    email = 'testcase@test.com'
+    name = 'Testcase'
+    password = 't35tc453'
 
-    def test_updated_at_set_on_update(self):
-        user = models.FakeUser()
-        user.save()
-        initial_updated_at = user.updated_at
-        time.sleep(0.001)
-        user.save()
-        self.assertNotEquals(initial_updated_at, user.updated_at)
+    def test_user_registration(self):
+        url = urls.reverse("user-register")
+        data = {'email': self.email, 'name': self.name, 'password': self.password, 'password_confirmation': self.password}
 
-    def test_created_at_not_set_on_update(self):
-        user = models.FakeUser()
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn('access', response.data)
+        self.assertIn('refresh', response.data)
+        self.assertEqual(models.User.objects.count(), 1)
+        self.assertEqual(models.User.objects.get().name, self.name)
+
+    def test_user_login(self):
+        user = models.User(name=self.name, email=self.email)
+        user.set_password(self.password)
         user.save()
-        initial_created_at = user.created_at
-        time.sleep(0.001)
-        user.save()
-        self.assertEquals(initial_created_at, user.created_at)
+        self.assertEqual(models.User.objects.count(), 1)
+        
+        url = urls.reverse("token_obtain_pair")
+        data = {'email': self.email, 'password': self.password}
+
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('access', response.data)
+        self.assertIn('refresh', response.data)
+
+        access = response.data.get('access')
+        url = urls.reverse('dashboard')
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {access}')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+    

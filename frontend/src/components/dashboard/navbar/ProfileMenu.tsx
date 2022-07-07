@@ -3,12 +3,14 @@ import { LogoutIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import { Url } from "url";
 import { TabObject } from "utils";
+import { UserServices } from "services";
 
 interface Props {
   show: boolean;
 }
 
 export const ProfileMenu = (props: Props) => {
+  const userServices = UserServices();
   const { show } = props;
 
   const links: Array<TabObject> = [
@@ -44,9 +46,9 @@ export const ProfileMenu = (props: Props) => {
                 key={index}
               >
                 {object.icon}
-                <Link href={object.page}>
-                  <a className="ml-2">{object.name}</a>
-                </Link>
+                <a onClick={() => userServices.logout()} className="ml-2">
+                  {object.name}
+                </a>
               </li>
             );
           })}

@@ -8,8 +8,9 @@ urlpatterns = [
     urls.path('auth/', jwtviews.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     urls.path('auth/refresh/', jwtviews.TokenRefreshView.as_view(), name='token_refresh'),
     urls.path('auth/verify/', jwtviews.TokenVerifyView.as_view(), name='token_verify'),
+    urls.path('auth/register/', views.register_user_view, name="user-register"),
     # Dashboard
-    urls.path('dashboard/', views.dashboard_list_view),
+    urls.path('dashboard/', views.dashboard_list_view, name="dashboard"),
     # Teams
     urls.path('teams/', views.team_list_create_view),
     urls.path('teams/<int:pk>/update/', views.team_update_view),

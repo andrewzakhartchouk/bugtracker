@@ -4,12 +4,12 @@ from . import user
 from .. import models
 
 class AssignedMemberSerializer(serializers.ModelSerializer):
-    id = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
+    id = serializers.ReadOnlyField(source="user_id")
     name = serializers.ReadOnlyField(source="user.name")
     
     class Meta:
         model = models.AssignedMember
         fields = [
-            'id',
+            "id",
             'name',
         ]

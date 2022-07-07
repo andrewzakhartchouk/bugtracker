@@ -20,7 +20,6 @@ export function FetchWrapper() {
         method,
         headers: headers,
       };
-      console.log("HELP");
       if (body) {
         options.headers["Content-Type"] = "application/json";
         options.body = JSON.stringify(body);
@@ -28,10 +27,8 @@ export function FetchWrapper() {
       let response = await fetch(endpoint, options);
 
       if (!response.ok) {
-        if ([401, 403].includes(response.status)) {
-          const error = await response.json();
-          return Promise.reject(error["detail"]);
-        }
+        const error = await response.json();
+        return Promise.reject(error);
       }
       const result = await response.json();
       return result;
@@ -79,10 +76,8 @@ export function FetchWrapper() {
   }
 
   async function updateAccessToken(access: string) {
-    const token = {
-      access: access,
-      refresh: auth?.refresh,
-    };
+    const token = await JSON.parse(localStorage.getItem("user"));
+    token.access = access;
     setAuth(token);
     localStorage.setItem("user", JSON.stringify(token));
   }
