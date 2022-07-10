@@ -14,6 +14,8 @@ urlpatterns = [
     # Teams
     urls.path('teams/', views.team_list_create_view),
     urls.path('teams/<int:pk>/update/', views.team_update_view),
+    # Invite
+    urls.path('invite/', views.invite_create_view),
     # Projects
     urls.path('projects/', views.project_list_create_view),
     urls.path('projects/<int:pk>/update/', views.project_update_view, name="project-edit"),

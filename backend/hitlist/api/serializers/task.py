@@ -95,7 +95,7 @@ class UpdateTaskSerializer(serializers.ModelSerializer):
         user = request.user
         teams = user.teams.all()
         if (value.team not in teams):
-            raise serializers.ValidationError('You do not have permissions for this project.')
+            raise serializers.ValidationError('You do not have the permissions for this project.')
         return value
 
     def validate(self, data):

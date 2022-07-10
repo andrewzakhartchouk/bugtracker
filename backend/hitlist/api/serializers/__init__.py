@@ -7,3 +7,4 @@ from .project import ProjectSerializer, BasicProjectSerializer, CreateProjectSer
 from .comment import CommentSerializer
 from .assigned_member import AssignedMemberSerializer
 from .project_member import ProjectMemberSerializer
+from .invite import InviteSerializer

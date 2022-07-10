@@ -3,6 +3,7 @@ from .attachment import Attachment
 from .assigned_member import AssignedMember
 from .comment import Comment
 from .file import File
+from .invite import Invite
 from .profile_picture import ProfilePicture
 from .project_member import ProjectMember
 from .project import Project
