@@ -12,6 +12,9 @@ import { Key, useEffect, useRef, useState } from "react";
 import { UserServices } from "services";
 
 const Projects = () => {
+  const projectsEndpoint = process.env.NEXT_PUBLIC_API + "projects/";
+  const tasksEndpoint = process.env.NEXT_PUBLIC_API + "tasks/";
+
   const [editingTask, setEditingTask] = useState(false);
   const [editingProject, setEditingProject] = useState(false);
   const [loadingList, setLoadingList] = useState(false);
@@ -28,9 +31,7 @@ const Projects = () => {
 
   async function fetchProjectList() {
     setLoadingList(true);
-    const data = await userServices.get(
-      process.env.NEXT_PUBLIC_API + "projects"
-    );
+    const data = await userServices.get(projectsEndpoint);
     setProjects(data);
     setLoadingList(false);
     return data;
@@ -44,11 +45,8 @@ const Projects = () => {
     setShowTask(true);
 
     taskRef.current.scrollIntoView();
-    const result = await userServices.get(
-      process.env.NEXT_PUBLIC_API + `tasks/${id}/`
-    );
-    const body = await result.json();
-    setSelectedTask(body.task);
+    const task = await userServices.get(tasksEndpoint + `${id}/`);
+    setSelectedTask(task);
 
     setLoadingTask(false);
   }
@@ -60,11 +58,8 @@ const Projects = () => {
     setEditingProject(false);
     setShowProject(true);
 
-    const result = await userServices.get(
-      process.env.NEXT_PUBLIC_API + `projects/${id}/`
-    );
-    const body = await result.json();
-    setSelectedProject(body.project);
+    const project = await userServices.get(projectsEndpoint + `${id}/`);
+    setSelectedProject(project);
 
     setLoadingProject(false);
   }
@@ -114,6 +109,12 @@ const Projects = () => {
     setSelectedProject(null);
   }
 
+  async function onTaskEdit() {
+    setEditingTask(false);
+    handleTaskSelection(selectedTask?.id);
+    fetchProjectList();
+  }
+
   return (
     <>
       <Navbar></Navbar>
@@ -150,13 +151,18 @@ const Projects = () => {
         <div ref={taskRef} className="flex">
           {showTask ? (
             editingTask ? (
-              <TaskForm task={selectedTask} cancel={setEditingTask}></TaskForm>
+              <TaskForm
+                task={selectedTask}
+                cancel={setEditingTask}
+                refreshTasks={onTaskEdit}
+              ></TaskForm>
             ) : (
               <SelectedTask
                 loading={loadingTask}
                 task={selectedTask}
                 edit={setEditingTask}
                 delete={handleTaskDelete}
+                refreshTasks={onTaskEdit}
               ></SelectedTask>
             )
           ) : editingProject ? (

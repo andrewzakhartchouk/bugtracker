@@ -25,16 +25,17 @@ const Tasks: NextPage = () => {
   const taskRef = useRef(null);
   const userServices = UserServices();
 
+  async function fetchTaskList() {
+    setLoadingList(true);
+    const tasks = await userServices.get(
+      process.env.NEXT_PUBLIC_API + "tasks/"
+    );
+    setTasks(tasks);
+    setLoadingList(false);
+    return tasks;
+  }
+
   useEffect(() => {
-    const fetchTaskList = async () => {
-      setLoadingList(true);
-      const tasks = await userServices.get(
-        process.env.NEXT_PUBLIC_API + "tasks/"
-      );
-      setTasks(tasks);
-      setLoadingList(false);
-      return tasks;
-    };
     fetchTaskList();
   }, []);
 
@@ -63,6 +64,12 @@ const Tasks: NextPage = () => {
   async function handleDelete() {
     setSelectedTask(null);
     fetchTaskList();
+  }
+
+  async function onTaskEdit() {
+    setEditing(false);
+    fetchTaskList();
+    handleTaskSelection(selectedTask?.id);
   }
 
   function handleTaskCreate() {
@@ -114,13 +121,18 @@ const Tasks: NextPage = () => {
         </div>
         <div ref={taskRef} className="flex">
           {editing ? (
-            <TaskForm task={selectedTask} cancel={setEditing}></TaskForm>
+            <TaskForm
+              task={selectedTask}
+              cancel={setEditing}
+              refreshTasks={onTaskEdit}
+            ></TaskForm>
           ) : (
             <SelectedTask
               loading={loadingTask}
               task={selectedTask}
               edit={setEditing}
               delete={handleDelete}
+              refreshTasks={onTaskEdit}
             ></SelectedTask>
           )}
         </div>

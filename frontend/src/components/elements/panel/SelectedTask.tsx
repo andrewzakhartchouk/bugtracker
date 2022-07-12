@@ -9,22 +9,26 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Design, Priority, CompleteTask, User } from "utils";
 import { format } from "date-fns";
+import { UserServices } from "services";
 
 interface Props {
   task: CompleteTask | null;
   loading: boolean;
   edit: Function;
   delete: Function;
+  refreshTasks: Function;
 }
 
 export const SelectedTask = (props: Props) => {
-  const commentsEndpoint = "/api/comments/";
+  const commentsEndpoint = process.env.NEXT_PUBLIC_API + "comments/";
 
   const [commenting, setCommenting] = useState(false);
+  const userServices = UserServices();
 
   const {
     handleSubmit,
     register,
+    setError,
     formState: { errors },
   } = useForm();
 
@@ -39,7 +43,16 @@ export const SelectedTask = (props: Props) => {
     },
   };
 
-  async function handleComment(data: any) {}
+  async function handleComment(comment: any) {
+    const formData = { ...comment, task: props.task.id };
+    try {
+      const res = userServices.post(commentsEndpoint, formData);
+      props.refreshTasks();
+    } catch (error) {
+      console.log(error);
+      setError("comment", { type: "manual", message: error });
+    }
+  }
 
   function handleCommentState() {
     setCommenting(!commenting);
@@ -79,29 +92,31 @@ export const SelectedTask = (props: Props) => {
               </PanelProperty>
             </div>
             <div className="flex flex-row gap-3">
-              <PanelProperty title={"Priority"}>
-                <div
-                  className={`flex justify-center px-3 py-0.5 whitespace-nowrap rounded-full rounded-tl-none ${
-                    props.task.priority == Priority.High
-                      ? "bg-main-red"
-                      : props.task.priority == Priority.Medium
-                      ? "bg-amber-400"
-                      : props.task.priority == Priority.Low
-                      ? "bg-main-green"
-                      : "bg-transparent"
-                  }`}
-                >
-                  <span className="text-white text-xs lg:text-sm">
-                    {props.task.priority == Priority.High
-                      ? "High"
-                      : props.task.priority == Priority.Medium
-                      ? "Medium"
-                      : props.task.priority == Priority.Low
-                      ? "Low"
-                      : "None"}
-                  </span>
-                </div>
-              </PanelProperty>
+              <div>
+                <PanelProperty title={"Priority"}>
+                  <div
+                    className={`flex justify-center px-3 py-0.5 whitespace-nowrap rounded-full rounded-tl-none ${
+                      props.task.priority == Priority.High
+                        ? "bg-main-red"
+                        : props.task.priority == Priority.Medium
+                        ? "bg-amber-400"
+                        : props.task.priority == Priority.Low
+                        ? "bg-main-green"
+                        : "bg-transparent"
+                    }`}
+                  >
+                    <span className="text-white text-xs lg:text-sm">
+                      {props.task.priority == Priority.High
+                        ? "High"
+                        : props.task.priority == Priority.Medium
+                        ? "Medium"
+                        : props.task.priority == Priority.Low
+                        ? "Low"
+                        : "None"}
+                    </span>
+                  </div>
+                </PanelProperty>
+              </div>
               <PanelProperty title={"Tags"}>
                 <div className="flex gap-1 flex-wrap max-h-7 overflow-y-scroll no-scrollbar">
                   {props.task.tags?.split(" ").map((tag, index) => {

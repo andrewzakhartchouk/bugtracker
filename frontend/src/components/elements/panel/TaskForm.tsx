@@ -11,6 +11,7 @@ import { format } from "date-fns";
 interface Props {
   task: CompleteTask | null;
   cancel: Function;
+  refreshTasks: Function;
 }
 
 export const TaskForm = (props: Props) => {
@@ -100,30 +101,31 @@ export const TaskForm = (props: Props) => {
   async function onSubmit(data: any) {
     const formData = { ...data, tags: tags.join(" ") };
 
-    console.log("FORM DATA", data);
     if (props.task) {
       try {
         const res = await userServices.put(
           tasksEndpoint + `${props.task.id}/update/`,
           formData
         );
-        console.log(res);
+        props.refreshTasks();
       } catch (error) {
-        console.log("PATCH ERROR", error);
+        displayFormErrors(error);
       }
     } else {
       try {
         const res = await userServices.post(tasksEndpoint, formData);
-        console.log(res);
+        props.refreshTasks();
       } catch (error) {
-        console.log("POST ERROR", error);
-        Object.entries(error).forEach((e) => {
-          const [key, value] = e;
-          console.log("WOOOO", key, value);
-          setError(key, { type: "manual", message: value[0] });
-        });
+        displayFormErrors(error);
       }
     }
+  }
+
+  function displayFormErrors(error: any) {
+    Object.entries(error).forEach((e) => {
+      const [key, value] = e;
+      setError(key, { type: "manual", message: value[0] });
+    });
   }
 
   function removeTag(tag: string) {
