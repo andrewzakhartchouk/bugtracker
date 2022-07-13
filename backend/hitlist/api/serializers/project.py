@@ -35,7 +35,7 @@ class BasicProjectSerializer(serializers.ModelSerializer):
 class CreateProjectSerializer(serializers.ModelSerializer):
     project_lead = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all(), required=False, write_only=True, many=True)
     members = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all(), required=False, write_only=True, many=True)
-    team = serializers.PrimaryKeyRelatedField(queryset=models.Team.objects.all())
+    team = serializers.PrimaryKeyRelatedField(read_only=True)
     team_name = serializers.ReadOnlyField(source="team.name")
     
     class Meta:

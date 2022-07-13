@@ -148,11 +148,13 @@ export const SelectedTask = (props: Props) => {
                 </div>
               </PanelProperty>
               <PanelProperty title={"Stage"}>
-                <div
-                  style={Design.setBackground(props.task.stage.color)}
-                  className="rounded-bl-lg whitespace-nowrap rounded-tr-lg px-2 py-0.5 font-medium text-center text-white text-xs lg:text-base"
-                >
-                  {props.task.stage.name}
+                <div className="mx-2 lg:mx-4">
+                  <div
+                    style={Design.setBackground(props.task.stage.color)}
+                    className="rounded-bl-lg whitespace-nowrap rounded-tr-lg px-2 py-0.5 font-medium text-center text-white text-xs lg:text-base"
+                  >
+                    {props.task.stage.name}
+                  </div>
                 </div>
               </PanelProperty>
               <PanelProperty title={"Assigned"}>

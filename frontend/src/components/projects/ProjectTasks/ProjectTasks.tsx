@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/solid";
 import { GreenScalingDots, Panel, SortBar, Task } from "components";
 import { useEffect, useState } from "react";
+import { UserServices } from "services";
 import { CompleteProject, TaskUtil } from "utils";
 
 interface Props {
@@ -16,19 +17,21 @@ interface Props {
 }
 
 export const ProjectTasks = (props: Props) => {
-  const projectTasksEndpoint = "api/tasks/list";
+  const projectsEndpoint = process.env.NEXT_PUBLIC_API + "projects/";
 
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState("deadline");
   const [tasks, setTasks] = useState([]);
+  const userServices = UserServices();
 
   async function fetchProjectTasks() {
     setLoading(true);
-    const result = await fetch(projectTasksEndpoint);
-    const body = await result.json();
-    setTasks(body.tasks);
+    const tasks = await userServices.get(
+      projectsEndpoint + `${props.project.id}/tasks/`
+    );
+    setTasks(tasks);
     setLoading(false);
-    return body.tasks;
+    return tasks;
   }
 
   function handleSortSwitch(sortBy: string) {

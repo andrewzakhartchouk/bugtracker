@@ -8,7 +8,7 @@ import {
   SelectedProject,
   ProjectTasks,
 } from "components";
-import { Key, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UserServices } from "services";
 
 const Projects = () => {
@@ -37,7 +37,7 @@ const Projects = () => {
     return data;
   }
 
-  async function handleTaskSelection(id: Key) {
+  async function handleTaskSelection(id: number) {
     setLoadingTask(true);
 
     setEditingTask(false);
@@ -51,15 +51,15 @@ const Projects = () => {
     setLoadingTask(false);
   }
 
-  async function handleProjectSelection(id: Key) {
+  async function handleProjectSelection(id: number) {
     setLoadingProject(true);
+
+    const project = await userServices.get(projectsEndpoint + `${id}/`);
+    setSelectedProject(project);
 
     setEditingTask(false);
     setEditingProject(false);
     setShowProject(true);
-
-    const project = await userServices.get(projectsEndpoint + `${id}/`);
-    setSelectedProject(project);
 
     setLoadingProject(false);
   }
@@ -80,11 +80,11 @@ const Projects = () => {
     setEditingTask(false);
     setEditingProject(false);
     setShowProject(false);
-
     setSelectedProject(null);
   }
 
   function handleTaskCreate() {
+    setSelectedTask(null);
     setShowTask(true);
     setEditingTask(true);
   }
@@ -113,6 +113,12 @@ const Projects = () => {
     setEditingTask(false);
     handleTaskSelection(selectedTask?.id);
     fetchProjectList();
+  }
+
+  async function onProjectUpdate() {
+    setEditingProject(false);
+    fetchProjectList();
+    handleProjectSelection(selectedProject?.id);
   }
 
   return (
@@ -169,6 +175,7 @@ const Projects = () => {
             <ProjectForm
               project={selectedProject}
               cancel={setEditingProject}
+              refreshProjects={onProjectUpdate}
             ></ProjectForm>
           ) : (
             <SelectedProject
@@ -176,6 +183,7 @@ const Projects = () => {
               loading={loadingProject}
               edit={setEditingProject}
               delete={handleProjectDelete}
+              refreshProject={onProjectUpdate}
             ></SelectedProject>
           )}
         </div>

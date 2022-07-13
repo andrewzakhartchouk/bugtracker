@@ -16,7 +16,7 @@ class StageSerializer(serializers.ModelSerializer):
         ]
 
     def update(self, instance, validated_data):
-        new_order = validated_data.pop('order', 0)
+        new_order = validated_data.pop('order', instance.order)
         if (instance.order != new_order):
             project = instance.project
             order_end = find_order_end(project)

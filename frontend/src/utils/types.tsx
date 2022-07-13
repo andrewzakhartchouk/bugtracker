@@ -1,4 +1,3 @@
-import { Key } from "react";
 import { Url } from "url";
 
 export enum Priority {
@@ -35,7 +34,7 @@ export interface TabObject {
 }
 
 export interface CompleteTask {
-  id: Key;
+  id: number;
   name: string;
   priority: number;
   tags: string;
@@ -50,35 +49,35 @@ export interface CompleteTask {
 }
 
 export interface User {
-  id: Key;
+  id: number;
   name: string;
-  lead?: boolean;
+  project_lead?: boolean;
   image: string;
 }
 
 export interface CommentType {
-  id: Key;
+  id: number;
   comment: string;
   user: User;
   created_at: string;
 }
 
 export interface ActivityType {
-  id: Key;
+  id: number;
   project: ProjectLabel;
   message: string;
   created_at: string;
 }
 
 export interface ProjectLabel {
-  id: Key;
+  id: number;
   name: string;
   stages: Array<Stage>;
   members: Array<User>;
 }
 
 export interface ProjectOverview {
-  id: Key;
+  id: number;
   name: string;
   team: string;
   members: Array<User>;
@@ -86,7 +85,7 @@ export interface ProjectOverview {
 }
 
 export interface ProjectBlock {
-  id: Key;
+  id: number;
   name: string;
   team: string;
   members: Array<User>;
@@ -95,23 +94,29 @@ export interface ProjectBlock {
 }
 
 export interface CompleteProject {
-  id: Key;
+  id: number;
   name: string;
-  team: string;
+  team: Team;
   members: Array<User>;
   stages: Array<Stage>;
 }
 
-export interface Stage {
-  id: Key;
+export interface Team {
+  id: number;
   name: string;
-  count: number;
+}
+
+export interface Stage {
+  id: number;
+  name: string;
+  count?: number;
+  order: number;
   color: string;
 }
 
 export interface ListTask {
-  id: Key;
-  project: { id: Key; name: string };
+  id: number;
+  project: { id: number; name: string };
   stage: Stage;
   priority: Priority;
   tags: string | null;
@@ -120,22 +125,21 @@ export interface ListTask {
   comment_number: number | null;
 }
 
-export interface SortedCategories {
-  [key: string]: {
-    title: string;
-    data: Array<ListTask>;
-  };
+export interface SortedCategory {
+  title: string;
+  data: Array<ListTask>;
+  order: number;
 }
 
 export interface CommentType {
-  id: Key;
+  id: number;
   comment: string;
   submitted_by: User;
   created_at: string;
 }
 
 export interface TeamType {
-  id: Key;
+  id: number;
   name: string;
   members: Array<User>;
   projects: Array<ProjectLabel>;

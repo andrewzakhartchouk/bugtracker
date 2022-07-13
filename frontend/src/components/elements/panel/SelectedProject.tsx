@@ -17,6 +17,7 @@ interface Props {
   loading: boolean;
   edit: Function;
   delete: Function;
+  refreshProject: Function;
 }
 
 export const SelectedProject = (props: Props) => {
@@ -46,7 +47,7 @@ export const SelectedProject = (props: Props) => {
           <div className="flex flex-col w-full flex-grow gap-5 overflow-hidden">
             <div className="flex flex-row gap-3">
               <PanelProperty title={"Project"}>
-                <div className="text-base max-h-8 overflow-y-scroll no-scrollbar font-bold text-panel-green lg:text-2xl">
+                <div className="text-base max-h-8 overflow-y-scroll no-scrollbar font-bold text-panel-green lg:text-3xl">
                   {props.project.name}
                 </div>
               </PanelProperty>
@@ -54,14 +55,14 @@ export const SelectedProject = (props: Props) => {
             <div className="flex flex-row gap-3">
               <PanelProperty title={"Team"}>
                 <div className="flex whitespace-nowrap text-white justify-start text-xs font-medium lg:text-base">
-                  {props.project.team}
+                  {props.project.team.name}
                 </div>
               </PanelProperty>
               <PanelProperty title={"Project Lead"}>
                 <ul>
                   {props.project.members
                     .filter((user) => {
-                      return user.lead === true;
+                      return user.project_lead === true;
                     })
                     .map((user) => {
                       return (
@@ -79,7 +80,7 @@ export const SelectedProject = (props: Props) => {
                 <>
                   {props.project.members
                     .filter((user) => {
-                      return user.lead !== true;
+                      return user.project_lead !== true;
                     })
                     .map((user) => {
                       return (
@@ -96,9 +97,17 @@ export const SelectedProject = (props: Props) => {
             </div>
             <PanelProperty title={"Stages"}>
               <ul className="flex flex-col gap-2">
-                {props.project.stages.map((stage) => {
-                  return <StageBlock key={stage.id} stage={stage}></StageBlock>;
-                })}
+                {props.project.stages
+                  .sort((a, b) => (a.order > b.order ? 1 : -1))
+                  .map((stage) => {
+                    return (
+                      <StageBlock
+                        key={stage.id}
+                        stage={stage}
+                        refreshProject={props.refreshProject}
+                      ></StageBlock>
+                    );
+                  })}
               </ul>
             </PanelProperty>
           </div>

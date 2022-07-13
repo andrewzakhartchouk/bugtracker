@@ -9,11 +9,13 @@ import {
   TaskList,
 } from "components";
 import { NextPage } from "next";
-import { Key, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UserServices } from "services";
-import { SortedCategories, TaskUtil } from "utils";
+import { SortedCategory, TaskUtil } from "utils";
 
 const Tasks: NextPage = () => {
+  const tasksEndpoint = process.env.NEXT_PUBLIC_API + "tasks/";
+
   const [editing, setEditing] = useState(false);
   const [loadingList, setLoadingList] = useState(false);
   const [loadingTask, setLoadingTask] = useState(false);
@@ -27,9 +29,7 @@ const Tasks: NextPage = () => {
 
   async function fetchTaskList() {
     setLoadingList(true);
-    const tasks = await userServices.get(
-      process.env.NEXT_PUBLIC_API + "tasks/"
-    );
+    const tasks = await userServices.get(tasksEndpoint);
     setTasks(tasks);
     setLoadingList(false);
     return tasks;
@@ -41,7 +41,7 @@ const Tasks: NextPage = () => {
 
   useEffect(() => {
     if (tasks) {
-      const result: SortedCategories = TaskUtil.sortTasks(sorting, tasks);
+      const result: Array<SortedCategory> = TaskUtil.sortTasks(sorting, tasks);
       setGroupedTasks(result);
     }
   }, [sorting, tasks]);
@@ -50,7 +50,7 @@ const Tasks: NextPage = () => {
     setSorting(sortBy);
   }
 
-  async function handleTaskSelection(id: Key) {
+  async function handleTaskSelection(id: number) {
     taskRef.current.scrollIntoView();
     setEditing(false);
     setLoadingTask(true);

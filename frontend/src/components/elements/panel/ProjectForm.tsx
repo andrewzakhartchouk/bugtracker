@@ -4,15 +4,17 @@ import { useEffect, useState } from "react";
 import { CompleteProject, User } from "utils";
 import AsyncSelect from "react-select/async";
 import Select from "react-select";
+import { UserServices } from "services";
 
 interface Props {
   project: CompleteProject | null;
   cancel: Function;
+  refreshProjects: Function;
 }
 
 export const ProjectForm = (props: Props) => {
-  const projectsEndpoint: string = "/api/projects/";
-  const usersEndpoint: string = "/api/users/list";
+  const projectsEndpoint: string = process.env.NEXT_PUBLIC_API + "projects/";
+  const teamsEndpoint: string = process.env.NEXT_PUBLIC_API + "teams/";
 
   const [defaultLead, setDefaultLead] = useState<Array<Object> | null>([]);
   const [defaultMembers, setDefaultMembers] = useState<Array<Object> | null>(
@@ -20,6 +22,7 @@ export const ProjectForm = (props: Props) => {
   );
   const [leadOptions, setLeadOptions] = useState<Array<Object>>([]);
   const [membersInput, setMembersInput] = useState("");
+  const userServices = UserServices();
 
   const {
     handleSubmit,
@@ -57,12 +60,13 @@ export const ProjectForm = (props: Props) => {
     inputValue: string,
     callback: (arg0: any) => void
   ): Promise<any> => {
-    const response = await fetch(usersEndpoint);
-    const json = await response.json();
-    const object = json.users;
+    const team = await userServices.get(
+      teamsEndpoint + `${props.project?.team.id}/`
+    );
+    const object = team.members;
 
     const toRemove = props?.project?.members.filter((user) => {
-      return user.lead === true;
+      return user.project_lead === true;
     });
     const filtered = object.filter((o: User) => !toRemove?.includes(o));
     callback(
@@ -75,56 +79,60 @@ export const ProjectForm = (props: Props) => {
 
   async function onSubmit(data: any) {
     const formData = { ...data };
+    console.log(formData);
     if (props.project) {
-      const res = await fetch(projectsEndpoint, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const response = await res.json();
-      console.log(response);
+      try {
+        const res = await userServices.put(
+          projectsEndpoint + `${props.project.id}/update/`,
+          formData
+        );
+        props.refreshProjects();
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      const res = await fetch(projectsEndpoint, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const response = await res.json();
-      console.log(response);
+      try {
+        const res = await userServices.post(projectsEndpoint, formData);
+        props.refreshProjects();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
   useEffect(() => {
     if (props.project) {
+      const lead = props.project.members.filter((user) => {
+        return user.project_lead === true;
+      });
+      const members = props.project.members.filter((user) => {
+        return user.project_lead !== true;
+      });
+
       reset({
         name: props.project.name,
+        project_lead: lead.map((user) => {
+          return user.id;
+        }),
+        members: members.map((user) => {
+          return user.id;
+        }),
       });
-      let lead = props.project.members
-        .filter((user) => {
-          return user.lead === true;
-        })
-        .map((user) => {
-          return { label: user.name, value: user.id };
-        });
-      let members = props.project.members
-        .filter((user) => {
-          return user.lead !== true;
-        })
-        .map((user) => {
-          return { label: user.name, value: user.id };
-        });
-      setLeadOptions(members);
-      setDefaultLead(lead);
-      setDefaultMembers(members);
+
+      const leadOptions = lead.map((user) => {
+        return { label: user.name, value: user.id };
+      });
+      const membersOptions = members.map((user) => {
+        return { label: user.name, value: user.id };
+      });
+      setLeadOptions(membersOptions);
+      setDefaultLead(leadOptions);
+      setDefaultMembers(membersOptions);
     } else {
       reset({
         name: null,
+        project_lead: [],
+        members: [],
       });
     }
   }, [props.project, reset]);
@@ -150,7 +158,7 @@ export const ProjectForm = (props: Props) => {
             <FormField title="Project Lead">
               <Controller
                 control={control}
-                {...register("lead")}
+                {...register("project_lead")}
                 ref={null}
                 render={({ field }) => (
                   <Select
@@ -162,13 +170,17 @@ export const ProjectForm = (props: Props) => {
                     components={{ DropdownIndicator: () => null }}
                     onChange={(option) => {
                       handleLeadChange(option);
-                      return field.onChange(option.values);
+                      return field.onChange(
+                        option.map((option) => {
+                          return option.value;
+                        })
+                      );
                     }}
                   ></Select>
                 )}
               ></Controller>
               <small className="text-main-red">
-                {errors?.lead && errors.lead.message}
+                {errors?.lead && errors.project_lead.message}
               </small>
             </FormField>
             <FormField title="Members">
@@ -189,13 +201,17 @@ export const ProjectForm = (props: Props) => {
                     onInputChange={handleMembersInputChange}
                     onChange={(option) => {
                       handleMembersChange(option);
-                      return field.onChange(option.values);
+                      return field.onChange(
+                        option.map((option) => {
+                          return option.value;
+                        })
+                      );
                     }}
                   ></AsyncSelect>
                 )}
               ></Controller>
               <small className="text-main-red">
-                {errors?.lead && errors.lead.message}
+                {errors?.lead && errors.members.message}
               </small>
             </FormField>
           </div>

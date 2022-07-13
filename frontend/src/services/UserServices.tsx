@@ -12,6 +12,7 @@ export function UserServices() {
     logout,
     get,
     post,
+    patch,
     put,
     destroy,
   };
@@ -38,6 +39,10 @@ export function UserServices() {
 
   async function post(endpoint: string, body: any) {
     return await api.post(endpoint, body);
+  }
+
+  async function patch(endpoint: string, body: any) {
+    return await api.patch(endpoint, body);
   }
 
   async function put(endpoint: string, body: any) {

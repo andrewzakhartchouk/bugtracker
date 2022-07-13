@@ -11,6 +11,13 @@ class TeamListCreateAPIView(generics.ListCreateAPIView):
         
 team_list_create_view = TeamListCreateAPIView.as_view()
 
+class TeamDetailAPIView(generics.RetrieveAPIView):
+    queryset = models.Team.objects.all()
+    serializer_class = serializers.team.TeamSerializer
+    lookup_field = "pk"
+
+team_detail_view = TeamDetailAPIView.as_view()
+
 class TeamUpdateAPIView(generics.UpdateAPIView):
     queryset = models.Team.objects.all()
     serializer_class = serializers.team.TeamSerializer

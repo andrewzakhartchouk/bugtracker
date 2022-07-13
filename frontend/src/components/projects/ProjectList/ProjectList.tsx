@@ -40,7 +40,11 @@ export const ProjectList = (props: Props) => {
                         Stages
                       </span>
                       <div className="h-36 max-h-36 overflow-y-scroll no-scrollbar">
-                        <Stages stages={project.stages}></Stages>
+                        <Stages
+                          stages={project.stages.sort((a, b) =>
+                            a.order > b.order ? 1 : -1
+                          )}
+                        ></Stages>
                       </div>
                     </div>
 

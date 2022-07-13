@@ -13,6 +13,7 @@ urlpatterns = [
     urls.path('dashboard/', views.dashboard_list_view, name="dashboard"),
     # Teams
     urls.path('teams/', views.team_list_create_view),
+    urls.path('teams/<int:pk>/', views.team_detail_view),
     urls.path('teams/<int:pk>/update/', views.team_update_view),
     # Invite
     urls.path('invite/', views.invite_create_view),

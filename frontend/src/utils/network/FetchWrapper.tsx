@@ -9,6 +9,7 @@ export function FetchWrapper() {
   return {
     get: request("GET"),
     post: request("POST"),
+    patch: request("PATCH"),
     put: request("PUT"),
     delete: request("DELETE"),
   };
