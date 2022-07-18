@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserServices } from "services";
 import { Design, Stage } from "utils";
+import { Palette } from "./Palette";
 
 interface Props {
   stage: Stage;
@@ -19,7 +20,6 @@ export const StageBlock = (props: Props) => {
 
   const [showPalette, setShowPalette] = useState(false);
   const [editingName, setEditingName] = useState(false);
-  const paletteRef = useClickOutside(() => setShowPalette(false));
   const userServices = UserServices();
 
   const {
@@ -32,18 +32,6 @@ export const StageBlock = (props: Props) => {
   const formValidation = {
     name: { required: "Project name is required." },
   };
-
-  const palette: Array<string> = [
-    "e63232",
-    "f3722c",
-    "f8961e",
-    "FFC71F",
-    "7fc96b",
-    "43aa8b",
-    "277da1",
-    "3b498e",
-    "66418a",
-  ];
 
   async function handleColorChange(color: string) {
     setShowPalette(false);
@@ -82,22 +70,21 @@ export const StageBlock = (props: Props) => {
 
   return (
     <div className="relative">
-      <li
-        key={props.stage.id}
+      <div
         style={Design.setBackground(props.stage.color)}
-        className="flex flex-row py-2 px-5 rounded-xl text-white whitespace-nowrap justify-between"
+        className="flex flex-row py-2 px-5 rounded-xl text-white whitespace-nowrap relative"
       >
-        <div className="flex gap-1">
+        <div className="flex gap-1 absolute left-5">
           <ChevronUpIcon
-            className="h-6 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-green"
+            className="h-4 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-green lg:h-6"
             onClick={() => handleOrderChange(props.stage.order - 1)}
           ></ChevronUpIcon>
           <ChevronDownIcon
-            className="h-6 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-red"
+            className="h-4 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-red lg:h-6"
             onClick={() => handleOrderChange(props.stage.order + 1)}
           ></ChevronDownIcon>
         </div>
-        <form>
+        <form className="flex mx-auto">
           <input
             type="text"
             {...register("name", {
@@ -107,37 +94,24 @@ export const StageBlock = (props: Props) => {
               },
             })}
             aria-label="Stage"
-            className="my-auto font-medium bg-transparent text-center outline-1 hover:outline focus-visible:outline-0 focus-visible:outline-white"
+            className="my-auto font-medium bg-transparent text-xs text-center outline-1 hover:outline focus-visible:outline-0 focus-visible:outline-white lg:text-base"
           />
           {editingName && (
             <button onClick={handleSubmit(handleNameChange)}></button>
           )}
         </form>
-        <ViewGridIcon
-          onClick={() => setShowPalette(!showPalette)}
-          className="h-6 cursor-pointer hover:text-gray-300"
-        ></ViewGridIcon>
-      </li>
-      <div className="absolute right-8 flex w-full justify-end">
-        <div
-          ref={paletteRef}
-          className={`justify-self-end z-10 grid-cols-9 gap-0.5 p-2 bg-panel-green rounded-br-xl rounded-tl-xl ${
-            showPalette ? "grid" : "hidden"
-          }`}
-        >
-          {palette.map((color, index) => {
-            return (
-              <div
-                key={index}
-                onClick={() => handleColorChange(color)}
-                className={`h-6 w-6 bg-stage-color-${
-                  index + 1
-                } cursor-pointer hover:opacity-60`}
-              ></div>
-            );
-          })}
+        <div className="absolute flex right-5">
+          <ViewGridIcon
+            onClick={() => setShowPalette(!showPalette)}
+            className="h-4 cursor-pointer hover:text-gray-300 lg:h-6"
+          ></ViewGridIcon>
         </div>
       </div>
+      <Palette
+        handleChange={handleColorChange}
+        setShowPalette={setShowPalette}
+        showPalette={showPalette}
+      ></Palette>
     </div>
   );
 };

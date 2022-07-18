@@ -5,6 +5,7 @@ import {
   ViewGridIcon,
 } from "@heroicons/react/solid";
 import {
+  AddStage,
   GreenScalingDots,
   PanelProperty,
   ProjectButtons,
@@ -108,6 +109,10 @@ export const SelectedProject = (props: Props) => {
                       ></StageBlock>
                     );
                   })}
+                <AddStage
+                  projectId={props.project.id}
+                  refreshProject={props.refreshProject}
+                ></AddStage>
               </ul>
             </PanelProperty>
           </div>

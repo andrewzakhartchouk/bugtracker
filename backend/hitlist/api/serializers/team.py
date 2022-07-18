@@ -33,3 +33,12 @@ class TeamSerializer(serializers.ModelSerializer):
 
         projects = obj.project_set.all()
         return project.BasicProjectSerializer(projects ,many=True).data
+
+    def create(self, validated_data):
+        team = models.Team(**validated_data)
+        team.save()
+
+        user = self.context.get('request').user
+        team.team_members.add(user)
+
+        return team

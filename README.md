@@ -37,8 +37,8 @@ I am making an effort to try out as many new technologies as possible to broaden
 
 - Project/Folder setup ![](https://progress-bar.dev/100)
 - Database/models planning ![](https://progress-bar.dev/100)
-- Frontend coding ![](https://progress-bar.dev/70)
-- Backend coding ![](https://progress-bar.dev/60)
+- Frontend coding ![](https://progress-bar.dev/75)
+- Backend coding ![](https://progress-bar.dev/65)
 
 <details>
   <summary>Todo List</summary>
@@ -131,5 +131,6 @@ Forming the backbone of the project, I used [DBDiagram](https://dbdiagram.io) to
 To make the initial development more manageable and avoid burnout, I moved certain features into later development (hoping I don't decide to put it off forever).
 
 - [ ] Project boards: wouldn't be a kanban board without one.
+- [ ] Drag and drop functionality
 - [ ] Calendar: to visualise task deadlines and priorities.
 - [ ] Notifications: when working in teams it makes updates, new tasks, etc. easier to follow.

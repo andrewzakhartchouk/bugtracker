@@ -59,6 +59,7 @@ const Projects = () => {
 
     setEditingTask(false);
     setEditingProject(false);
+    setShowTask(false);
     setShowProject(true);
 
     setLoadingProject(false);

@@ -6,7 +6,7 @@ interface Props {
 
 export const SortBar = (props: Props) => {
   return (
-    <div className="flex flex-row gap-0.5 justify-end text-main-green text-xs w-full lg:gap-2 lg:text-base">
+    <div className="flex flex-row gap-0.5 justify-end text-main-green text-xs w-full lg:gap-1 lg:text-sm">
       <div
         onClick={() => props.sort("deadline")}
         className={`my-auto font-medium rounded-tr-xl rounded-bl-xl px-2 py-1 cursor-pointer lg:px-5 lg:py-1 ${

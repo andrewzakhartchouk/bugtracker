@@ -1,5 +1,6 @@
 from django import test
-import time, models
+from . import models
+import time
 
 @models.FakeUser.fake_me
 class TimestampTestCase(test.TransactionTestCase):
