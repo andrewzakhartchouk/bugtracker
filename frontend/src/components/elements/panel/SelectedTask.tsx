@@ -5,7 +5,6 @@ import {
   GreenScalingDots,
   TaskButtons,
 } from "components";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Design, Priority, CompleteTask, User } from "utils";
 import { format } from "date-fns";
@@ -22,7 +21,6 @@ interface Props {
 export const SelectedTask = (props: Props) => {
   const commentsEndpoint = process.env.NEXT_PUBLIC_API + "comments/";
 
-  const [commenting, setCommenting] = useState(false);
   const userServices = UserServices();
 
   const {
@@ -52,10 +50,6 @@ export const SelectedTask = (props: Props) => {
       console.log(error);
       setError("comment", { type: "manual", message: error });
     }
-  }
-
-  function handleCommentState() {
-    setCommenting(!commenting);
   }
 
   function handleAttachmentUpload() {
@@ -132,7 +126,7 @@ export const SelectedTask = (props: Props) => {
                 </div>
               </PanelProperty>
               <PanelProperty title={"Schedule"}>
-                <div className="flex whitespace-nowrap text-white justify-start text-xs font-medium lg:text-base">
+                <div className="flex whitespace-nowrap text-white justify-start text-xs lg:text-base">
                   {props.task.start_at &&
                     format(new Date(props.task.start_at), "Y/M/d")}{" "}
                   {props.task.start_at && " - "}
@@ -207,34 +201,30 @@ export const SelectedTask = (props: Props) => {
                 </ul>
               </PanelProperty>
             </div>
-            {commenting && (
-              <div>
-                <form className="bottom-0 flex flex-row gap-2 w-full">
-                  <input
-                    type="text"
-                    autoFocus
-                    {...register("comment", validation.comment)}
-                    className="w-full px-5 outline-none rounded-bl-2xl rounded-tr-2xl"
-                  />
-                  <button
-                    onClick={handleSubmit(handleComment)}
-                    className="px-4 py-0.5 flex bg-panel-green rounded-full hover:bg-main-green hover:text-white"
-                  >
-                    <span>Send</span>
-                  </button>
-                </form>
-                <small className="absolute text-main-red">
-                  {errors?.comment && errors.comment.message}
-                </small>
-              </div>
-            )}
+            <div>
+              <form className="bottom-0 flex flex-row gap-2 w-full">
+                <input
+                  type="text"
+                  {...register("comment", validation.comment)}
+                  className="w-full px-5 outline-none rounded-bl-2xl rounded-tr-2xl text-xs lg:text-sm"
+                />
+                <button
+                  onClick={handleSubmit(handleComment)}
+                  className="px-4 py-0.5 flex bg-panel-green rounded-full text-xs lg:text-sm hover:bg-main-green hover:text-white"
+                >
+                  <span>Send</span>
+                </button>
+              </form>
+              <small className="absolute text-main-red">
+                {errors?.comment && errors.comment.message}
+              </small>
+            </div>
           </div>
         </div>
 
         <div className="flex h-full items-center relative">
           <TaskButtons
             edit={props.edit}
-            comment={handleCommentState}
             delete={props.delete}
             attachment={handleAttachmentUpload}
           ></TaskButtons>

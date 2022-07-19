@@ -36,5 +36,8 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
     def get_queryset(self):
         team_ids = [team.id for team in self.request.user.teams.all()]
         return self.queryset.get_team_tasks(team_ids)
+    
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 task_update_view = TaskUpdateAPIView.as_view()

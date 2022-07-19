@@ -31,6 +31,7 @@ export function FetchWrapper() {
         const error = await response.json();
         return Promise.reject(error);
       }
+      if (method == "DELETE") return null;
       const result = await response.json();
       return result;
     };

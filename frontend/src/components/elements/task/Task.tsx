@@ -2,8 +2,26 @@ import { ChatIcon } from "@heroicons/react/solid";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { Priority, Time, Design, ListTask } from "utils";
 import { Bar } from "components";
+import { UserServices } from "services";
 
 export const Task = (props: ListTask) => {
+  const tasksEndpoint = process.env.NEXT_PUBLIC_API + `tasks/${props.id}/`;
+
+  const userServices = UserServices();
+
+  async function checkTask() {
+    const formData = { checked: true };
+    try {
+      const result = await userServices.patch(
+        tasksEndpoint + "update/",
+        formData
+      );
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Bar>
       <div
@@ -40,12 +58,15 @@ export const Task = (props: ListTask) => {
         <div className="text-gray-700 font-medium">{props.name}</div>
       </div>
       <div className="flex items-end flex-grow"></div>
-      <div className="flex justify-center">
+      <div className="flex gap-0.5 justify-center">
         <div className="flex group cursor-pointer">
-          <p className="my-auto font-bold text-xs">{props.comment_number}</p>
+          <p className="my-auto font-bold text-xs">{props.comment_count}</p>
           <ChatIcon className="h-5 w-5 text-gray-700"></ChatIcon>
         </div>
-        <CheckCircleIcon className="h-5 w-5 cursor-pointer text-gray-700 hidden md:block  hover:text-main-green"></CheckCircleIcon>
+        <CheckCircleIcon
+          onClick={() => checkTask()}
+          className="h-5 w-5 cursor-pointer text-gray-700 hidden md:block  hover:text-main-green"
+        ></CheckCircleIcon>
       </div>
     </Bar>
   );

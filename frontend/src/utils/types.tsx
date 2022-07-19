@@ -122,7 +122,7 @@ export interface ListTask {
   tags: string | null;
   end_at: string;
   name: string;
-  comment_number: number | null;
+  comment_count: number | null;
 }
 
 export interface SortedCategory {

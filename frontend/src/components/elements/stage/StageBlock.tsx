@@ -1,9 +1,9 @@
 import {
-  ChevronDownIcon,
-  ChevronUpIcon,
+  ArrowSmDownIcon,
+  ArrowSmUpIcon,
   ViewGridIcon,
+  XIcon,
 } from "@heroicons/react/solid";
-import { useClickOutside } from "hooks";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserServices } from "services";
@@ -62,6 +62,14 @@ export const StageBlock = (props: Props) => {
     props.refreshProject();
   }
 
+  async function deleteStage() {
+    await userServices.destroy(
+      stagesEndpoint + `${props.stage.id}/destroy/`,
+      null
+    );
+    props.refreshProject();
+  }
+
   useEffect(() => {
     reset({
       name: props.stage.name,
@@ -69,20 +77,20 @@ export const StageBlock = (props: Props) => {
   }, [props.stage.name, reset]);
 
   return (
-    <div className="relative">
+    <div className="relative group flex overflow-x-visible">
       <div
         style={Design.setBackground(props.stage.color)}
-        className="flex flex-row py-2 px-5 rounded-xl text-white whitespace-nowrap relative"
+        className="flex flex-row w-full py-2 px-5 rounded-xl text-white whitespace-nowrap relative"
       >
         <div className="flex gap-1 absolute left-5">
-          <ChevronUpIcon
+          <ArrowSmUpIcon
             className="h-4 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-green lg:h-6"
             onClick={() => handleOrderChange(props.stage.order - 1)}
-          ></ChevronUpIcon>
-          <ChevronDownIcon
+          ></ArrowSmUpIcon>
+          <ArrowSmDownIcon
             className="h-4 my-auto rounded-full p-0.5 cursor-pointer hover:bg-white hover:text-main-red lg:h-6"
             onClick={() => handleOrderChange(props.stage.order + 1)}
-          ></ChevronDownIcon>
+          ></ArrowSmDownIcon>
         </div>
         <form className="flex mx-auto">
           <input
@@ -107,6 +115,10 @@ export const StageBlock = (props: Props) => {
           ></ViewGridIcon>
         </div>
       </div>
+      <XIcon
+        onClick={() => deleteStage()}
+        className="cursor-pointer text-main-red my-auto ml-1 h-4 hover:text-gray-300 lg:h-6"
+      ></XIcon>
       <Palette
         handleChange={handleColorChange}
         setShowPalette={setShowPalette}

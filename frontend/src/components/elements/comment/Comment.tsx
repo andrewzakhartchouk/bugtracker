@@ -1,4 +1,5 @@
-import { CommentType } from "utils";
+import { CommentType, Time } from "utils";
+import { format } from "date-fns";
 
 interface Props {
   comment: CommentType;
@@ -16,7 +17,7 @@ export const Comment = (props: Props) => {
           {props.comment.comment}
         </div>
         <div className="flex text-xs mx-2 my-auto whitespace-nowrap">
-          {props.comment.created_at}
+          {Time.timeLeft(props.comment.created_at, true)}
         </div>
       </div>
     </div>

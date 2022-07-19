@@ -4,7 +4,11 @@ import { UserServices } from "services";
 import { useClickOutside } from "hooks";
 import { Palette } from "./Palette";
 import { Design } from "utils";
-import { ViewGridIcon } from "@heroicons/react/solid";
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  ViewGridIcon,
+} from "@heroicons/react/solid";
 
 interface Props {
   projectId: number;
@@ -17,15 +21,16 @@ export const AddStage = (props: Props) => {
   const [creating, setCreating] = useState(false);
   const [showPalette, setShowPalette] = useState(false);
   const [selectedColor, setSelectedColor] = useState("ffffff");
-  const inputRef = useClickOutside(() => setCreating(false));
+  const inputRef = useClickOutside(() => handleCancel());
 
   const userServices = UserServices();
 
   const {
     register,
     handleSubmit,
-    control,
     setError,
+    reset,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -33,6 +38,15 @@ export const AddStage = (props: Props) => {
     name: { required: "Stage name is required." },
     color: { required: "Color is required." },
   };
+
+  function handleCancel() {
+    setCreating(false);
+    reset({
+      name: null,
+      color: null,
+    });
+    setSelectedColor("ffffff");
+  }
 
   function handleColorChange(color: string) {
     setSelectedColor(color);
@@ -72,12 +86,20 @@ export const AddStage = (props: Props) => {
               placeholder="Name"
               className="flex my-auto bg-transparent font-medium text-center outline-1 border-b border hover:outline focus-visible:outline-0 focus-visible:outline-white"
             />
-            <button onClick={handleSubmit(handleCreate)}></button>
             <ViewGridIcon
               style={Design.setColor(selectedColor)}
               onClick={() => setShowPalette(!showPalette)}
               className="h-4 mx-2 cursor-pointer hover:text-gray-300 lg:h-6"
             ></ViewGridIcon>
+            <div className="flex ml-2">
+              <button onClick={handleSubmit(handleCreate)}>
+                <CheckCircleIcon className="h-5 text-main-green cursor-pointer hover:text-white"></CheckCircleIcon>
+              </button>
+              <XCircleIcon
+                onClick={() => handleCancel()}
+                className="my-auto h-5 text-main-red cursor-pointer hover:text-white"
+              ></XCircleIcon>
+            </div>
             <Controller
               control={control}
               {...register("color", {
