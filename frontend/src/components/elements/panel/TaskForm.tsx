@@ -11,7 +11,8 @@ import { format } from "date-fns";
 interface Props {
   task: CompleteTask | null;
   cancel: Function;
-  refreshTasks: Function;
+  onEdit: Function;
+  onCreate: Function;
 }
 
 export const TaskForm = (props: Props) => {
@@ -107,14 +108,14 @@ export const TaskForm = (props: Props) => {
           tasksEndpoint + `${props.task.id}/update/`,
           formData
         );
-        props.refreshTasks();
+        props.onEdit();
       } catch (error) {
         displayFormErrors(error);
       }
     } else {
       try {
         const res = await userServices.post(tasksEndpoint, formData);
-        props.refreshTasks();
+        props.onCreate();
       } catch (error) {
         displayFormErrors(error);
       }

@@ -41,3 +41,14 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
         return self.partial_update(request, *args, **kwargs)
 
 task_update_view = TaskUpdateAPIView.as_view()
+
+class TaskDestroyAPIView(generics.DestroyAPIView):
+    queryset = models.Task.objects.all()
+    serializer_class = serializers.TaskSerializer
+    lookup_field = "pk"
+
+    def get_queryset(self):
+        team_ids = [team.id for team in self.request.user.teams.all()]
+        return self.queryset.get_team_tasks(team_ids)
+
+task_destroy_view = TaskDestroyAPIView.as_view()

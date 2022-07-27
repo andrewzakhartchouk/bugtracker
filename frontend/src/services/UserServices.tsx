@@ -37,19 +37,19 @@ export function UserServices() {
     return await api.get(endpoint, body);
   }
 
-  async function post(endpoint: string, body: any) {
+  async function post(endpoint: string, body: any = null) {
     return await api.post(endpoint, body);
   }
 
-  async function patch(endpoint: string, body: any) {
+  async function patch(endpoint: string, body: any = null) {
     return await api.patch(endpoint, body);
   }
 
-  async function put(endpoint: string, body: any) {
+  async function put(endpoint: string, body: any = null) {
     return await api.put(endpoint, body);
   }
 
-  async function destroy(endpoint: string, body: any) {
+  async function destroy(endpoint: string, body: any = null) {
     return await api.delete(endpoint, body);
   }
 }

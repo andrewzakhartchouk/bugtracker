@@ -205,8 +205,9 @@ export const SelectedTask = (props: Props) => {
               <form className="bottom-0 flex flex-row gap-2 w-full">
                 <input
                   type="text"
+                  placeholder="Add a comment to this task..."
                   {...register("comment", validation.comment)}
-                  className="w-full px-5 outline-none rounded-bl-2xl rounded-tr-2xl text-xs lg:text-sm"
+                  className="w-full px-5 bg-panel-green outline-none rounded-bl-2xl rounded-tr-2xl text-xs lg:text-sm"
                 />
                 <button
                   onClick={handleSubmit(handleComment)}
@@ -225,7 +226,7 @@ export const SelectedTask = (props: Props) => {
         <div className="flex h-full items-center relative">
           <TaskButtons
             edit={props.edit}
-            delete={props.delete}
+            delete={() => props.delete(props.task.id)}
             attachment={handleAttachmentUpload}
           ></TaskButtons>
         </div>

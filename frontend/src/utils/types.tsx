@@ -123,6 +123,7 @@ export interface ListTask {
   end_at: string;
   name: string;
   comment_count: number | null;
+  checked: boolean;
 }
 
 export interface SortedCategory {

@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <RecoilRoot>
         <AuthGuard>
-          <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves overflow-y-scroll no-scrollbar">
+          <div className="flex flex-col h-screen bg-bg-green bg-bottom bg-waves bg-cover overflow-y-scroll no-scrollbar">
             <Component {...pageProps} />
           </div>
         </AuthGuard>

@@ -45,6 +45,7 @@ const Projects = () => {
     setShowTask(true);
 
     taskRef.current.scrollIntoView();
+    console.log("ID", id);
     const task = await userServices.get(tasksEndpoint + `${id}/`);
     setSelectedTask(task);
 

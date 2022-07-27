@@ -64,8 +64,7 @@ export const StageBlock = (props: Props) => {
 
   async function deleteStage() {
     await userServices.destroy(
-      stagesEndpoint + `${props.stage.id}/destroy/`,
-      null
+      stagesEndpoint + `${props.stage.id}/destroy/`
     );
     props.refreshProject();
   }

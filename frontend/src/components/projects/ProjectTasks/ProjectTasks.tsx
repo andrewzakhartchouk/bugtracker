@@ -3,7 +3,7 @@ import {
   InformationCircleIcon,
   PlusIcon,
 } from "@heroicons/react/solid";
-import { GreenScalingDots, Panel, SortBar, Task } from "components";
+import { GreenScalingDots, Panel, SortBar, Task, TaskList } from "components";
 import { useEffect, useState } from "react";
 import { UserServices } from "services";
 import { CompleteProject, TaskUtil } from "utils";
@@ -108,31 +108,7 @@ export const ProjectTasks = (props: Props) => {
           </div>
         </div>
         <div className="flex flex-col flex-grow no-scrollbar lg:overflow-y-scroll lg:relative h-full">
-          <ul className="flex flex-col gap-4 lg:absolute w-full">
-            {Object.keys(groupedTasks).map((group, index) => {
-              return (
-                groupedTasks[group].data.length != 0 && (
-                  <li key={index}>
-                    <div className="text-gray-500 font-bold text-lg mb-1 md:text-xl lg:text-xl">
-                      {groupedTasks[group].title}
-                    </div>
-                    <ul className="flex flex-col gap-1">
-                      {groupedTasks[group].data.map((task) => {
-                        return (
-                          <li
-                            key={task.id}
-                            onClick={() => props.select(task.id)}
-                          >
-                            <Task {...task}></Task>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </li>
-                )
-              );
-            })}
-          </ul>
+          <TaskList groups={groupedTasks} select={props.select}></TaskList>
         </div>
       </div>
     </Panel>

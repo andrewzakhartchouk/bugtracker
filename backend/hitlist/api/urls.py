@@ -30,6 +30,7 @@ urlpatterns = [
     urls.path('tasks/', views.task_list_create_view, name="task-list"),
     urls.path('tasks/<int:pk>/update/', views.task_update_view, name="task-edit"),
     urls.path('tasks/<int:pk>/', views.task_detail_view, name="task-detail"),
+    urls.path('tasks/<int:pk>/destroy/', views.task_destroy_view, name="task-destroy"),
     # Comments
     urls.path('comments/', views.comment_create_view, name="comment-create"),
 ]

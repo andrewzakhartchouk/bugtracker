@@ -61,7 +61,8 @@ const Tasks: NextPage = () => {
     setLoadingTask(false);
   }
 
-  async function handleDelete() {
+  async function handleDelete(id: number) {
+    await userServices.destroy(tasksEndpoint + `${id}/destroy/`);
     setSelectedTask(null);
     fetchTaskList();
   }
@@ -70,6 +71,11 @@ const Tasks: NextPage = () => {
     setEditing(false);
     fetchTaskList();
     handleTaskSelection(selectedTask?.id);
+  }
+
+  async function onTaskCreate() {
+    setEditing(false);
+    fetchTaskList();
   }
 
   function handleTaskCreate() {
@@ -124,7 +130,8 @@ const Tasks: NextPage = () => {
             <TaskForm
               task={selectedTask}
               cancel={setEditing}
-              refreshTasks={onTaskEdit}
+              onEdit={onTaskEdit}
+              onCreate={onTaskCreate}
             ></TaskForm>
           ) : (
             <SelectedTask

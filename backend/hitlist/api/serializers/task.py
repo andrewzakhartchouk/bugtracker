@@ -70,7 +70,7 @@ class UpdateTaskSerializer(serializers.ModelSerializer):
     assigned_members = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all(), required=False, write_only=True, many=True)
     comments = comment.CommentSerializer(source="comment_set", many=True, read_only=True)
     submitted_by = serializers.HiddenField(default=serializers.CreateOnlyDefault(serializers.CurrentUserDefault()))
-    checked = serializers.ReadOnlyField()
+    checked = serializers.BooleanField(required=False)
     
     class Meta:
         model = models.Task
@@ -102,20 +102,21 @@ class UpdateTaskSerializer(serializers.ModelSerializer):
         validation_errors = {}
         selected_project = data.get('project')
         selected_stage = data.get('stage')
-        if selected_stage.project != selected_project:
-            validation_errors['stage'] = 'Please specify a stage within the selected project.'
+        if selected_project and selected_stage:
+            if selected_stage.project != selected_project:
+                validation_errors['stage'] = 'Please specify a stage within the selected project.'
 
-        team = selected_project.team
-        assigned = data.get('assigned_members')
-        if assigned:
-            invalid_users = []
-            for user in assigned:
-                if team not in user.teams.all():
-                    invalid_users.append(user.name)
-            if invalid_users:
-                error_users = ', '.join(invalid_users)
-                link_verb = 'is' if len(invalid_users) < 2 else 'are'
-                validation_errors['assigned_members'] = f'{error_users} {link_verb} not assigned to this project\'s team.'
+            team = selected_project.team
+            assigned = data.get('assigned_members')
+            if assigned:
+                invalid_users = []
+                for user in assigned:
+                    if team not in user.teams.all():
+                        invalid_users.append(user.name)
+                if invalid_users:
+                    error_users = ', '.join(invalid_users)
+                    link_verb = 'is' if len(invalid_users) < 2 else 'are'
+                    validation_errors['assigned_members'] = f'{error_users} {link_verb} not assigned to this project\'s team.'
 
         if validation_errors:
             raise serializers.ValidationError(validation_errors)
@@ -125,11 +126,15 @@ class UpdateTaskSerializer(serializers.ModelSerializer):
         pass
 
     def create(self, validated_data):
+        assigned_members = validated_data.pop("assigned_members", [])
         task = models.Task(**validated_data)
         task.save()
 
+        for assigned in assigned_members:
+            task.assigned_members.add(assigned)
+
         if task.assigned_members.all():
-            for assigned in task.assigned_members:
+            for assigned in task.assigned_members.all():
                 if self.context.get('request').user == assigned: continue
                 activity = models.Activity(
                     project=task.project,

@@ -1,29 +1,29 @@
 import { ChatIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon as SolidCheckCircleIcon } from "@heroicons/react/solid";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { Priority, Time, Design, ListTask } from "utils";
 import { Bar } from "components";
 import { UserServices } from "services";
+import { MouseEvent } from "react";
 
 export const Task = (props: ListTask) => {
   const tasksEndpoint = process.env.NEXT_PUBLIC_API + `tasks/${props.id}/`;
 
   const userServices = UserServices();
 
-  async function checkTask() {
-    const formData = { checked: true };
+  async function checkTask(event: MouseEvent) {
+    event.stopPropagation();
+    const formData = { checked: !props.checked };
     try {
       const result = await userServices.patch(
         tasksEndpoint + "update/",
         formData
       );
-      console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   return (
-    <Bar>
+    <Bar checked={props.checked}>
       <div
         className={`block p-1.5 whitespace-nowrap rounded-full rounded-tl-none ${
           props.priority == Priority.High
@@ -63,10 +63,17 @@ export const Task = (props: ListTask) => {
           <p className="my-auto font-bold text-xs">{props.comment_count}</p>
           <ChatIcon className="h-5 w-5 text-gray-700"></ChatIcon>
         </div>
-        <CheckCircleIcon
-          onClick={() => checkTask()}
-          className="h-5 w-5 cursor-pointer text-gray-700 hidden md:block  hover:text-main-green"
-        ></CheckCircleIcon>
+        {props.checked ? (
+          <SolidCheckCircleIcon
+            onClick={(e) => checkTask(e)}
+            className="h-5 w-5 cursor-pointer text-main-green hidden md:block hover:text-gray-700"
+          ></SolidCheckCircleIcon>
+        ) : (
+          <CheckCircleIcon
+            onClick={(e) => checkTask(e)}
+            className="h-5 w-5 cursor-pointer text-gray-700 hidden md:block  hover:text-main-green"
+          ></CheckCircleIcon>
+        )}
       </div>
     </Bar>
   );
